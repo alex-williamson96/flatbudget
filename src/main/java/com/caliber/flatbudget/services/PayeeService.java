@@ -5,7 +5,9 @@ import com.caliber.flatbudget.models.Payee;
 import com.caliber.flatbudget.repositories.PayeeRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 @Slf4j
 public class PayeeService implements IPayeeService {
 
