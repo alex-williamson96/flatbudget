@@ -5,4 +5,6 @@ import com.caliber.flatbudget.models.Account;
 public interface IAccountService {
 
     Account findById(Long id);
+
+    void createAccount(Account account);
 }

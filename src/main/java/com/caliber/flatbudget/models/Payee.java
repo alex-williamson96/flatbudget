@@ -26,7 +26,7 @@ public class Payee {
     private LocalDateTime updatedDate;
 
     @ManyToOne
-    private Profile profile;
+    private User user;
 
     @ManyToOne
     private Category presumedCategory;

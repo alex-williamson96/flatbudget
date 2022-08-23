@@ -47,7 +47,7 @@ public class Transaction {
     private Account account;
 
     @ManyToOne
-    private Profile profile;
+    private User user;
 
     @ManyToMany
     private List<Category> categoryList;

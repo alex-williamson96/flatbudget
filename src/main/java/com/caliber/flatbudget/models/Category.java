@@ -42,7 +42,7 @@ public class Category {
     private Integer subOrder;
 
     @ManyToOne
-    private Profile profile;
+    private User user;
 
     @ManyToMany
     List<Transaction> transactionList;

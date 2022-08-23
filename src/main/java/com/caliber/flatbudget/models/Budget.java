@@ -26,5 +26,5 @@ public class Budget {
     private LocalDateTime updatedDate;
 
     @ManyToOne
-    Profile profile;
+    User user;
 }

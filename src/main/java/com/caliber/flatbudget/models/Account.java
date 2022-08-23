@@ -38,7 +38,7 @@ public class Account {
     private LocalDateTime updatedDate;
 
     @ManyToOne
-    Profile profile;
+    User user;
 
     @OneToMany
     @JsonIgnore

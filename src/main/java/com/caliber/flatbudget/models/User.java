@@ -10,7 +10,7 @@ import java.util.List;
 @Entity
 @Table
 @Data
-public class Profile {
+public class User {
 
     @Id
     @GeneratedValue
