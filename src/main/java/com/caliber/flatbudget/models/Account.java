@@ -44,4 +44,7 @@ public class Account {
     @JsonIgnore
     private List<Transaction> transactionList;
 
+    @ManyToOne
+    private Budget budget;
+
 }

@@ -42,8 +42,11 @@ public class Category {
     private Integer subOrder;
 
     @ManyToOne
-    private User user;
+    User user;
 
     @ManyToMany
     List<Transaction> transactionList;
+
+    @ManyToOne
+    Budget budget;
 }
