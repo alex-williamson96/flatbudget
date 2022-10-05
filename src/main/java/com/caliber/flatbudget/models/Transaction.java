@@ -1,15 +1,20 @@
 package com.caliber.flatbudget.models;
 
-import lombok.Data;
+import lombok.*;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 public class Transaction {
 
     @Id
@@ -50,9 +55,25 @@ public class Transaction {
     private User user;
 
     @ManyToMany
+    @ToString.Exclude
     private List<Category> categoryList;
 
     @ManyToOne
     private Payee payee;
 
+    @ManyToOne
+    private Budget budget;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Transaction that = (Transaction) o;
+        return id != null && Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

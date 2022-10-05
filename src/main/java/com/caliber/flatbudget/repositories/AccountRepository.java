@@ -11,5 +11,5 @@ import java.util.List;
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Long> {
 
-    List<Account> findAllByUserAndBudget(User user, Budget budget);
+    List<Account> findAccountsByUserAndBudget(User user, Budget budget);
 }

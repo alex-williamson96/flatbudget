@@ -2,10 +2,14 @@ package com.caliber.flatbudget.services;
 
 import com.caliber.flatbudget.iservices.IAccountService;
 import com.caliber.flatbudget.models.Account;
+import com.caliber.flatbudget.models.Budget;
+import com.caliber.flatbudget.models.User;
 import com.caliber.flatbudget.repositories.AccountRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @Slf4j
@@ -25,12 +29,16 @@ public class AccountService implements IAccountService {
 
     @Override
     public void createAccount(Account account) {
-
         try {
             accountRepository.save(account);
         } catch (Exception e) {
             log.error(e.getMessage());
         }
+    }
+
+    @Override
+    public List<Account> findAccountsByUserAndBudget(User user, Budget budget) {
+        return accountRepository.findAccountsByUserAndBudget(user, budget);
     }
 
 

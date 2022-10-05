@@ -8,6 +8,7 @@ class FlatbudgetApplicationTests {
 
 	@Test
 	void contextLoads() {
+		System.out.println("Context loads!");
 	}
 
 }
