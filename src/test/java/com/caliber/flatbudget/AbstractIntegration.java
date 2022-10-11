@@ -15,7 +15,7 @@ import org.testcontainers.utility.DockerImageName;
 public class AbstractIntegration {
 
     static GenericContainer<?> mysql = new GenericContainer<>(DockerImageName.parse("mysql:latest"))
-            .withExposedPorts(5379);
+            .withReuse(true);
 
     @DynamicPropertySource
     static void mysqlProperties(DynamicPropertyRegistry registry) {

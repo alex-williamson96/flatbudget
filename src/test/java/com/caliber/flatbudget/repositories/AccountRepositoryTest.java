@@ -4,22 +4,46 @@ import com.caliber.flatbudget.AbstractIntegration;
 import com.caliber.flatbudget.models.Account;
 import com.caliber.flatbudget.models.Budget;
 import com.caliber.flatbudget.models.User;
+import org.junit.ClassRule;
 import org.junit.Rule;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 
 import java.util.List;
 
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = {
+        "spring.datasource.url=jdbc:tc:mysql:latest:///test",
+})
 class AccountRepositoryTest {
 
-    @Autowired
-    TestEntityManager entityManager;
+    static GenericContainer<?> mySQLContainer = new GenericContainer<>(DockerImageName.parse("mysql:latest"))
+            .withReuse(true);
+
+    @DynamicPropertySource
+    static void mysqlProperties(DynamicPropertyRegistry registry) {
+        mySQLContainer.start();
+        registry.add("spring.mysql.host", mySQLContainer::getHost);
+        registry.add("spring.mysql.port", mySQLContainer::getFirstMappedPort);
+    }
+
+    @BeforeAll
+    public static void beforeAll() {
+        mySQLContainer.start();
+    }
 
     @Autowired
     AccountRepository accountRepository;
