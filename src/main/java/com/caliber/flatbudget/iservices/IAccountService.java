@@ -2,7 +2,7 @@ package com.caliber.flatbudget.iservices;
 
 import com.caliber.flatbudget.models.Account;
 import com.caliber.flatbudget.models.Budget;
-import com.caliber.flatbudget.models.User;
+import com.caliber.flatbudget.models.UserProfile;
 
 import java.util.List;
 
@@ -12,5 +12,5 @@ public interface IAccountService {
 
     void createAccount(Account account);
 
-    List<Account> findAccountsByUserAndBudget(User user, Budget budget);
+    List<Account> findAccountsByUserAndBudget(UserProfile userProfile, Budget budget);
 }

@@ -1,7 +1,7 @@
 package com.caliber.flatbudget.services;
 
 import com.caliber.flatbudget.iservices.IUserService;
-import com.caliber.flatbudget.models.User;
+import com.caliber.flatbudget.models.UserProfile;
 import com.caliber.flatbudget.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ public class UserService implements IUserService {
     private UserRepository userRepository;
 
     @Override
-    public User findById(Long id) {
+    public UserProfile findById(Long id) {
         if (userRepository.findById(id).isEmpty()) {
             log.error("Could not find entity " + id + " in userRepository");
         }
@@ -24,9 +24,9 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void createUser(User user) {
+    public void createUser(UserProfile userProfile) {
         try {
-            userRepository.save(user);
+            userRepository.save(userProfile);
         } catch (Exception e) {
             log.error(e.getMessage());
         }

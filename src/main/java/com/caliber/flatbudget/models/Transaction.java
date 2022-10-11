@@ -52,7 +52,7 @@ public class Transaction {
     private Account account;
 
     @ManyToOne
-    private User user;
+    private UserProfile userProfile;
 
     @ManyToMany
     @ToString.Exclude

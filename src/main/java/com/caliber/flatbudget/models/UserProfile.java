@@ -15,7 +15,7 @@ import java.util.Objects;
 @Setter
 @ToString
 @RequiredArgsConstructor
-public class User {
+public class UserProfile {
 
     @Id
     @GeneratedValue
@@ -34,7 +34,7 @@ public class User {
     private String password;
 
     @Column
-    private Long budget;
+    private Long activeBudget;
 
     @Column
     private String currency = "USD";
@@ -72,8 +72,8 @@ public class User {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        User user = (User) o;
-        return id != null && Objects.equals(id, user.id);
+        UserProfile userProfile = (UserProfile) o;
+        return id != null && Objects.equals(id, userProfile.id);
     }
 
     @Override

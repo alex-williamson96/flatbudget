@@ -1,10 +1,10 @@
 package com.caliber.flatbudget.iservices;
 
-import com.caliber.flatbudget.models.User;
+import com.caliber.flatbudget.models.UserProfile;
 
 public interface IUserService {
 
-    User findById(Long id);
+    UserProfile findById(Long id);
 
-    void createUser(User user);
+    void createUser(UserProfile userProfile);
 }

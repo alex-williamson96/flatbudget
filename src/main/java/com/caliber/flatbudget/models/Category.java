@@ -47,7 +47,7 @@ public class Category {
     private Integer subOrder;
 
     @ManyToOne
-    User user;
+    UserProfile userProfile;
 
     @ManyToMany
     @ToString.Exclude

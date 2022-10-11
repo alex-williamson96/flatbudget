@@ -43,7 +43,7 @@ public class Account {
     private LocalDateTime updatedDate;
 
     @ManyToOne
-    User user;
+    UserProfile userProfile;
 
     @OneToMany
     @JsonIgnore

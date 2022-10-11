@@ -3,7 +3,7 @@ package com.caliber.flatbudget.services;
 import com.caliber.flatbudget.iservices.ITransactionService;
 import com.caliber.flatbudget.models.Budget;
 import com.caliber.flatbudget.models.Transaction;
-import com.caliber.flatbudget.models.User;
+import com.caliber.flatbudget.models.UserProfile;
 import com.caliber.flatbudget.repositories.TransactionRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,8 +45,8 @@ public class TransactionService implements ITransactionService {
         }
     }
 
-    public List<Transaction> findTransactionsByUserAndBudget(User user, Budget budget) {
-        return transactionRepository.findAllByUserAndBudget(user, budget);
+    public List<Transaction> findTransactionsByUserAndBudget(UserProfile userProfile, Budget budget) {
+        return transactionRepository.findAllByUserProfileAndBudget(userProfile, budget);
     }
 
 }

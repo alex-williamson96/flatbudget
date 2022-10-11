@@ -21,6 +21,9 @@ public class Budget {
     @GeneratedValue
     private Long id;
 
+    @Column
+    private String name;
+
     @OneToMany
     @ToString.Exclude
     List<Category> categoryList;
@@ -32,7 +35,7 @@ public class Budget {
     private LocalDateTime updatedDate;
 
     @ManyToOne
-    User user;
+    UserProfile userProfile;
 
     @Override
     public boolean equals(Object o) {

@@ -3,7 +3,7 @@ package com.caliber.flatbudget.services;
 import com.caliber.flatbudget.iservices.IAccountService;
 import com.caliber.flatbudget.models.Account;
 import com.caliber.flatbudget.models.Budget;
-import com.caliber.flatbudget.models.User;
+import com.caliber.flatbudget.models.UserProfile;
 import com.caliber.flatbudget.repositories.AccountRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,8 +37,8 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public List<Account> findAccountsByUserAndBudget(User user, Budget budget) {
-        return accountRepository.findAccountsByUserAndBudget(user, budget);
+    public List<Account> findAccountsByUserAndBudget(UserProfile userProfile, Budget budget) {
+        return accountRepository.findAccountsByUserProfileAndBudget(userProfile, budget);
     }
 
 
