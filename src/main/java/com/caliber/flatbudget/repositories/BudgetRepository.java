@@ -11,4 +11,6 @@ import java.util.List;
 public interface BudgetRepository extends JpaRepository<Budget, Long> {
 
     List<Budget> findAllByUserProfile(UserProfile userProfile);
+
+    Budget findBudgetByNameAndUserProfile(String name, UserProfile user);
 }

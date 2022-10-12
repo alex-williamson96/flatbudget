@@ -3,9 +3,7 @@ package com.caliber.flatbudget.repositories;
 import com.caliber.flatbudget.models.Account;
 import com.caliber.flatbudget.models.Budget;
 import com.caliber.flatbudget.models.UserProfile;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
@@ -76,8 +74,34 @@ class AccountRepositoryTest {
         account2.setUserProfile(newUserProfile);
 
         accountRepository.saveAndFlush(account2);
+    }
 
+    @AfterEach
+    public void tearDown() {
+        List<UserProfile> userList = userRepository.findAll();
 
+        for (UserProfile user : userList) {
+            user.setBudgetList(null);
+            userRepository.saveAndFlush(user);
+        }
+
+        List<Budget> budgetList = budgetRepository.findAll();
+
+        for (Budget budget : budgetList) {
+            budget.setUserProfile(null);
+            budgetRepository.saveAndFlush(budget);
+        }
+
+        List<Account> accountList = accountRepository.findAll();
+
+        for (Account account : accountList) {
+            account.setBudget(null);
+            account.setUserProfile(null);
+            accountRepository.saveAndFlush(account);
+        }
+
+        userRepository.deleteAll();
+        budgetRepository.deleteAll();
     }
 
     @Test
@@ -88,13 +112,9 @@ class AccountRepositoryTest {
 
         List<Account> accountList = accountRepository.findAccountsByUserProfileAndBudget(userProfile, budget);
 
-        for (Account account : accountList) {
-            System.out.println(account.getBudget().getId());
-            System.out.println(account.getUserProfile().getId());
-            System.out.println(account.getId());
-            System.out.println("=========================");
-        }
-
-
+        Assertions.assertEquals(accountList.get(0).getBudget().getId(), budget.getId(), "Budget IDs do not match.");
+        Assertions.assertEquals(accountList.get(0).getUserProfile().getId(), userProfile.getId(), "User IDs do not match.");
+        Assertions.assertEquals(accountList.size(), 2, "Number of accounts is incorrect.");
+        Assertions.assertEquals(accountList.get(0).getName(), "american express", "Account name does not match.");
     }
 }

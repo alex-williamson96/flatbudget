@@ -3,9 +3,7 @@ package com.caliber.flatbudget.repositories;
 import com.caliber.flatbudget.AbstractIntegration;
 import com.caliber.flatbudget.models.Budget;
 import com.caliber.flatbudget.models.UserProfile;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
@@ -14,6 +12,7 @@ import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.utility.DockerImageName;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.List;
 
@@ -60,7 +59,6 @@ class BudgetRepositoryTest extends AbstractIntegration {
             user.setUpdatedDate(LocalDateTime.now());
             i++;
         }
-
         userRepository.saveAllAndFlush(userList);
 
         Budget budget1 = new Budget();
@@ -74,22 +72,85 @@ class BudgetRepositoryTest extends AbstractIntegration {
         budget1.setUserProfile(user1);
         budget2.setUserProfile(user1);
         budget3.setUserProfile(user1);
-
         budgetRepository.saveAllAndFlush(Arrays.asList(budget1, budget2, budget3));
 
         user1.setBudgetList(budgetRepository.findAll());
 
         userRepository.saveAllAndFlush(userList);
+    }
 
+    @AfterEach
+    public void tearDown() {
+        List<UserProfile> userList = userRepository.findAll();
 
+        for (UserProfile user : userList) {
+            user.setBudgetList(null);
+            userRepository.saveAndFlush(user);
+        }
+
+        List<Budget> budgetList = budgetRepository.findAll();
+
+        for (Budget budget : budgetList) {
+            budget.setUserProfile(null);
+            budgetRepository.saveAndFlush(budget);
+        }
+
+        userRepository.deleteAll();
+        budgetRepository.deleteAll();
     }
 
     @Test
     void findAllByUserProfileTest() {
-        List<UserProfile> userList = userRepository.findAll();
+        UserProfile user = userRepository.findAll().get(0);
 
+        List<Budget> budgetList = budgetRepository.findAllByUserProfile(user);
 
-
-
+        Assertions.assertEquals(3, budgetList.size(), "Budget list sizes are different.");
+        Assertions.assertSame(user.getId(), budgetList.get(0).getUserProfile().getId(), "Users are not the same.");
+        Assertions.assertNotSame(budgetList.get(1), budgetList.get(0), "Two of the budgets are the same.");
+        Assertions.assertNotSame(budgetList.get(2), budgetList.get(1), "Two of the budgets are the same.");
     }
+
+    @Test
+    void accessBudgetTest() {
+        List<Budget> budgetList = budgetRepository.findAll();
+
+        Long id = budgetList.get(0).getId();
+
+        Budget budget = budgetRepository.findById(id).orElse(null);
+
+        Assertions.assertNotNull(budget, "Budget is null.");
+        Assertions.assertEquals(budgetList.get(0).getName(), budget.getName(), "Budgets are different");
+        Assertions.assertEquals(budgetList.get(0).getId(), budget.getId(), "Budgets are different");
+        Assertions.assertEquals(budgetList.get(0).getUserProfile().getId(), budget.getUserProfile().getId(), "Users of budget are different");
+        Assertions.assertNotEquals(budget.getName(), budgetList.get(1).getName());
+    }
+
+    @Test
+    void findBudgetByNameAndUserProfileTest() {
+        Budget budget = new Budget();
+
+        LocalDateTime time = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
+
+        budget.setName("test");
+        budget.setUpdatedDate(time);
+        budget.setCreatedDate(time);
+
+        UserProfile user = userRepository.findAll().get(0);
+
+        budget.setUserProfile(user);
+
+        budgetRepository.saveAndFlush(budget);
+        userRepository.saveAndFlush(user);
+
+
+        Budget foundBudget = budgetRepository.findBudgetByNameAndUserProfile("test", user);
+
+        Assertions.assertEquals(foundBudget.getUserProfile().getId(), user.getId(), "User IDs do not match.");
+        Assertions.assertEquals(foundBudget.getName(), "test", "Budget names do not match.");
+        Assertions.assertEquals(foundBudget.getCreatedDate(), time, "Created times not the same.");
+        Assertions.assertEquals(foundBudget.getUpdatedDate(), time, "Updated times not the same");
+    }
+
+
 }
