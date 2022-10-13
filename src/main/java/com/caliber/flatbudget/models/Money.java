@@ -1,8 +1,12 @@
 package com.caliber.flatbudget.models;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Data
+@Getter
+@Setter
 public class Money {
 
     private Integer dollar;
@@ -22,8 +26,8 @@ public class Money {
     public void addMoney(Money money) {
         int tempDollars = 0;
 
-        int dollars = this.getDollar() + money.getDollar();
-        int cents = this.getCents() + money.getCents();
+        int dollars = getDollar() + money.getDollar();
+        int cents = getCents() + money.getCents();
 
         if (cents >= 100) {
             tempDollars = (int) cents / 100;
@@ -35,14 +39,22 @@ public class Money {
     }
 
     public void subtractMoney(Money money) {
-        int tempDollars = this.getDollar() - money.getDollar();
-        int tempCents = this.getCents() - money.getCents();
+        int tempCents = getCents() - money.getCents();
 
-
-        if (money.cents > this.cents) {
-            tempCents = 100 - this.getCents() + money.getCents();
-            tempDollars -= 1;
+        if (tempCents < 0 && getDollar() > 0) {
+            setDollar(getDollar() - 1);
+            tempCents += 100;
         }
+
+        int tempDollars = getDollar() - money.getDollar();
+
+        if (tempDollars < 0 && tempCents > 0) {
+            tempDollars++;
+            tempCents -= 100;
+        }
+
+        setDollar(tempDollars);
+        setCents(tempCents);
     }
 
 }

@@ -1,6 +1,7 @@
 package com.caliber.flatbudget.repositories;
 
 import com.caliber.flatbudget.models.Budget;
+import com.caliber.flatbudget.models.Payee;
 import com.caliber.flatbudget.models.Transaction;
 import com.caliber.flatbudget.models.UserProfile;
 import org.junit.jupiter.api.AfterEach;
@@ -15,6 +16,7 @@ import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.utility.DockerImageName;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = {
@@ -30,6 +32,9 @@ class TransactionRepositoryTest {
 
     @Autowired
     BudgetRepository budgetRepository;
+
+    @Autowired
+    PayeeRepository payeeRepository;
 
     static GenericContainer<?> mySQLContainer = new GenericContainer<>(DockerImageName.parse("mysql:latest"))
             .withReuse(true);
@@ -62,6 +67,9 @@ class TransactionRepositoryTest {
 
         budgetRepository.saveAndFlush(budget);
         userRepository.saveAndFlush(user);
+
+        Payee payee = new Payee();
+        payeeRepository.saveAndFlush(payee);
 
 
         for (int i = 0; i < 50; i++) {
@@ -98,9 +106,19 @@ class TransactionRepositoryTest {
         for (Transaction transaction : transactionList) {
             transaction.setBudget(null);
             transaction.setUserProfile(null);
+            transaction.setPayee(null);
             transactionRepository.saveAndFlush(transaction);
         }
 
+        List<Payee> payeeList = payeeRepository.findAll();
+
+        for (Payee payee : payeeList) {
+            payee.setTransactionList(null);
+            payee.setUserProfile(null);
+            payeeRepository.saveAndFlush(payee);
+        }
+
+        payeeRepository.deleteAll();
         transactionRepository.deleteAll();
         userRepository.deleteAll();
         budgetRepository.deleteAll();
@@ -120,5 +138,55 @@ class TransactionRepositoryTest {
         Assertions.assertEquals(50, transactionList.size(), "Incorrect number of transactions.");
         Assertions.assertEquals(user.getId(), transactionList.get(0).getUserProfile().getId(), "User Ids do not match.");
         Assertions.assertEquals(budget.getId(), transactionList.get(0).getBudget().getId(), "Budget Ids do not match.");
+    }
+
+    @Test
+    void createTransactionTest() {
+        Transaction transaction = new Transaction();
+
+        Budget budget = budgetRepository.findAll().get(0);
+
+        Payee payee = payeeRepository.findAll().get(0);
+
+        UserProfile user = userRepository.findAll().get(0);
+
+        LocalDateTime time = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
+
+        transaction.setName("Kroger");
+        transaction.setDollar(100);
+        transaction.setCents(0);
+        transaction.setCreatedDate(time);
+        transaction.setUpdatedDate(time);
+        transaction.setIsOutflow(true);
+        transaction.setIsPending(false);
+        transaction.setNote("pull out cash for incidentals");
+        transaction.setBudget(budget);
+        transaction.setPayee(payee);
+        transaction.setUserProfile(user);
+
+        transactionRepository.saveAndFlush(transaction);
+
+        List<Transaction> transactionList = transactionRepository.findAllByUserProfileAndBudget(user, budget);
+
+        Transaction transaction1 = new Transaction();
+
+        for (Transaction transactionLoop : transactionList) {
+            if (transactionLoop.getName().equals("Kroger")) {
+                transaction1 = transactionLoop;
+            }
+        }
+
+        Assertions.assertEquals("Kroger", transaction1.getName());
+        Assertions.assertEquals(user, transaction1.getUserProfile());
+        Assertions.assertEquals(budget, transaction1.getBudget());
+        Assertions.assertEquals(100, transaction1.getDollar());
+        Assertions.assertEquals(0, transaction1.getCents());
+        Assertions.assertEquals(time, transaction1.getCreatedDate());
+        Assertions.assertEquals(time, transaction1.getUpdatedDate());
+        Assertions.assertTrue(transaction1.getIsOutflow());
+        Assertions.assertFalse(transaction1.getIsPending());
+        Assertions.assertEquals(payee, transaction1.getPayee());
+        Assertions.assertEquals(String.class, transaction1.toString().getClass());
+        Assertions.assertFalse(transaction1.equals(new Transaction()));
     }
 }

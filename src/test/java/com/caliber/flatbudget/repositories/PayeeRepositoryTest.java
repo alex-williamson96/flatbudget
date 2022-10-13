@@ -8,7 +8,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.NullValueInNestedPathException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
@@ -18,7 +17,6 @@ import org.testcontainers.utility.DockerImageName;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.Arrays;
 import java.util.List;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = {
@@ -111,7 +109,7 @@ class PayeeRepositoryTest {
     }
 
     @Test
-    void findAllByUserProfileTest() throws Exception {
+    void findAllByUserProfileTest() {
         UserProfile user = userRepository.findAll().get(0);
 
         List<Payee> payeeList = payeeRepository.findAllByUserProfile(user);
@@ -163,7 +161,7 @@ class PayeeRepositoryTest {
 
         Payee payee = new Payee();
 
-        for (Payee __payee : payeeList) {
+        for (Payee __payee : _payeeList) {
             if (__payee.getName().equals("payee name")) {
                 payee = __payee;
             }
