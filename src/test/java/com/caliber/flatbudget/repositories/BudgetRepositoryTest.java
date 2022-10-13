@@ -133,7 +133,7 @@ class BudgetRepositoryTest extends AbstractIntegration {
         List<Budget> budgetList = budgetRepository.findAllByUserProfile(user);
 
         Assertions.assertEquals(3, budgetList.size(), "Budget list sizes are different.");
-        Assertions.assertSame(user.getId(), budgetList.get(0).getUserProfile().getId(), "Users are not the same.");
+        Assertions.assertEquals(user.getId().toString(), budgetList.get(0).getUserProfile().getId().toString(), "Users are not the same.");
         Assertions.assertNotSame(budgetList.get(1), budgetList.get(0), "Two of the budgets are the same.");
         Assertions.assertNotSame(budgetList.get(2), budgetList.get(1), "Two of the budgets are the same.");
     }

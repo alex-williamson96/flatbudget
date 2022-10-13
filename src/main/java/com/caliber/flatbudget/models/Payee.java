@@ -33,12 +33,6 @@ public class Payee {
     @ManyToOne
     private UserProfile userProfile;
 
-    @ManyToOne
-    private Category presumedCategory;
-
-    @ManyToOne
-    private Category setCategory;
-
     @OneToMany
     @ToString.Exclude
     private List<Transaction> transactionList;
