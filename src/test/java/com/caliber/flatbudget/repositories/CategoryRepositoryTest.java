@@ -138,6 +138,7 @@ class CategoryRepositoryTest {
         newCategory.setSubOrder(0);
         newCategory.setUserProfile(user1);
         newCategory.setBudget(budget1);
+        newCategory.setIsCreditCard(false);
 
         categoryRepository.saveAndFlush(newCategory);
 
@@ -162,6 +163,7 @@ class CategoryRepositoryTest {
         Assertions.assertEquals(0, category.getSubOrder(), "Sub order does not match");
         Assertions.assertEquals(user1, category.getUserProfile(), "User does not match.");
         Assertions.assertEquals(budget1, category.getBudget(), "Budget does not match.");
+        Assertions.assertEquals(false, category.getIsCreditCard());
         Assertions.assertEquals(String.class, category.toString().getClass());
         Assertions.assertFalse(category.equals(new Category()));
     }

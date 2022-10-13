@@ -2,6 +2,7 @@ package com.caliber.flatbudget.repositories;
 
 import com.caliber.flatbudget.models.Account;
 import com.caliber.flatbudget.models.Budget;
+import com.caliber.flatbudget.models.Transaction;
 import com.caliber.flatbudget.models.UserProfile;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,9 @@ class AccountRepositoryTest {
 
     @Autowired
     BudgetRepository budgetRepository;
+
+    @Autowired
+    TransactionRepository transactionRepository;
 
     static GenericContainer<?> mySQLContainer = new GenericContainer<>(DockerImageName.parse("mysql:latest"))
             .withReuse(true);
@@ -76,6 +80,14 @@ class AccountRepositoryTest {
         account2.setUserProfile(newUserProfile);
 
         accountRepository.saveAndFlush(account2);
+
+        Account account = accountRepository.findAll().get(0);
+
+        for (int i = 0; i < 100; i++) {
+            Transaction transaction = new Transaction();
+            transaction.setAccount(account);
+            transactionRepository.saveAndFlush(transaction);
+        }
     }
 
     @AfterEach
@@ -102,6 +114,15 @@ class AccountRepositoryTest {
             accountRepository.saveAndFlush(account);
         }
 
+        List<Transaction> transactionList = transactionRepository.findAll();
+
+        for (Transaction transaction : transactionList) {
+            transaction.setAccount(null);
+            transactionRepository.saveAndFlush(transaction);
+        }
+
+        transactionRepository.deleteAll();
+        accountRepository.deleteAll();
         userRepository.deleteAll();
         budgetRepository.deleteAll();
     }
@@ -154,5 +175,15 @@ class AccountRepositoryTest {
         Assertions.assertEquals(time, foundAccount.getUpdatedDate(), "Updated time is incorrect");
         Assertions.assertEquals(String.class, foundAccount.toString().getClass());
         Assertions.assertFalse(foundAccount.equals(new Account()));
+    }
+
+    @Test
+    void findAllTransactionsByAccount() {
+        Account account = accountRepository.findAll().get(0);
+
+        List<Transaction> transactionList = transactionRepository.findAllByAccount(account);
+
+        Assertions.assertEquals(100, transactionList.size());
+        Assertions.assertEquals(account, transactionList.get(0).getAccount());
     }
 }

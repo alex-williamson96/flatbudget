@@ -57,4 +57,11 @@ public class Money {
         setCents(tempCents);
     }
 
+    public double moneyToDouble() {
+        int dollar = getDollar();
+        int cents = getCents();
+
+        return Double.parseDouble(String.valueOf(dollar) + "." + String.valueOf(cents));
+    }
+
 }

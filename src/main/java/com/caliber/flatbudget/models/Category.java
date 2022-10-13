@@ -46,6 +46,9 @@ public class Category {
     @Column
     private Integer subOrder;
 
+    @Column
+    private Boolean isCreditCard;
+
     @ManyToOne
     UserProfile userProfile;
 

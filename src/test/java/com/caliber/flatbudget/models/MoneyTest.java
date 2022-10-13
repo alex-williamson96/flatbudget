@@ -45,4 +45,11 @@ class MoneyTest {
 
         Assertions.assertEquals(new Money(-1, -12), startingMoney1);
     }
+
+    @Test
+    void moneyToDoubleTest() {
+        Money money = new Money(123, 12);
+
+        Assertions.assertEquals(123.12, money.moneyToDouble());
+    }
 }
