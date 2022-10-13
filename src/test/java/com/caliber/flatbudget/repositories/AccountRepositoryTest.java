@@ -11,6 +11,8 @@ import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.utility.DockerImageName;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = {
@@ -116,5 +118,41 @@ class AccountRepositoryTest {
         Assertions.assertEquals(accountList.get(0).getUserProfile().getId(), userProfile.getId(), "User IDs do not match.");
         Assertions.assertEquals(accountList.size(), 2, "Number of accounts is incorrect.");
         Assertions.assertEquals(accountList.get(0).getName(), "american express", "Account name does not match.");
+    }
+
+    @Test
+    void createAccountTest() {
+        Account account = new Account();
+
+        LocalDateTime time = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
+
+        account.setDollar(0);
+        account.setCents(0);
+        account.setName("account name");
+        account.setOnBudget(true);
+        account.setOrderPosition(1);
+        account.setCreatedDate(time);
+        account.setUpdatedDate(time);
+
+        accountRepository.saveAndFlush(account);
+
+        List<Account> accountList = accountRepository.findAll();
+        Account foundAccount = new Account();
+
+        for (Account _account : accountList) {
+            if (_account.getName().equals("account name")) {
+                foundAccount = _account;
+            }
+        }
+
+        Assertions.assertEquals(account.getDollar(), foundAccount.getDollar(), "Dollar does not match.");
+        Assertions.assertEquals(account.getCents(), foundAccount.getCents(), "Cents does not match.");
+        Assertions.assertEquals(account.getName(), foundAccount.getName(), "Name does not match.");
+        Assertions.assertTrue(foundAccount.getOnBudget(), "On budget is incorrect.");
+        Assertions.assertEquals(1, foundAccount.getOrderPosition(), "Order position is incorrect.");
+        Assertions.assertEquals(time, foundAccount.getCreatedDate(), "Created time is incorrect.");
+        Assertions.assertEquals(time, foundAccount.getUpdatedDate(), "Updated time is incorrect");
+        Assertions.assertEquals(String.class, foundAccount.toString().getClass());
+        Assertions.assertFalse(foundAccount.equals(new Account()));
     }
 }

@@ -71,9 +71,4 @@ public class Transaction {
         Transaction that = (Transaction) o;
         return id != null && Objects.equals(id, that.id);
     }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
 }

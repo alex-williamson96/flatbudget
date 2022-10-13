@@ -75,9 +75,4 @@ public class UserProfile {
         UserProfile userProfile = (UserProfile) o;
         return id != null && Objects.equals(id, userProfile.id);
     }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
 }

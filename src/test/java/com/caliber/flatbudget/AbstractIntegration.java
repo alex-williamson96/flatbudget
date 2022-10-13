@@ -1,5 +1,7 @@
 package com.caliber.flatbudget;
 
+import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
@@ -22,5 +24,10 @@ public class AbstractIntegration {
         mysql.start();
         registry.add("spring.mysql.host", mysql::getHost);
         registry.add("spring.mysql.port", mysql::getFirstMappedPort);
+    }
+
+    @Test
+    public void containerStarted() {
+        Assertions.assertEquals("mysql:latest", mysql.getDockerImageName(), "Docker Image name is incorrect.");
     }
 }

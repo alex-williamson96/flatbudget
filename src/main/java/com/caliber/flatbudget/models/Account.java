@@ -60,9 +60,4 @@ public class Account {
         Account account = (Account) o;
         return id != null && Objects.equals(id, account.id);
     }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
 }

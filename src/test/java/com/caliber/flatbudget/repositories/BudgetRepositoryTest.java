@@ -1,7 +1,9 @@
 package com.caliber.flatbudget.repositories;
 
 import com.caliber.flatbudget.AbstractIntegration;
+import com.caliber.flatbudget.models.Account;
 import com.caliber.flatbudget.models.Budget;
+import com.caliber.flatbudget.models.Category;
 import com.caliber.flatbudget.models.UserProfile;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,12 @@ class BudgetRepositoryTest extends AbstractIntegration {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    CategoryRepository categoryRepository;
+
+    @Autowired
+    AccountRepository accountRepository;
 
     static GenericContainer<?> mySQLContainer = new GenericContainer<>(DockerImageName.parse("mysql:latest"))
             .withReuse(true);
@@ -95,6 +103,25 @@ class BudgetRepositoryTest extends AbstractIntegration {
             budgetRepository.saveAndFlush(budget);
         }
 
+        List<Category> categoryList = categoryRepository.findAll();
+
+        for (Category category : categoryList) {
+            category.setBudget(null);
+            category.setUserProfile(null);
+            category.setTransactionList(null);
+            categoryRepository.saveAndFlush(category);
+        }
+
+        List<Account> accountList = accountRepository.findAll();
+        for (Account account : accountList) {
+            account.setBudget(null);
+            account.setUserProfile(null);
+            account.setTransactionList(null);
+            accountRepository.saveAndFlush(account);
+        }
+
+        accountRepository.deleteAll();
+        categoryRepository.deleteAll();
         userRepository.deleteAll();
         budgetRepository.deleteAll();
     }
@@ -150,6 +177,48 @@ class BudgetRepositoryTest extends AbstractIntegration {
         Assertions.assertEquals(foundBudget.getName(), "test", "Budget names do not match.");
         Assertions.assertEquals(foundBudget.getCreatedDate(), time, "Created times not the same.");
         Assertions.assertEquals(foundBudget.getUpdatedDate(), time, "Updated times not the same");
+    }
+
+    @Test
+    void createBudget() {
+        LocalDateTime time = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
+
+        UserProfile userProfile = new UserProfile();
+        userProfile.setFirstName("first");
+        userProfile.setLastName("last");
+        userRepository.saveAndFlush(userProfile);
+
+        UserProfile user = userRepository.findAll().get(0);
+
+        Budget newBudget = new Budget();
+        newBudget.setName("budget");
+        newBudget.setCreatedDate(time);
+        newBudget.setUpdatedDate(time);
+        newBudget.setUserProfile(user);
+
+        budgetRepository.saveAndFlush(newBudget);
+
+        Budget budget = budgetRepository.findAllByUserProfile(user).get(0);
+
+        for (int i = 0; i < 10; i++) {
+            Account newAccount = new Account();
+            newAccount.setBudget(budget);
+            accountRepository.saveAndFlush(newAccount);
+        }
+
+        userRepository.saveAndFlush(user);
+        budgetRepository.saveAndFlush(budget);
+        List<Budget> budgetList = budgetRepository.findAllByUserProfile(user);
+        Budget testBudget = budgetList.get(3);
+        List<Account> accountList = accountRepository.findAll();
+
+        Assertions.assertEquals(10, accountList.size(), "Number of accounts does not match.");
+        Assertions.assertEquals("budget", testBudget.getName(), "Budget names do not match.");
+        Assertions.assertEquals(time, testBudget.getUpdatedDate(), "Updated time does not match.");
+        Assertions.assertEquals(time, testBudget.getCreatedDate(), "Created time does not match.");
+        Assertions.assertEquals(user, testBudget.getUserProfile(), "User does not match.");
+        Assertions.assertEquals(String.class, testBudget.toString().getClass());
+        Assertions.assertFalse(testBudget.equals(new Budget()));
     }
 
 

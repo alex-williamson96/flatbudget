@@ -50,9 +50,4 @@ public class Payee {
         Payee payee = (Payee) o;
         return id != null && Objects.equals(id, payee.id);
     }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
 }

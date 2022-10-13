@@ -44,9 +44,4 @@ public class Budget {
         Budget budget = (Budget) o;
         return id != null && Objects.equals(id, budget.id);
     }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
 }
