@@ -79,5 +79,21 @@ public class AccountService implements IAccountService {
         accountRepository.save(account);
     }
 
+    public void updateAccount(Account update) {
+        if (accountRepository.findById(update.getId()).isEmpty()) {
+            log.error("Could not find entity " + update.getId() + " in accountRepository");
+        }
+
+        Account account = accountRepository.findById(update.getId()).get();
+
+        account.setName(update.getName());
+        account.setOnBudget(update.getOnBudget());
+        account.setOrderPosition(update.getOrderPosition());
+        account.setOnBudget(update.getOnBudget());
+        account.setUpdatedDate(LocalDateTime.now());
+
+        accountRepository.save(account);
+    }
+
 
 }
