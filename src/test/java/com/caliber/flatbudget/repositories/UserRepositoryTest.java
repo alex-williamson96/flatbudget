@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
 import java.time.LocalDateTime;
@@ -27,8 +27,15 @@ class UserRepositoryTest {
     BudgetRepository budgetRepository;
 
 
-    static PostgreSQLContainer postgresContainer = new PostgreSQLContainer<>(DockerImageName.parse("postgres:latest"))
+    static GenericContainer<?> postgresContainer = new PostgreSQLContainer<>(DockerImageName.parse("postgres:latest"))
             .withReuse(true);
+
+    @DynamicPropertySource
+    static void postgresProperties(DynamicPropertyRegistry registry) {
+        postgresContainer.start();
+        registry.add("spring.datasource.host", postgresContainer::getHost);
+        registry.add("spring.datasource.port", postgresContainer::getFirstMappedPort);
+    }
 
     @AfterEach
     public void tearDown() {

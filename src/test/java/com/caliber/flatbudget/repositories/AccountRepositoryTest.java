@@ -32,8 +32,15 @@ class AccountRepositoryTest {
     @Autowired
     TransactionRepository transactionRepository;
 
-    static PostgreSQLContainer postgresContainer = new PostgreSQLContainer<>(DockerImageName.parse("postgres:latest"))
+    static GenericContainer<?> postgresContainer = new PostgreSQLContainer<>(DockerImageName.parse("postgres:latest"))
             .withReuse(true);
+
+    @DynamicPropertySource
+    static void postgresProperties(DynamicPropertyRegistry registry) {
+        postgresContainer.start();
+        registry.add("spring.datasource.host", postgresContainer::getHost);
+        registry.add("spring.datasource.port", postgresContainer::getFirstMappedPort);
+    }
 
     @BeforeAll
     public static void beforeAll() {
