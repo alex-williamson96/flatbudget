@@ -12,5 +12,4 @@ class FlatbudgetApplicationTests extends AbstractIntegration {
 
 
     }
-
 }

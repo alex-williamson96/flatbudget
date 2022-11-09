@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.GenericContainer;
+import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.utility.DockerImageName;
 
 import java.time.LocalDateTime;
@@ -18,9 +19,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.List;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = {
-        "spring.datasource.url=jdbc:tc:postgres:latest:///test",
-})
+@SpringBootTest
 class BudgetRepositoryTest extends AbstractIntegration {
 
     @Autowired
@@ -35,15 +34,8 @@ class BudgetRepositoryTest extends AbstractIntegration {
     @Autowired
     AccountRepository accountRepository;
 
-    static GenericContainer<?> postgresContainer = new GenericContainer<>(DockerImageName.parse("postgres:latest"))
+    static PostgreSQLContainer postgresContainer = new PostgreSQLContainer<>(DockerImageName.parse("postgres:latest"))
             .withReuse(true);
-
-    @DynamicPropertySource
-    static void postgresProperties(DynamicPropertyRegistry registry) {
-        postgresContainer.start();
-        registry.add("spring.postgres.host", postgresContainer::getHost);
-        registry.add("spring.postgres.port", postgresContainer::getFirstMappedPort);
-    }
 
     @BeforeAll
     public static void beforeAll() {

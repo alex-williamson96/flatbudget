@@ -1,16 +1,17 @@
 export default function BudgetTable() {
   return (
     <div className='overflow-x-auto'>
-      <table className='table table-compact w-full'>
+      <table className='table table-compact w-full table-auto'>
         <thead>
           <tr className="hover">
-            <th>
+            <th className="w-0">
               <input
                 type='checkbox'
                 className='checkbox'
               />
             </th>
-            <th>Credit Card</th>
+            <th>Credit Cards</th>
+            <th></th>
             <th>$0.00</th>
             <th>$0.00</th>
             <th>$0.00</th>
@@ -25,6 +26,7 @@ export default function BudgetTable() {
               />
             </th>
             <th>Gold Card</th>
+            <th>Note</th>
             <th>$0.00</th>
             <th>$0.00</th>
             <th>$0.00</th>
@@ -37,6 +39,7 @@ export default function BudgetTable() {
               />
             </th>
             <th>Blue Cash</th>
+            <th>Note</th>
             <th>$0.00</th>
             <th>$0.00</th>
             <th>$0.00</th>
@@ -49,6 +52,7 @@ export default function BudgetTable() {
               />
             </th>
             <th>Sky Miles</th>
+            <th>Note</th>
             <th>$0.00</th>
             <th>$0.00</th>
             <th>$0.00</th>
@@ -63,6 +67,7 @@ export default function BudgetTable() {
               />
             </th>
             <th>Home</th>
+            <th></th>
             <th>$0.00</th>
             <th>$0.00</th>
             <th>$0.00</th>
@@ -77,6 +82,7 @@ export default function BudgetTable() {
               />
             </th>
             <th>Rent</th>
+            <th>Note</th>
             <th>$0.00</th>
             <th>$0.00</th>
             <th>$0.00</th>
@@ -89,6 +95,7 @@ export default function BudgetTable() {
               />
             </th>
             <th>Utilities</th>
+            <th>Note</th>
             <th>$0.00</th>
             <th>$0.00</th>
             <th>$0.00</th>
@@ -101,6 +108,7 @@ export default function BudgetTable() {
               />
             </th>
             <th>Internet</th>
+            <th>Note</th>
             <th>$0.00</th>
             <th>$0.00</th>
             <th>$0.00</th>
