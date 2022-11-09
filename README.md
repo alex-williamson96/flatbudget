@@ -6,14 +6,14 @@ is given a purpose. The budget also only contains real money,
 meaning all cash, credits, and debits for the accounts being tracked.</p>
 
 <p>This application was built using Spring Boot for the back end REST
-API, React for the front end, and MySQL for the database.</p>
+API, React for the front end, and ProsgreSQL for the database.</p>
 
 <p>The back end and front end are compiled together at run time and
 requires maven to build and package the project. The front end is
 located within the 'webapp' folder and to run locally, requires
 <code>npm install</code> to be run within that directory to install 
 dependencies. The readme within the webapp folder goes into more
-detail about how to run the react app locally.</p>
+detail about how to run the React app locally.</p>
 <p>To compile the front end and backend together. <code>mvn clean install</code>
 should be run in the root directory. This will run all unit tests and compile
 the application.</p>

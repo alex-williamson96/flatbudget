@@ -1,0 +1,112 @@
+export default function BudgetTable() {
+  return (
+    <div className='overflow-x-auto'>
+      <table className='table table-compact w-full'>
+        <thead>
+          <tr className="hover">
+            <th>
+              <input
+                type='checkbox'
+                className='checkbox'
+              />
+            </th>
+            <th>Credit Card</th>
+            <th>$0.00</th>
+            <th>$0.00</th>
+            <th>$0.00</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>
+              <input
+                type='checkbox'
+                className='checkbox'
+              />
+            </th>
+            <th>Gold Card</th>
+            <th>$0.00</th>
+            <th>$0.00</th>
+            <th>$0.00</th>
+          </tr>
+          <tr>
+            <th>
+              <input
+                type='checkbox'
+                className='checkbox'
+              />
+            </th>
+            <th>Blue Cash</th>
+            <th>$0.00</th>
+            <th>$0.00</th>
+            <th>$0.00</th>
+          </tr>
+          <tr>
+            <th>
+              <input
+                type='checkbox'
+                className='checkbox'
+              />
+            </th>
+            <th>Sky Miles</th>
+            <th>$0.00</th>
+            <th>$0.00</th>
+            <th>$0.00</th>
+          </tr>
+        </tbody>
+        <thead>
+          <tr>
+            <th>
+              <input
+                type='checkbox'
+                className='checkbox'
+              />
+            </th>
+            <th>Home</th>
+            <th>$0.00</th>
+            <th>$0.00</th>
+            <th>$0.00</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>
+              <input
+                type='checkbox'
+                className='checkbox'
+              />
+            </th>
+            <th>Rent</th>
+            <th>$0.00</th>
+            <th>$0.00</th>
+            <th>$0.00</th>
+          </tr>
+          <tr>
+            <th>
+              <input
+                type='checkbox'
+                className='checkbox'
+              />
+            </th>
+            <th>Utilities</th>
+            <th>$0.00</th>
+            <th>$0.00</th>
+            <th>$0.00</th>
+          </tr>
+          <tr>
+            <th>
+              <input
+                type='checkbox'
+                className='checkbox'
+              />
+            </th>
+            <th>Internet</th>
+            <th>$0.00</th>
+            <th>$0.00</th>
+            <th>$0.00</th>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  );
+}

@@ -12,22 +12,22 @@ import org.testcontainers.utility.DockerImageName;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = {
-        "spring.datasource.url=jdbc:tc:mysql:latest:///test",
+        "spring.datasource.url=jdbc:tc:postgres:latest:///test",
 })
 public class AbstractIntegration {
 
-    static GenericContainer<?> mysql = new GenericContainer<>(DockerImageName.parse("mysql:latest"))
+    static GenericContainer<?> postgresContainer = new GenericContainer<>(DockerImageName.parse("postgres:latest"))
             .withReuse(true);
 
     @DynamicPropertySource
-    static void mysqlProperties(DynamicPropertyRegistry registry) {
-        mysql.start();
-        registry.add("spring.mysql.host", mysql::getHost);
-        registry.add("spring.mysql.port", mysql::getFirstMappedPort);
+    static void postgresProperties(DynamicPropertyRegistry registry) {
+        postgresContainer.start();
+        registry.add("spring.postgres.host", postgresContainer::getHost);
+        registry.add("spring.postgres.port", postgresContainer::getFirstMappedPort);
     }
 
     @Test
     public void containerStarted() {
-        Assertions.assertEquals("mysql:latest", mysql.getDockerImageName(), "Docker Image name is incorrect.");
+        Assertions.assertEquals("postgres:latest", postgresContainer.getDockerImageName(), "Docker Image name is incorrect.");
     }
 }

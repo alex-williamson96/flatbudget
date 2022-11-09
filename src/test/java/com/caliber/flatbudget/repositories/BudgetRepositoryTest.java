@@ -19,7 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = {
-        "spring.datasource.url=jdbc:tc:mysql:latest:///test",
+        "spring.datasource.url=jdbc:tc:postgres:latest:///test",
 })
 class BudgetRepositoryTest extends AbstractIntegration {
 
@@ -35,19 +35,19 @@ class BudgetRepositoryTest extends AbstractIntegration {
     @Autowired
     AccountRepository accountRepository;
 
-    static GenericContainer<?> mySQLContainer = new GenericContainer<>(DockerImageName.parse("mysql:latest"))
+    static GenericContainer<?> postgresContainer = new GenericContainer<>(DockerImageName.parse("postgres:latest"))
             .withReuse(true);
 
     @DynamicPropertySource
-    static void mysqlProperties(DynamicPropertyRegistry registry) {
-        mySQLContainer.start();
-        registry.add("spring.mysql.host", mySQLContainer::getHost);
-        registry.add("spring.mysql.port", mySQLContainer::getFirstMappedPort);
+    static void postgresProperties(DynamicPropertyRegistry registry) {
+        postgresContainer.start();
+        registry.add("spring.postgres.host", postgresContainer::getHost);
+        registry.add("spring.postgres.port", postgresContainer::getFirstMappedPort);
     }
 
     @BeforeAll
     public static void beforeAll() {
-        mySQLContainer.start();
+        postgresContainer.start();
     }
 
     @BeforeEach
