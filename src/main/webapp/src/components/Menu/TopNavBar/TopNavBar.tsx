@@ -1,4 +1,6 @@
 import TopNavBarDropDown from './TopNavBarDropDown';
+import LeftArrow from '../../UI/Icons/LeftArrow'
+import RightArrow from '../../UI/Icons/RightArrow'
 
 export default function TopNavBar() {
   return (
@@ -25,8 +27,17 @@ export default function TopNavBar() {
         tabIndex={0}
         className='btn m-1'>
         Flat Budget
-      </label></div>
-      
+      </label>
+        <label
+          tabIndex={0}
+          className='card-body'
+        ><span>
+            <span>
+              <LeftArrow /> Hello <RightArrow />
+            </span>
+          </span>
+        </label>
+      </div>
       <div className='flex-none hidden lg:block'>
         <ul className='menu menu-horizontal'>
           <label
