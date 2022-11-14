@@ -1,4 +1,10 @@
+import useIsMobile from '../../hooks/useIsMobile';
+
 export default function BudgetTable() {
+  const a = useIsMobile();
+
+  console.log(a);
+
   return (
     <div className='overflow-x-auto'>
       <table className='table table-compact w-full table-auto'>
@@ -22,8 +28,7 @@ export default function BudgetTable() {
             <th>
               <input
                 type='checkbox'
-                className='checkbox'
-              />
+                className='checkbox' />
             </th>
             <th>Gold Card</th>
             <th>Note</th>
@@ -78,8 +83,7 @@ export default function BudgetTable() {
             <th>
               <input
                 type='checkbox'
-                className='checkbox'
-              />
+                className='checkbox' />
             </th>
             <th>Rent</th>
             <th>Note</th>

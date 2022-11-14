@@ -6,14 +6,12 @@ export default function TopNavBar() {
       <div className='flex-none lg:hidden'>
         <label
           htmlFor='my-drawer-3'
-          className='btn btn-square btn-ghost'
-        >
+          className='btn btn-square btn-ghost'>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             fill='none'
             viewBox='0 0 24 24'
-            className='inline-block w-6 h-6 stroke-current'
-          >
+            className='inline-block w-6 h-6 stroke-current'>
             <path
               strokeLinecap='round'
               strokeLinejoin='round'
@@ -23,16 +21,25 @@ export default function TopNavBar() {
           </svg>
         </label>
       </div>
-      <div className='flex-1 px-2 mx-2'>Flat Budget</div>
+      <div className='flex-1 px-2 m-1'><label
+        tabIndex={0}
+        className='btn m-1'>
+        Flat Budget
+      </label></div>
+      
       <div className='flex-none hidden lg:block'>
         <ul className='menu menu-horizontal'>
-          <li>
-            <a className='btn m-1 rounded-md'>Budget</a>
-          </li>
-            <TopNavBarDropDown />
-            <li>
-            <a className='btn m-1 rounded-md'>Profile</a>
-          </li>
+          <label
+            tabIndex={0}
+            className='btn m-1'>
+            Budget
+          </label>
+          <TopNavBarDropDown />
+          <label
+            tabIndex={0}
+            className='btn m-1'>
+            Profile
+          </label>
         </ul>
       </div>
     </div>
