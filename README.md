@@ -24,3 +24,5 @@ required</p>
 <p>Database tests are run using Testcontainers which allows for throw-away
 instances of the database to be created. Testcontainers requires Docker to
 run.</p>
+
+<p>Run: <code>sudo systemctl start docker</code> and <code>sudo systemctl start postgresql</code> to start correctly</p>

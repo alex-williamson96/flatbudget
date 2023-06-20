@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class CategoryController {
 
-    @Autowired
-    private CategoryService categoryService;
+    private final CategoryService categoryService;
+
+    public CategoryController(CategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
 }

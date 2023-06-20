@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class PayeeController {
 
-    @Autowired
-    private PayeeService payeeService;
+    private final PayeeService payeeService;
+
+    public PayeeController(PayeeService payeeService) {
+        this.payeeService = payeeService;
+    }
 }

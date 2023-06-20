@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class BudgetController {
 
-    @Autowired
-    private BudgetService budgetService;
+    private final BudgetService budgetService;
 
 
+    public BudgetController(BudgetService budgetService) {
+        this.budgetService = budgetService;
+    }
 }

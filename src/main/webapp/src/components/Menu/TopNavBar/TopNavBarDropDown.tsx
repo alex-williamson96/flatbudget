@@ -13,10 +13,10 @@ export default function TopNavBarDropDown() {
         className="dropdown-content menu p-2 bg-stone-100 rounded-box border-2 border-gray-300 w-max text-left"
       >
         <li className="w-full">
-          <Link className="block w-full" to={`accounts/1`}>Amex Gold: -$1,205.97</Link>
+          <Link className="block w-full" to={`accounts/1`}>Amex Gold: <span className="float-right"> -$1,205.97</span></Link>
         </li>
         <li className="w-full">
-          <Link className="block w-full" to={`accounts/2`}>Item 2</Link>
+          <Link className="block w-full" to={`accounts/2`}>Item 2: <span className="float-right">$1,230.34</span></Link>
         </li>
       </ul>
     </label>

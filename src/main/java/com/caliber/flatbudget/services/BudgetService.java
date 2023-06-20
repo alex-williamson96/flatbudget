@@ -14,8 +14,11 @@ import java.time.LocalDateTime;
 @Slf4j
 public class BudgetService implements IBudgetService {
 
-    @Autowired
-    private BudgetRepository budgetRepository;
+    private final BudgetRepository budgetRepository;
+
+    public BudgetService(BudgetRepository budgetRepository) {
+        this.budgetRepository = budgetRepository;
+    }
 
     @Override
     public Budget findById(Long id) {

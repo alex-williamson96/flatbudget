@@ -15,8 +15,11 @@ import java.util.List;
 @Slf4j
 public class TransactionService implements ITransactionService {
 
-    @Autowired
-    private TransactionRepository transactionRepository;
+    private final TransactionRepository transactionRepository;
+
+    public TransactionService(TransactionRepository transactionRepository) {
+        this.transactionRepository = transactionRepository;
+    }
 
     @Override
     public Transaction findById(Long id) {

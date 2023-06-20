@@ -18,14 +18,17 @@ import java.util.List;
 @Slf4j
 public class CategoryService implements ICategoryService {
 
-    @Autowired
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
 
-    @Autowired
-    private BudgetRepository budgetRepository;
+    private final BudgetRepository budgetRepository;
 
-    @Autowired
-    private TransactionRepository transactionRepository;
+    private final TransactionRepository transactionRepository;
+
+    public CategoryService(CategoryRepository categoryRepository, BudgetRepository budgetRepository, TransactionRepository transactionRepository) {
+        this.categoryRepository = categoryRepository;
+        this.budgetRepository = budgetRepository;
+        this.transactionRepository = transactionRepository;
+    }
 
     @Override
     public Category findById(Long id) {

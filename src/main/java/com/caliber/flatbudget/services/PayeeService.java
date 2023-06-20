@@ -15,11 +15,14 @@ import java.time.LocalDateTime;
 @Slf4j
 public class PayeeService implements IPayeeService {
 
-    @Autowired
-    private PayeeRepository payeeRepository;
+    private final PayeeRepository payeeRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    public PayeeService(PayeeRepository payeeRepository, UserRepository userRepository) {
+        this.payeeRepository = payeeRepository;
+        this.userRepository = userRepository;
+    }
 
     @Override
     public Payee findById(Long id) {
