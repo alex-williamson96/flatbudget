@@ -1,0 +1,34 @@
+# Database Connection
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: password
+    driverClassName: org.postgresql.Driver
+# Hibernate properties
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL94Dialect
+    show-sql: false
+    hibernate:
+      naming.implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
+      ddl-auto: create-drop
+    properties.hibernate:
+      format_sql: true
+      id.new_generator_mappings: true
+# Security
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+security.basic.enabled: false
+#spring.security:
+#  oauth2.client.registration:
+#    google:
+#      client-id:
+#      client-secret:
+#  oauth2.client.registration.google.scope=openid,email
+#  oauth2.client.registration.google.redirect-uri=http://localhost:8080/login/oauth2/code/{registrationId}
+#  oauth2.client.provider.google.issuer-uri=https://accounts.google.com

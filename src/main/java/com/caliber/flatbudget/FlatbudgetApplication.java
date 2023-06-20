@@ -10,4 +10,6 @@ public class FlatbudgetApplication {
 		SpringApplication.run(FlatbudgetApplication.class, args);
 	}
 
+
+
 }

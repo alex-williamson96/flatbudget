@@ -99,7 +99,7 @@ class UserRepositoryTest {
         Assertions.assertEquals("before", user.getCurrencyFormat(), "Currency format does not match.");
         Assertions.assertEquals("USD", user.getCurrency(), "Currency does not match.");
         Assertions.assertEquals(String.class, user.toString().getClass());
-        Assertions.assertFalse(user.equals(new UserProfile()));
+        Assertions.assertNotEquals(user, new UserProfile());
 
     }
 

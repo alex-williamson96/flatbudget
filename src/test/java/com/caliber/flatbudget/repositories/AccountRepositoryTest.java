@@ -4,6 +4,7 @@ import com.caliber.flatbudget.models.Account;
 import com.caliber.flatbudget.models.Budget;
 import com.caliber.flatbudget.models.Transaction;
 import com.caliber.flatbudget.models.UserProfile;
+import org.apache.catalina.User;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,17 +21,22 @@ import java.util.List;
 @SpringBootTest
 class AccountRepositoryTest {
 
-    @Autowired
+
     AccountRepository accountRepository;
 
-    @Autowired
     UserRepository userRepository;
 
-    @Autowired
     BudgetRepository budgetRepository;
 
-    @Autowired
     TransactionRepository transactionRepository;
+
+    @Autowired
+    public AccountRepositoryTest(AccountRepository accountRepository, UserRepository userRepository, BudgetRepository budgetRepository, TransactionRepository transactionRepository) {
+        this.accountRepository = accountRepository;
+        this.userRepository = userRepository;
+        this.budgetRepository = budgetRepository;
+        this.transactionRepository = transactionRepository;
+    }
 
     static GenericContainer<?> postgresContainer = new PostgreSQLContainer<>(DockerImageName.parse("postgres:latest"))
             .withReuse(true);
@@ -173,7 +179,7 @@ class AccountRepositoryTest {
         Assertions.assertEquals(time, foundAccount.getCreatedDate(), "Created time is incorrect.");
         Assertions.assertEquals(time, foundAccount.getUpdatedDate(), "Updated time is incorrect");
         Assertions.assertEquals(String.class, foundAccount.toString().getClass());
-        Assertions.assertFalse(foundAccount.equals(new Account()));
+        Assertions.assertNotEquals(foundAccount, new Account());
     }
 
     @Test

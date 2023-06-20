@@ -1,23 +1,24 @@
+import { Link } from "react-router-dom";
+
 export default function TopNavBarDropDown() {
   return (
-    <div className='dropdown dropdown-hover dropdown-bottom border-solid'>
-      <label
-        tabIndex={0}
-        className='btn m-1'
-      >
-        Accounts
-      </label>
+    <label className="dropdown dropdown-hover border-solid">
+      <Link to={`accounts/all`}>
+        <label tabIndex={0} className="btn m-1 btn-sm">
+          Accounts
+        </label>
+      </Link>
       <ul
         tabIndex={0}
-        className='dropdown-content menu p-2 bg-base-100 rounded-box w-52 border-500 border-2'
+        className="dropdown-content menu p-2 bg-stone-100 rounded-box border-2 border-gray-300 w-max text-left"
       >
-        <li>
-          <a>Item 1</a>
+        <li className="w-full">
+          <Link className="block w-full" to={`accounts/1`}>Amex Gold: -$1,205.97</Link>
         </li>
-        <li>
-          <a>Item 2</a>
+        <li className="w-full">
+          <Link className="block w-full" to={`accounts/2`}>Item 2</Link>
         </li>
       </ul>
-    </div>
+    </label>
   );
 }

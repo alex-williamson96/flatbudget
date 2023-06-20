@@ -171,7 +171,7 @@ class PayeeRepositoryTest {
         Assertions.assertEquals(time, payee.getUpdatedDate(), "Updated date does not match.");
         Assertions.assertEquals(user, payee.getUserProfile(), "User does not match.");
         Assertions.assertEquals(Payee.class, payee.getClass(), "Payee class does not match.");
-        Assertions.assertFalse(payee.equals(new Payee()));
+        Assertions.assertNotEquals(payee, new Payee());
 
 
     }

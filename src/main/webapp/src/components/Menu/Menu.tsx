@@ -1,4 +1,5 @@
-import BudgetTable from '../budget-table/BudgetTable';
+import { Outlet } from 'react-router-dom';
+import BudgetTable from '../BudgetTable/BudgetTable';
 import TopNavBar from './TopNavBar/TopNavBar';
 
 export default function SideDrawer() {
@@ -11,7 +12,7 @@ export default function SideDrawer() {
       />
       <div className='drawer-content flex flex-col'>
         <TopNavBar />
-        <BudgetTable />
+        <Outlet />
       </div>
       <div className='drawer-side'>
         <label

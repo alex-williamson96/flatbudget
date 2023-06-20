@@ -186,6 +186,6 @@ class TransactionRepositoryTest {
         Assertions.assertFalse(transaction1.getIsPending());
         Assertions.assertEquals(payee, transaction1.getPayee());
         Assertions.assertEquals(String.class, transaction1.toString().getClass());
-        Assertions.assertFalse(transaction1.equals(new Transaction()));
+        Assertions.assertNotEquals(transaction1, new Transaction());
     }
 }
