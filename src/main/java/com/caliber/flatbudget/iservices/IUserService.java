@@ -6,5 +6,5 @@ public interface IUserService {
 
     UserProfile findById(Long id);
 
-    void createUser(UserProfile userProfile);
+    UserProfile createUser(UserProfile userProfile);
 }

@@ -133,12 +133,12 @@ class AccountRepositoryTest {
     }
 
     @Test
-    void findAccountsByUserProfileAndBudgetTest() {
+    void findAccountsByBudgetTest() {
 
         UserProfile userProfile = userRepository.findAll().get(0);
         Budget budget = budgetRepository.findAll().get(0);
 
-        List<Account> accountList = accountRepository.findAccountsByUserProfileAndBudget(userProfile, budget);
+        List<Account> accountList = accountRepository.findAccountsByBudget(budget);
 
         Assertions.assertEquals(accountList.get(0).getBudget().getId(), budget.getId(), "Budget IDs do not match.");
         Assertions.assertEquals(accountList.get(0).getUserProfile().getId(), userProfile.getId(), "User IDs do not match.");

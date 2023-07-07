@@ -57,14 +57,14 @@ public class Category {
     private LocalDateTime updatedDate;
 
     @ManyToOne
-    UserProfile userProfile;
+    private UserProfile userProfile;
 
     @ManyToMany
     @ToString.Exclude
-    List<Transaction> transactionList;
+    private List<Transaction> transactionList;
 
     @ManyToOne
-    Budget budget;
+    private Budget budget;
 
     @Override
     public boolean equals(Object o) {

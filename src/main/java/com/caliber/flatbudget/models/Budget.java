@@ -1,7 +1,10 @@
 package com.caliber.flatbudget.models;
 
 
-import lombok.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
@@ -17,6 +20,8 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class Budget {
 
+    // acts as the rows of the budget
+
     @Id
     @GeneratedValue
     private Long id;
@@ -24,18 +29,18 @@ public class Budget {
     @Column
     private String name;
 
+    @ManyToOne
+    private UserProfile userProfile;
+
     @OneToMany
     @ToString.Exclude
-    List<Category> categoryList;
+    private List<Category> categoryList;
 
     @Column
     private LocalDateTime createdDate;
 
     @Column
     private LocalDateTime updatedDate;
-
-    @ManyToOne
-    UserProfile userProfile;
 
     @Override
     public boolean equals(Object o) {

@@ -1,11 +1,11 @@
 import TopNavBarDropDown from "./TopNavBarDropDown";
 import LeftArrow from "../../UI/Icons/LeftArrow";
 import RightArrow from "../../UI/Icons/RightArrow";
-import { Link } from "react-router-dom";
+import { Link } from "wouter";
 
 export default function TopNavBar() {
   return (
-    <div className="w-full navbar bg-base-300 rounded-md">
+    <div className="w-full navbar bg-base-300 fixed top-0 left-0">
       <div className="flex-none lg:hidden">
         <label htmlFor="my-drawer-3" className="btn btn-square btn-ghost">
           <svg
@@ -24,8 +24,8 @@ export default function TopNavBar() {
         </label>
       </div>
       <div className="flex-1 px-2 m-1">
-        <Link to={``}>
-          <label tabIndex={0} className="btn btn-sm">
+        <Link href="/budget">
+          <label tabIndex={0} className="btn btn-sm btn-primary">
             Flat Budget
           </label>
         </Link>
@@ -40,13 +40,13 @@ export default function TopNavBar() {
       <div className="flex-none hidden lg:block">
         <ul className="menu menu-horizontal">
           <TopNavBarDropDown />
-          <Link to={`reports`}>
-            <label tabIndex={0} className="btn m-1 btn-sm">
+          <Link href="/reports">
+            <label tabIndex={0} className="btn m-1 btn-sm btn-neutral">
               Reports
             </label>
           </Link>
-          <Link to={`profile`}>
-            <label tabIndex={0} className="btn m-1 btn-sm">
+          <Link href="/profile">
+            <label tabIndex={0} className="btn m-1 btn-sm btn-neutral">
               Profile
             </label>
           </Link>

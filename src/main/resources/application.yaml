@@ -1,7 +1,7 @@
 # Database Connection
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
+    url: jdbc:postgresql://localhost:5432/flatbudget
     username: postgres
     password: password
     driverClassName: org.postgresql.Driver
@@ -11,7 +11,7 @@ spring:
     show-sql: false
     hibernate:
       naming.implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
-      ddl-auto: create-drop
+      ddl-auto: update
     properties.hibernate:
       format_sql: true
       id.new_generator_mappings: true

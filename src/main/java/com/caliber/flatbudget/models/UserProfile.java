@@ -2,6 +2,7 @@ package com.caliber.flatbudget.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.apache.catalina.User;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
@@ -14,8 +15,11 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserProfile {
+
 
     @Id
     @GeneratedValue

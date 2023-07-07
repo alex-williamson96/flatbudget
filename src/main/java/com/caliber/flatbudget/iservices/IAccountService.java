@@ -13,7 +13,7 @@ public interface IAccountService {
 
     void createAccount(Account account);
 
-    List<Account> findAccountsByUserAndBudget(UserProfile userProfile, Budget budget);
+    List<Account> findAccountsByBudget(Budget budget);
 
     void updateWorkingBalance(Long accountId, Money amount);
 }

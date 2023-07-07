@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Slf4j
 public class UserService implements IUserService {
@@ -26,12 +28,23 @@ public class UserService implements IUserService {
         return userRepository.findById(id).get();
     }
 
+    public List<UserProfile> findAll() {
+        return userRepository.findAll();
+    }
+
+    public UserProfile findByEmail(String email) {
+        return this.userRepository.findByEmail(email);
+    }
+
     @Override
-    public void createUser(UserProfile userProfile) {
+    public UserProfile createUser(UserProfile userProfile) {
+        UserProfile user = null;
         try {
-            userRepository.save(userProfile);
+            user = userRepository.save(userProfile);
         } catch (Exception e) {
             log.error(e.getMessage());
         }
+
+        return user;
     }
 }

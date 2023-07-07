@@ -42,8 +42,8 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public List<Account> findAccountsByUserAndBudget(UserProfile userProfile, Budget budget) {
-        return accountRepository.findAccountsByUserProfileAndBudget(userProfile, budget);
+    public List<Account> findAccountsByBudget(Budget budget) {
+        return accountRepository.findAccountsByBudget(budget);
     }
 
     @Override
