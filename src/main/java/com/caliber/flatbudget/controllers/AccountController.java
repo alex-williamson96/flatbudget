@@ -34,7 +34,6 @@ public class AccountController {
 
     @GetMapping("all")
     public List<Account> getAllAccounts() {
-        System.out.println("hello");
         UserProfile user = authService.getCurrentUserProfile();
 
         if (user == null) {

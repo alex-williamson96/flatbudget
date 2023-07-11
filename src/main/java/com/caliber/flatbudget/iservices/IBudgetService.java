@@ -3,6 +3,8 @@ package com.caliber.flatbudget.iservices;
 import com.caliber.flatbudget.models.Budget;
 import com.caliber.flatbudget.models.UserProfile;
 
+import java.util.List;
+
 public interface IBudgetService {
 
     Budget findById(Long id);
@@ -11,4 +13,6 @@ public interface IBudgetService {
     void createBudget(Budget budget, UserProfile userProfile);
 
     void updateBudgetName(Budget budget);
+
+    List<Budget> findAllByNameAndUserProfile(UserProfile userProfile, String name);
 }

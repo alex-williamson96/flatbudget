@@ -1,6 +1,7 @@
 import BudgetTable from "../components/BudgetTable/BudgetTable";
 
-export default function Budget() {
-    console.log('hello')
+const Budget = () => {
     return <BudgetTable />
 }
+
+export default Budget;

@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -52,6 +55,22 @@ public class BudgetService implements IBudgetService {
 
         _budget.setName(budget.getName());
         _budget.setUpdatedDate(LocalDateTime.now());
+
+        budgetRepository.save(_budget);
+    }
+
+    @Override
+    public List<Budget> findAllByNameAndUserProfile(UserProfile userProfile, String name) {
+        List<Budget> budgetList = budgetRepository.findAllByNameAndUserProfile(name, userProfile);
+        if (budgetList.isEmpty()) {
+            return null;
+        }
+
+        return budgetList;
+    }
+
+    public Budget save(Budget budget) {
+        return budgetRepository.save(budget);
     }
 
 

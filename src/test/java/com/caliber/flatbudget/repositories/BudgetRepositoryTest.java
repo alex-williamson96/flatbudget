@@ -105,7 +105,6 @@ class BudgetRepositoryTest extends AbstractIntegration {
         List<Category> categoryList = categoryRepository.findAll();
 
         for (Category category : categoryList) {
-            category.setBudget(null);
             category.setUserProfile(null);
             category.setTransactionList(null);
             categoryRepository.saveAndFlush(category);
@@ -150,32 +149,6 @@ class BudgetRepositoryTest extends AbstractIntegration {
         Assertions.assertEquals(budgetList.get(0).getId(), budget.getId(), "Budgets are different");
         Assertions.assertEquals(budgetList.get(0).getUserProfile().getId(), budget.getUserProfile().getId(), "Users of budget are different");
         Assertions.assertNotEquals(budget.getName(), budgetList.get(1).getName());
-    }
-
-    @Test
-    void findBudgetByNameAndUserProfileTest() {
-        Budget budget = new Budget();
-
-        LocalDateTime time = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
-
-        budget.setName("test");
-        budget.setUpdatedDate(time);
-        budget.setCreatedDate(time);
-
-        UserProfile user = userRepository.findAll().get(0);
-
-        budget.setUserProfile(user);
-
-        budgetRepository.saveAndFlush(budget);
-        userRepository.saveAndFlush(user);
-
-
-        Budget foundBudget = budgetRepository.findBudgetByNameAndUserProfile("test", user);
-
-        Assertions.assertEquals(foundBudget.getUserProfile().getId(), user.getId(), "User IDs do not match.");
-        Assertions.assertEquals(foundBudget.getName(), "test", "Budget names do not match.");
-        Assertions.assertEquals(foundBudget.getCreatedDate(), time, "Created times not the same.");
-        Assertions.assertEquals(foundBudget.getUpdatedDate(), time, "Updated times not the same");
     }
 
     @Test

@@ -10,8 +10,6 @@ public interface ICategoryService {
 
     void createCategory(Category category);
 
-    List<Category> findBudgetCategoryList(Long budgetId);
-
     void deleteCategory(Category oldCategory, Category newCategory);
 
     void updateCategoryName(Category category);

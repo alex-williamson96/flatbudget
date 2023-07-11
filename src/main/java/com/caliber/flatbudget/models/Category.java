@@ -64,7 +64,7 @@ public class Category {
     private List<Transaction> transactionList;
 
     @ManyToOne
-    private Budget budget;
+    private BudgetTable budgetTable;
 
     @Override
     public boolean equals(Object o) {

@@ -50,10 +50,6 @@ public class UserProfile {
 
     @OneToMany
     @ToString.Exclude
-    List<Account> accountList;
-
-    @OneToMany
-    @ToString.Exclude
     List<Budget> budgetList;
 
     @JsonIgnore

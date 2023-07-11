@@ -47,4 +47,8 @@ public class UserService implements IUserService {
 
         return user;
     }
+
+    public UserProfile save(UserProfile userProfile) {
+        return userRepository.save(userProfile);
+    }
 }

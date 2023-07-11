@@ -96,7 +96,6 @@ class PayeeRepositoryTest {
         List<Category> categoryList = categoryRepository.findAll();
 
         for (Category category : categoryList) {
-            category.setBudget(null);
             category.setUserProfile(null);
             category.setTransactionList(null);
             categoryRepository.saveAndFlush(category);

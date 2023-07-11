@@ -1,14 +1,12 @@
 package com.caliber.flatbudget.models;
 
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -16,11 +14,11 @@ import java.util.Objects;
 @Table
 @Getter
 @Setter
+@Builder
 @ToString
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 public class Budget {
-
-    // acts as the rows of the budget
 
     @Id
     @GeneratedValue
@@ -34,7 +32,7 @@ public class Budget {
 
     @OneToMany
     @ToString.Exclude
-    private List<Category> categoryList;
+    private List<BudgetTable> budgetTableList = new ArrayList<>();
 
     @Column
     private LocalDateTime createdDate;

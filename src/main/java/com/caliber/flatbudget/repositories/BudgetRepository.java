@@ -12,7 +12,8 @@ public interface BudgetRepository extends JpaRepository<Budget, Long> {
 
     List<Budget> findAllByUserProfile(UserProfile userProfile);
 
-    Budget findBudgetByNameAndUserProfile(String name, UserProfile user);
+    List<Budget> findAllByNameAndUserProfile(String name, UserProfile user);
 
-    List<Budget>
+    Budget findByNameAndUserProfile(String name, UserProfile userProfile);
+
 }

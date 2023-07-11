@@ -5,6 +5,7 @@ import com.caliber.flatbudget.models.UserProfile;
 import com.caliber.flatbudget.services.AuthService;
 import com.caliber.flatbudget.services.BudgetService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,14 +26,12 @@ public class BudgetController {
         this.authService = authService;
     }
 
-    public Budget getActiveBudget() {
+    public ResponseEntity<?> getActiveBudget() {
         UserProfile user = authService.getCurrentUserProfile();
 
         Long budgetId =  user.getActiveBudget();
 
-        List<Budget> budgetList = budgetService.
-
-
+        return ResponseEntity.ok(budgetService.findById(budgetId));
 
     }
 }

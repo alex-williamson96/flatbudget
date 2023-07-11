@@ -50,16 +50,6 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
-    public List<Category> findBudgetCategoryList(Long budgetId) {
-        if (budgetRepository.findById(budgetId).isEmpty()) {
-            log.error("Could not find entity " + budgetId + " in budget Repository");
-        }
-        Budget budget = budgetRepository.findById(budgetId).get();
-
-        return categoryRepository.findAllByBudget(budget);
-    }
-
-    @Override
     public void deleteCategory(Category oldCategory, Category newCategory) {
         List<Transaction> transactionList = oldCategory.getTransactionList();
 
