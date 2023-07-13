@@ -22,7 +22,7 @@ public class Budget {
 
     @Id
     @GeneratedValue
-    private Long id;
+    private Long budgetId;
 
     @Column
     private String name;
@@ -45,6 +45,6 @@ public class Budget {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         Budget budget = (Budget) o;
-        return id != null && Objects.equals(id, budget.id);
+        return budgetId != null && Objects.equals(budgetId, budget.budgetId);
     }
 }

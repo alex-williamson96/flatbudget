@@ -5,12 +5,9 @@ import com.caliber.flatbudget.models.Budget;
 import com.caliber.flatbudget.models.UserProfile;
 import com.caliber.flatbudget.repositories.BudgetRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -47,11 +44,11 @@ public class BudgetService implements IBudgetService {
 
     @Override
     public void updateBudgetName(Budget budget) {
-        if (budgetRepository.findById(budget.getId()).isEmpty()) {
-            log.error("Could not find entity " + budget.getId() + " in budgetRepository");
+        if (budgetRepository.findById(budget.getBudgetId()).isEmpty()) {
+            log.error("Could not find entity " + budget.getBudgetId() + " in budgetRepository");
         }
 
-        Budget _budget = budgetRepository.findById(budget.getId()).get();
+        Budget _budget = budgetRepository.findById(budget.getBudgetId()).get();
 
         _budget.setName(budget.getName());
         _budget.setUpdatedDate(LocalDateTime.now());

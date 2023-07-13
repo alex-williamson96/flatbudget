@@ -26,6 +26,7 @@ public class BudgetTable {
     private List<Category> categoryList = new ArrayList<>();
 
     @ManyToOne
+    @JoinColumn(name = "userId")
     private UserProfile user;
 
     @ManyToOne

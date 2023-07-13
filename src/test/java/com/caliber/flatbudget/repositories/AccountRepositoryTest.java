@@ -4,7 +4,6 @@ import com.caliber.flatbudget.models.Account;
 import com.caliber.flatbudget.models.Budget;
 import com.caliber.flatbudget.models.Transaction;
 import com.caliber.flatbudget.models.UserProfile;
-import org.apache.catalina.User;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -140,8 +139,8 @@ class AccountRepositoryTest {
 
         List<Account> accountList = accountRepository.findAccountsByBudget(budget);
 
-        Assertions.assertEquals(accountList.get(0).getBudget().getId(), budget.getId(), "Budget IDs do not match.");
-        Assertions.assertEquals(accountList.get(0).getUserProfile().getId(), userProfile.getId(), "User IDs do not match.");
+        Assertions.assertEquals(accountList.get(0).getBudget().getBudgetId(), budget.getBudgetId(), "Budget IDs do not match.");
+        Assertions.assertEquals(accountList.get(0).getUserProfile().getUserId(), userProfile.getUserId(), "User IDs do not match.");
         Assertions.assertEquals(accountList.size(), 2, "Number of accounts is incorrect.");
         Assertions.assertEquals(accountList.get(0).getName(), "american express", "Account name does not match.");
     }

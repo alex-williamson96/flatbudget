@@ -131,12 +131,12 @@ class TransactionRepositoryTest {
         List<Transaction> transactionList = transactionRepository.findAllByUserProfileAndBudget(user, budget);
 
         System.out.println("Number of transactions: " + transactionList.size());
-        System.out.println("User Id: " + user.getId() + " vs " + transactionList.get(0).getUserProfile().getId());
-        System.out.println("Budget Id: " + budget.getId() + " vs " + transactionList.get(0).getBudget().getId());
+        System.out.println("User Id: " + user.getUserId() + " vs " + transactionList.get(0).getUserProfile().getUserId());
+        System.out.println("Budget Id: " + budget.getBudgetId() + " vs " + transactionList.get(0).getBudget().getBudgetId());
 
         Assertions.assertEquals(50, transactionList.size(), "Incorrect number of transactions.");
-        Assertions.assertEquals(user.getId(), transactionList.get(0).getUserProfile().getId(), "User Ids do not match.");
-        Assertions.assertEquals(budget.getId(), transactionList.get(0).getBudget().getId(), "Budget Ids do not match.");
+        Assertions.assertEquals(user.getUserId(), transactionList.get(0).getUserProfile().getUserId(), "User Ids do not match.");
+        Assertions.assertEquals(budget.getBudgetId(), transactionList.get(0).getBudget().getBudgetId(), "Budget Ids do not match.");
     }
 
     @Test

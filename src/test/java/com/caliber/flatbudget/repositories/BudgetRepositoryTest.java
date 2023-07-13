@@ -131,7 +131,7 @@ class BudgetRepositoryTest extends AbstractIntegration {
         List<Budget> budgetList = budgetRepository.findAllByUserProfile(user);
 
         Assertions.assertEquals(3, budgetList.size(), "Budget list sizes are different.");
-        Assertions.assertEquals(user.getId().toString(), budgetList.get(0).getUserProfile().getId().toString(), "Users are not the same.");
+        Assertions.assertEquals(user.getUserId().toString(), budgetList.get(0).getUserProfile().getUserId().toString(), "Users are not the same.");
         Assertions.assertNotSame(budgetList.get(1), budgetList.get(0), "Two of the budgets are the same.");
         Assertions.assertNotSame(budgetList.get(2), budgetList.get(1), "Two of the budgets are the same.");
     }
@@ -140,14 +140,14 @@ class BudgetRepositoryTest extends AbstractIntegration {
     void accessBudgetTest() {
         List<Budget> budgetList = budgetRepository.findAll();
 
-        Long id = budgetList.get(0).getId();
+        Long id = budgetList.get(0).getBudgetId();
 
         Budget budget = budgetRepository.findById(id).orElse(null);
 
         Assertions.assertNotNull(budget, "Budget is null.");
         Assertions.assertEquals(budgetList.get(0).getName(), budget.getName(), "Budgets are different");
-        Assertions.assertEquals(budgetList.get(0).getId(), budget.getId(), "Budgets are different");
-        Assertions.assertEquals(budgetList.get(0).getUserProfile().getId(), budget.getUserProfile().getId(), "Users of budget are different");
+        Assertions.assertEquals(budgetList.get(0).getBudgetId(), budget.getBudgetId(), "Budgets are different");
+        Assertions.assertEquals(budgetList.get(0).getUserProfile().getUserId(), budget.getUserProfile().getUserId(), "Users of budget are different");
         Assertions.assertNotEquals(budget.getName(), budgetList.get(1).getName());
     }
 

@@ -77,7 +77,7 @@ class UserRepositoryTest {
         newUserProfile.setEmail("first.last@test.com");
         newUserProfile.setCreatedDate(time);
         newUserProfile.setUpdatedDate(time);
-        newUserProfile.setActiveBudget(budget.getId());
+        newUserProfile.setActiveBudget(budget.getBudgetId());
         newUserProfile.setDateFormat("MM.DD.YYYY");
         newUserProfile.setCurrencyFormat("before");
         newUserProfile.setCurrency("USD");
@@ -94,7 +94,7 @@ class UserRepositoryTest {
         Assertions.assertEquals("first.last@test.com", user.getEmail(), "Email does not match.");
         Assertions.assertEquals(time, user.getCreatedDate(), "Created date does not match.");
         Assertions.assertEquals(time, user.getUpdatedDate(), "Updated date does not match.");
-        Assertions.assertEquals(budget.getId(), user.getActiveBudget(), "Active budget does not match.");
+        Assertions.assertEquals(budget.getBudgetId(), user.getActiveBudget(), "Active budget does not match.");
         Assertions.assertEquals("MM.DD.YYYY", user.getDateFormat(), "Date format does not match.");
         Assertions.assertEquals("before", user.getCurrencyFormat(), "Currency format does not match.");
         Assertions.assertEquals("USD", user.getCurrency(), "Currency does not match.");

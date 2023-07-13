@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 
 @RestController
 @RequestMapping("/api/v1/user")
@@ -73,12 +74,19 @@ public class UserController {
                     .user(newUser)
                     .build();
 
-            newUser.setActiveBudget(budgetService.save(budget).getId());
+            Budget newBudget = budgetService.save(budget);
+
+            newUser.setActiveBudget(newBudget.getBudgetId());
+            newUser.setBudgetList(Collections.singletonList(newBudget));
 
             budgetTableService.save(budgetTable);
 
             return this.userService.save(newUser);
         }
+
+        System.out.println(user.getBudgetList());
+
+        System.out.println(budgetService.findAllByNameAndUserProfile(user, "My first budget"));
 
         return user;
     }

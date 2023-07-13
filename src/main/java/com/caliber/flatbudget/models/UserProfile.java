@@ -2,11 +2,11 @@ package com.caliber.flatbudget.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-import org.apache.catalina.User;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -23,7 +23,7 @@ public class UserProfile {
 
     @Id
     @GeneratedValue
-    private Long id;
+    private Long userId;
 
     @Column
     private String firstName;
@@ -48,9 +48,9 @@ public class UserProfile {
 
     @Column String dateFormat = "MM.DD.YYYY";
 
-    @OneToMany
+    @OneToMany(mappedBy = "budgetId", fetch = FetchType.EAGER)
     @ToString.Exclude
-    List<Budget> budgetList;
+    List<Budget> budgetList = new ArrayList<>();
 
     @JsonIgnore
     @OneToMany
@@ -73,6 +73,6 @@ public class UserProfile {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         UserProfile userProfile = (UserProfile) o;
-        return id != null && Objects.equals(id, userProfile.id);
+        return userId != null && Objects.equals(userId, userProfile.userId);
     }
 }
