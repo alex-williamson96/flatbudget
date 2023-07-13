@@ -25,4 +25,5 @@ required</p>
 instances of the database to be created. Testcontainers requires Docker to
 run.</p>
 
-<p>Run: <code>sudo systemctl start docker</code> and <code>sudo systemctl start postgresql</code> to start correctly</p>
+<p>Run: <code>sudo systemctl start docker</code> and <code>sudo systemctl start postgresql</code> to start correctly 
+(or whatever code starts the local version of Docker and PostgreSQL</p>

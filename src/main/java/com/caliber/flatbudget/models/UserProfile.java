@@ -48,7 +48,7 @@ public class UserProfile {
 
     @Column String dateFormat = "MM.DD.YYYY";
 
-    @OneToMany(mappedBy = "budgetId", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "userProfile")
     @ToString.Exclude
     List<Budget> budgetList = new ArrayList<>();
 

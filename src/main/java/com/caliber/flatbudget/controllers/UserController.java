@@ -84,10 +84,6 @@ public class UserController {
             return this.userService.save(newUser);
         }
 
-        System.out.println(user.getBudgetList());
-
-        System.out.println(budgetService.findAllByNameAndUserProfile(user, "My first budget"));
-
         return user;
     }
 }
