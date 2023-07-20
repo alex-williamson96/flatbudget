@@ -22,27 +22,28 @@ export default function Accounts({
 
   const [accountList, setAccountList] = useState<any[]>([]);
 
-  useEffect(() => {
-    const cancelToken = axios.CancelToken.source();
+  // useEffect(() => {
+  //   const cancelToken = axios.CancelToken.source();
 
-    axios
-      .get("/api/v1/account/all", { cancelToken: cancelToken.token })
-      .then((res) => {
-        console.log(res.data);
-        setAccountList(res.data);
-      })
-      .catch((err) => {
-        if (axios.isCancel(err)) {
-          console.log("canceled");
-        } else {
-          console.log(err);
-        }
-      });
+  //   axios
+  //     .get("/api/v1/account/all", { cancelToken: cancelToken.token })
+  //     .then((res) => {
+  //       console.log(res.data);
+  //       setAccountList(res.data);
+  //     })
+  //     .catch((err) => {
+  //       if (axios.isCancel(err)) {
+  //         console.log("canceled");
+  //       } else {
+  //         console.log(err);
+  //       }
+  //     });
 
-    return () => {
-      cancelToken.cancel();
-    };
-  }, []);
+  //   return () => {
+  //     cancelToken.cancel();
+  //   };
+  // }, []);
+
 
   const createAccount = () => {
     const cancelToken = axios.CancelToken.source();

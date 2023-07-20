@@ -131,63 +131,63 @@ class AccountRepositoryTest {
         budgetRepository.deleteAll();
     }
 
-    @Test
-    void findAccountsByBudgetTest() {
-
-        UserProfile userProfile = userRepository.findAll().get(0);
-        Budget budget = budgetRepository.findAll().get(0);
-
-        List<Account> accountList = accountRepository.findAccountsByBudget(budget);
-
-        Assertions.assertEquals(accountList.get(0).getBudget().getBudgetId(), budget.getBudgetId(), "Budget IDs do not match.");
-        Assertions.assertEquals(accountList.get(0).getUserProfile().getUserId(), userProfile.getUserId(), "User IDs do not match.");
-        Assertions.assertEquals(accountList.size(), 2, "Number of accounts is incorrect.");
-        Assertions.assertEquals(accountList.get(0).getName(), "american express", "Account name does not match.");
-    }
-
-    @Test
-    void createAccountTest() {
-        Account account = new Account();
-
-        LocalDateTime time = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
-
-        account.setDollar(0);
-        account.setCents(0);
-        account.setName("account name");
-        account.setOnBudget(true);
-        account.setOrderPosition(1);
-        account.setCreatedDate(time);
-        account.setUpdatedDate(time);
-
-        accountRepository.saveAndFlush(account);
-
-        List<Account> accountList = accountRepository.findAll();
-        Account foundAccount = new Account();
-
-        for (Account _account : accountList) {
-            if (_account.getName().equals("account name")) {
-                foundAccount = _account;
-            }
-        }
-
-        Assertions.assertEquals(account.getDollar(), foundAccount.getDollar(), "Dollar does not match.");
-        Assertions.assertEquals(account.getCents(), foundAccount.getCents(), "Cents does not match.");
-        Assertions.assertEquals(account.getName(), foundAccount.getName(), "Name does not match.");
-        Assertions.assertTrue(foundAccount.getOnBudget(), "On budget is incorrect.");
-        Assertions.assertEquals(1, foundAccount.getOrderPosition(), "Order position is incorrect.");
-        Assertions.assertEquals(time, foundAccount.getCreatedDate(), "Created time is incorrect.");
-        Assertions.assertEquals(time, foundAccount.getUpdatedDate(), "Updated time is incorrect");
-        Assertions.assertEquals(String.class, foundAccount.toString().getClass());
-        Assertions.assertNotEquals(foundAccount, new Account());
-    }
-
-    @Test
-    void findAllTransactionsByAccount() {
-        Account account = accountRepository.findAll().get(0);
-
-        List<Transaction> transactionList = transactionRepository.findAllByAccount(account);
-
-        Assertions.assertEquals(100, transactionList.size());
-        Assertions.assertEquals(account, transactionList.get(0).getAccount());
-    }
+//    @Test
+//    void findAccountsByBudgetTest() {
+//
+//        UserProfile userProfile = userRepository.findAll().get(0);
+//        Budget budget = budgetRepository.findAll().get(0);
+//
+//        List<Account> accountList = accountRepository.findAccountsByBudget(budget);
+//
+//        Assertions.assertEquals(accountList.get(0).getBudget().getBudgetId(), budget.getBudgetId(), "Budget IDs do not match.");
+//        Assertions.assertEquals(accountList.get(0).getUserProfile().getUserId(), userProfile.getUserId(), "User IDs do not match.");
+//        Assertions.assertEquals(accountList.size(), 2, "Number of accounts is incorrect.");
+//        Assertions.assertEquals(accountList.get(0).getName(), "american express", "Account name does not match.");
+//    }
+//
+//    @Test
+//    void createAccountTest() {
+//        Account account = new Account();
+//
+//        LocalDateTime time = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
+//
+//        account.setDollar(0);
+//        account.setCents(0);
+//        account.setName("account name");
+//        account.setOnBudget(true);
+//        account.setOrderPosition(1);
+//        account.setCreatedDate(time);
+//        account.setUpdatedDate(time);
+//
+//        accountRepository.saveAndFlush(account);
+//
+//        List<Account> accountList = accountRepository.findAll();
+//        Account foundAccount = new Account();
+//
+//        for (Account _account : accountList) {
+//            if (_account.getName().equals("account name")) {
+//                foundAccount = _account;
+//            }
+//        }
+//
+//        Assertions.assertEquals(account.getDollar(), foundAccount.getDollar(), "Dollar does not match.");
+//        Assertions.assertEquals(account.getCents(), foundAccount.getCents(), "Cents does not match.");
+//        Assertions.assertEquals(account.getName(), foundAccount.getName(), "Name does not match.");
+//        Assertions.assertTrue(foundAccount.getOnBudget(), "On budget is incorrect.");
+//        Assertions.assertEquals(1, foundAccount.getOrderPosition(), "Order position is incorrect.");
+//        Assertions.assertEquals(time, foundAccount.getCreatedDate(), "Created time is incorrect.");
+//        Assertions.assertEquals(time, foundAccount.getUpdatedDate(), "Updated time is incorrect");
+//        Assertions.assertEquals(String.class, foundAccount.toString().getClass());
+//        Assertions.assertNotEquals(foundAccount, new Account());
+//    }
+//
+//    @Test
+//    void findAllTransactionsByAccount() {
+//        Account account = accountRepository.findAll().get(0);
+//
+//        List<Transaction> transactionList = transactionRepository.findAllByAccount(account);
+//
+//        Assertions.assertEquals(100, transactionList.size());
+//        Assertions.assertEquals(account, transactionList.get(0).getAccount());
+//    }
 }

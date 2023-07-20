@@ -5,7 +5,7 @@ import { Link } from "wouter";
 
 export default function TopNavBar() {
   return (
-    <div className="w-full navbar bg-base-300 fixed top-0 left-0">
+    <div className="w-full navbar z-50 bg-base-300 opacity-100 fixed top-0 left-0">
       <div className="flex-none lg:hidden">
         <label htmlFor="my-drawer-3" className="btn btn-square btn-ghost">
           <svg

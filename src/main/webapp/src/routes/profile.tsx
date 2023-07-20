@@ -1,5 +1,7 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { AxiosError, AxiosResponse } from "axios";
+import { UseQueryResult, useQuery, useQueryClient } from "react-query";
+import UserService from "../services/user-service";
+
 
 export interface UserProfile {
   accountList?: any;
@@ -17,17 +19,30 @@ export interface UserProfile {
   updatedDate: string;
 }
 
+const useUser = (): UseQueryResult<AxiosResponse<UserProfile>> => {
+  return useQuery(
+    "user",
+    UserService.getCurrentUser,
+    { staleTime: 300000 }
+  );
+};
+
 const Profile = () => {
-  const [profile, setProfile] = useState<UserProfile>({} as UserProfile);
+  console.log(UserService.getCurrentUser)
 
-  useEffect(() => {
-    axios.get("/api/v1/user").then((res) => {
-      console.log(res.data);
-      setProfile(res.data);
-    });
-  }, []);
+  const { status, data } = useUser();
 
-  return <div>Profile works! {JSON.stringify(profile)}</div>;
+  return (
+    <div>
+      {status === "loading" ? (
+        "Loading..."
+      ) : (
+        <span>
+          Profile works! {status} {JSON.stringify(data)}
+        </span>
+      )}
+    </div>
+  );
 };
 
 export default Profile;
