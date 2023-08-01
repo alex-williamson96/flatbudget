@@ -1,252 +1,32 @@
 package com.caliber.flatbudget.services;
 
-import com.caliber.flatbudget.iservices.ICategoryService;
-import com.caliber.flatbudget.models.Budget;
 import com.caliber.flatbudget.models.Category;
-import com.caliber.flatbudget.models.Transaction;
-import com.caliber.flatbudget.repositories.BudgetRepository;
-import com.caliber.flatbudget.repositories.CategoryRepository;
-import com.caliber.flatbudget.repositories.TransactionRepository;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.List;
+public interface CategoryService {
 
-@Service
-@Slf4j
-public class CategoryService implements ICategoryService {
+    Category findById(Long id);
 
-    private final CategoryRepository categoryRepository;
+    void createCategory(Category category);
 
-    private final BudgetRepository budgetRepository;
+    void deleteCategory(Category oldCategory, Category newCategory);
 
-    private final TransactionRepository transactionRepository;
+    void updateCategoryName(Category category);
 
-    public CategoryService(CategoryRepository categoryRepository, BudgetRepository budgetRepository, TransactionRepository transactionRepository) {
-        this.categoryRepository = categoryRepository;
-        this.budgetRepository = budgetRepository;
-        this.transactionRepository = transactionRepository;
-    }
+    void updateCategorySubOrder(Category category);
 
-    @Override
-    public Category findById(Long id) {
-        if (categoryRepository.findById(id).isEmpty()) {
-            log.error("Could not find entity " + id + " in categoryRepository");
-        }
-        return categoryRepository.findById(id).get();
-    }
+    void updateCategoryOrder(Category category);
 
-    @Override
-    public void createCategory(Category category) {
-        category.setUpdatedDate(LocalDateTime.now());
-        category.setCreatedDate(LocalDateTime.now());
-        try {
-            categoryRepository.save(category);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-        }
-    }
+    void updateCategoryDollarActivity(Category category);
 
-    @Override
-    public void deleteCategory(Category oldCategory, Category newCategory) {
-        List<Transaction> transactionList = oldCategory.getTransactionList();
+    void updateCategoryCentsActivity(Category category);
 
-        for (Transaction transaction : transactionList) {
-            List<Category> categoryList = transaction.getCategoryList();
-            categoryList.remove(oldCategory);
-            categoryList.add(newCategory);
+    void updateCategoryDollarAssigned(Category category);
 
-            transaction.setUpdatedDate(LocalDateTime.now());
-            transaction.setCategoryList(categoryList);
-        }
+    void updateCategoryCentsAssigned(Category category);
 
-        try {
-            transactionRepository.saveAllAndFlush(transactionList);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-        }
-    }
+    void updateCategoryDollarAvailable(Category category);
 
-    @Override
-    public void updateCategoryName(Category category) {
-        if (categoryRepository.findById(category.getId()).isEmpty()) {
-            log.error("Could not find entity " + category.getId() + " in categoryRepository");
-        }
+    void updateCategoryCentsAvailable(Category category);
 
-        Category _category = categoryRepository.findById(category.getId()).get();
-
-        _category.setUpdatedDate(LocalDateTime.now());
-        _category.setName(category.getName());
-
-        try {
-            categoryRepository.save(_category);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-        }
-    }
-
-    @Override
-    public void updateCategoryOrder(Category category) {
-        if (categoryRepository.findById(category.getId()).isEmpty()) {
-            log.error("Could not find entity " + category.getId() + " in categoryRepository");
-        }
-
-        Category _category = categoryRepository.findById(category.getId()).get();
-
-        _category.setUpdatedDate(LocalDateTime.now());
-        _category.setMainOrder(category.getMainOrder());
-
-        try {
-            categoryRepository.save(_category);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-        }
-    }
-
-    @Override
-    public void updateCategorySubOrder(Category category) {
-        if (categoryRepository.findById(category.getId()).isEmpty()) {
-            log.error("Could not find entity " + category.getId() + " in categoryRepository");
-        }
-
-        Category _category = categoryRepository.findById(category.getId()).get();
-
-        _category.setUpdatedDate(LocalDateTime.now());
-        _category.setSubOrder(category.getSubOrder());
-
-        try {
-            categoryRepository.save(_category);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-        }
-    }
-
-    @Override
-    public void updateCategoryDollarActivity(Category category) {
-        if (categoryRepository.findById(category.getId()).isEmpty()) {
-            log.error("Could not find entity " + category.getId() + " in categoryRepository");
-        }
-
-        Category _category = categoryRepository.findById(category.getId()).get();
-
-        _category.setUpdatedDate(LocalDateTime.now());
-        _category.setDollarActivity(category.getDollarActivity());
-
-        try {
-            categoryRepository.save(_category);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-        }
-    }
-
-    @Override
-    public void updateCategoryCentsActivity(Category category) {
-        if (categoryRepository.findById(category.getId()).isEmpty()) {
-            log.error("Could not find entity " + category.getId() + " in categoryRepository");
-        }
-
-        Category _category = categoryRepository.findById(category.getId()).get();
-
-        _category.setUpdatedDate(LocalDateTime.now());
-        _category.setCentsActivity(category.getCentsActivity());
-
-        try {
-            categoryRepository.save(_category);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-        }
-    }
-
-    @Override
-    public void updateCategoryDollarAssigned(Category category) {
-        if (categoryRepository.findById(category.getId()).isEmpty()) {
-            log.error("Could not find entity " + category.getId() + " in categoryRepository");
-        }
-
-        Category _category = categoryRepository.findById(category.getId()).get();
-
-        _category.setUpdatedDate(LocalDateTime.now());
-        _category.setDollarAssigned(category.getDollarAssigned());
-
-        try {
-            categoryRepository.save(_category);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-        }
-    }
-
-    @Override
-    public void updateCategoryCentsAssigned(Category category) {
-        if (categoryRepository.findById(category.getId()).isEmpty()) {
-            log.error("Could not find entity " + category.getId() + " in categoryRepository");
-        }
-
-        Category _category = categoryRepository.findById(category.getId()).get();
-
-        _category.setUpdatedDate(LocalDateTime.now());
-        _category.setCentsAssigned(category.getCentsAssigned());
-
-        try {
-            categoryRepository.save(_category);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-        }
-    }
-
-    @Override
-    public void updateCategoryDollarAvailable(Category category) {
-        if (categoryRepository.findById(category.getId()).isEmpty()) {
-            log.error("Could not find entity " + category.getId() + " in categoryRepository");
-        }
-
-        Category _category = categoryRepository.findById(category.getId()).get();
-
-        _category.setUpdatedDate(LocalDateTime.now());
-        _category.setDollarAvailable(category.getDollarAvailable());
-
-        try {
-            categoryRepository.save(_category);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-        }
-    }
-
-    @Override
-    public void updateCategoryCentsAvailable(Category category) {
-        if (categoryRepository.findById(category.getId()).isEmpty()) {
-            log.error("Could not find entity " + category.getId() + " in categoryRepository");
-        }
-
-        Category _category = categoryRepository.findById(category.getId()).get();
-
-        _category.setUpdatedDate(LocalDateTime.now());
-        _category.setCentsAvailable(category.getCentsAvailable());
-
-        try {
-            categoryRepository.save(_category);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-        }
-    }
-
-    @Override
-    public void updateCategoryIsCreditCard(Category category) {
-        if (categoryRepository.findById(category.getId()).isEmpty()) {
-            log.error("Could not find entity " + category.getId() + " in categoryRepository");
-        }
-
-        Category _category = categoryRepository.findById(category.getId()).get();
-
-        _category.setUpdatedDate(LocalDateTime.now());
-        _category.setIsCreditCard(category.getIsCreditCard());
-
-        try {
-            categoryRepository.save(_category);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-        }
-    }
-
+    void updateCategoryIsCreditCard(Category category);
 }

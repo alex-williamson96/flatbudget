@@ -3,11 +3,9 @@ package com.caliber.flatbudget.repositories;
 import com.caliber.flatbudget.models.Budget;
 import com.caliber.flatbudget.models.Payee;
 import com.caliber.flatbudget.models.Transaction;
-import com.caliber.flatbudget.models.UserProfile;
+import com.caliber.flatbudget.models.user.UserProfile;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
@@ -17,7 +15,6 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.utility.DockerImageName;
 
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @SpringBootTest

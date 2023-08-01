@@ -1,5 +1,6 @@
 package com.caliber.flatbudget.models;
 
+import com.caliber.flatbudget.models.internal.Money;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

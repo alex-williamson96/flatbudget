@@ -1,5 +1,6 @@
 package com.caliber.flatbudget.models;
 
+import com.caliber.flatbudget.models.user.UserProfile;
 import lombok.*;
 
 import javax.persistence.*;

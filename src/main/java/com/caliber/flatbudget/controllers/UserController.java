@@ -2,12 +2,13 @@ package com.caliber.flatbudget.controllers;
 
 import com.caliber.flatbudget.models.Budget;
 import com.caliber.flatbudget.models.BudgetTable;
-import com.caliber.flatbudget.models.UserProfile;
-import com.caliber.flatbudget.services.AuthService;
-import com.caliber.flatbudget.services.BudgetService;
-import com.caliber.flatbudget.services.BudgetTableService;
-import com.caliber.flatbudget.services.UserService;
+import com.caliber.flatbudget.models.user.UserProfile;
+import com.caliber.flatbudget.services.AuthServiceImpl;
+import com.caliber.flatbudget.services.BudgetServiceImpl;
+import com.caliber.flatbudget.services.BudgetTableServiceImpl;
+import com.caliber.flatbudget.services.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,27 +22,31 @@ import java.util.Collections;
 @Slf4j
 public class UserController {
 
-    private final UserService userService;
+    private final UserServiceImpl userService;
 
-    private final AuthService authService;
+    private final AuthServiceImpl authService;
 
-    private final BudgetService budgetService;
+    private final BudgetServiceImpl budgetService;
 
-    private final BudgetTableService budgetTableService;
+    private final BudgetTableServiceImpl budgetTableService;
 
-    public UserController(UserService userService, AuthService authService, BudgetService budgetService, BudgetTableService budgetTableService) {
-        this.userService = userService;
-        this.authService = authService;
-        this.budgetService = budgetService;
-        this.budgetTableService = budgetTableService;
+    public UserController(UserServiceImpl userServiceImpl, AuthServiceImpl authServiceImpl, BudgetServiceImpl budgetServiceImpl, BudgetTableServiceImpl budgetTableServiceImpl) {
+        this.userService = userServiceImpl;
+        this.authService = authServiceImpl;
+        this.budgetService = budgetServiceImpl;
+        this.budgetTableService = budgetTableServiceImpl;
     }
 
     @GetMapping
-    public UserProfile getUserInfo() {
+    public Object getUserInfo() {
         UserProfile user = authService.getCurrentUserProfile();
-
+        System.out.println(SecurityContextHolder.getContext());
 
         if (user == null) {
+            return SecurityContextHolder.getContext();
+        }
+
+        if (user.equals(new UserProfile())) {
             DefaultOidcUser principal = authService.getPrincipal();
 
             LocalDateTime now = LocalDateTime.now();

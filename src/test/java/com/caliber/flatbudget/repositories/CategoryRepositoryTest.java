@@ -2,11 +2,9 @@ package com.caliber.flatbudget.repositories;
 
 import com.caliber.flatbudget.models.Budget;
 import com.caliber.flatbudget.models.Category;
-import com.caliber.flatbudget.models.UserProfile;
+import com.caliber.flatbudget.models.user.UserProfile;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;

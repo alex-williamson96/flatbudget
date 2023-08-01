@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    url: ${POSTGRES_URL}
+    username: ${POSTGRES_USER:flatbudget}
+    password: ${POSTGRES_PASS:flatbudget}
+    driverClassName: org.postgresql.Driver

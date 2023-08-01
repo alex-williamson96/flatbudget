@@ -8,12 +8,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-public class BudgetTableService {
+public class BudgetTableServiceImpl {
 
     private final BudgetTableRepository budgetTableRepository;
 
-    public BudgetTableService(BudgetTableRepository budgetTableRepository,
-                              BudgetRepository budgetRepository) {
+    public BudgetTableServiceImpl(BudgetTableRepository budgetTableRepository,
+                                  BudgetRepository budgetRepository) {
         this.budgetTableRepository = budgetTableRepository;
     }
 

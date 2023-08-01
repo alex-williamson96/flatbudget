@@ -1,4 +1,4 @@
-package com.caliber.flatbudget.models;
+package com.caliber.flatbudget.models.internal;
 
 import lombok.Data;
 import lombok.Getter;
@@ -30,7 +30,7 @@ public class Money {
         int cents = getCents() + money.getCents();
 
         if (cents >= 100) {
-            tempDollars = (int) cents / 100;
+            tempDollars = cents / 100;
             cents = cents % 100;
         }
 
@@ -61,7 +61,7 @@ public class Money {
         int dollar = getDollar();
         int cents = getCents();
 
-        return Double.parseDouble(String.valueOf(dollar) + "." + String.valueOf(cents));
+        return Double.parseDouble(dollar + "." + cents);
     }
 
 }

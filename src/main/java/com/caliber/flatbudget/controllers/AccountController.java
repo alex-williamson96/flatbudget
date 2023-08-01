@@ -1,10 +1,10 @@
 package com.caliber.flatbudget.controllers;
 
 import com.caliber.flatbudget.models.Account;
-import com.caliber.flatbudget.models.UserProfile;
-import com.caliber.flatbudget.services.AccountService;
-import com.caliber.flatbudget.services.AuthService;
-import com.caliber.flatbudget.services.BudgetService;
+import com.caliber.flatbudget.models.user.UserProfile;
+import com.caliber.flatbudget.services.AccountServiceImpl;
+import com.caliber.flatbudget.services.AuthServiceImpl;
+import com.caliber.flatbudget.services.BudgetServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,17 +18,17 @@ import java.util.List;
 @Slf4j
 public class AccountController {
 
-    private final AccountService accountService;
+    private final AccountServiceImpl accountService;
 
-    private final AuthService authService;
+    private final AuthServiceImpl authService;
 
-    private final BudgetService budgetService;
+    private final BudgetServiceImpl budgetService;
 
 
-    public AccountController(AccountService accountService, AuthService authService, BudgetService budgetService) {
-        this.accountService = accountService;
-        this.authService = authService;
-        this.budgetService = budgetService;
+    public AccountController(AccountServiceImpl accountServiceImpl, AuthServiceImpl authServiceImpl, BudgetServiceImpl budgetServiceImpl) {
+        this.accountService = accountServiceImpl;
+        this.authService = authServiceImpl;
+        this.budgetService = budgetServiceImpl;
     }
 
 

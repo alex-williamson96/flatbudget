@@ -1,14 +1,15 @@
-package com.caliber.flatbudget.models;
+package com.caliber.flatbudget.models.user;
 
+import com.caliber.flatbudget.models.Budget;
+import com.caliber.flatbudget.models.Payee;
+import com.caliber.flatbudget.models.Transaction;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table
@@ -67,6 +68,15 @@ public class UserProfile {
 
     @Column
     private LocalDateTime updatedDate;
+
+    @Column
+    private Boolean enabled;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(  name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {

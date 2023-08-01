@@ -1,8 +1,7 @@
 package com.caliber.flatbudget.controllers;
 
-import com.caliber.flatbudget.services.PayeeService;
+import com.caliber.flatbudget.services.PayeeServiceImpl;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -11,9 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class PayeeController {
 
-    private final PayeeService payeeService;
+    private final PayeeServiceImpl payeeService;
 
-    public PayeeController(PayeeService payeeService) {
-        this.payeeService = payeeService;
+    public PayeeController(PayeeServiceImpl payeeServiceImpl) {
+        this.payeeService = payeeServiceImpl;
     }
 }

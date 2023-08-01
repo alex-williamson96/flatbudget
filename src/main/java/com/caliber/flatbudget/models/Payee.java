@@ -1,7 +1,11 @@
 package com.caliber.flatbudget.models;
 
 
-import lombok.*;
+import com.caliber.flatbudget.models.user.UserProfile;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;

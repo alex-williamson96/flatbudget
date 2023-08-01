@@ -1,0 +1,35 @@
+version: '3.8'
+services:
+  flatbudget:
+    build:
+      context: .
+      target: development
+    ports:
+      - "8000:8000"
+      - "8080:8080"
+    volumes:
+      - ./:/app
+    environment:
+      - POSTGRES_PASSWORD=flatbudget
+      - POSTGRES_USER=flatbudget
+      - POSTGRES_DB=flatbudget
+      - POSTGRES_URL=jdbc:postgresql://postgres_server/flatbudget
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+    depends_on:
+      - postgres_server
+  postgres_server:
+    image: postgres:15.3
+    ports:
+      - "54323:5433"
+    environment:
+      - POSTGRES_PASSWORD=flatbudget
+      - POSTGRES_USER=flatbudget
+      - POSTGRES_DB=flatbudget
+      - POSTGRES_URL=jdbc:postgresql://postgres_server/flatbudget
+    volumes:
+      - postgres_data:/var/lib/postgres
+      - postgres_config:/etc/postgres/conf.d
+volumes:
+  postgres_data:
+  postgres_config:
