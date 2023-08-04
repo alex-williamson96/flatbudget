@@ -1,7 +1,6 @@
 package com.caliber.flatbudget.models;
 
 
-import com.caliber.flatbudget.models.user.UserProfile;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.Hibernate;
@@ -31,7 +30,7 @@ public class Budget {
 
     @ManyToOne
     @JsonIgnore
-    private UserProfile userProfile;
+    private User user;
 
     @OneToMany
     @ToString.Exclude

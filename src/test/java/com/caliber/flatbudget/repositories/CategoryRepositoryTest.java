@@ -2,7 +2,7 @@ package com.caliber.flatbudget.repositories;
 
 import com.caliber.flatbudget.models.Budget;
 import com.caliber.flatbudget.models.Category;
-import com.caliber.flatbudget.models.user.UserProfile;
+import com.caliber.flatbudget.models.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +41,7 @@ class CategoryRepositoryTest {
 
     @BeforeEach
     public void setup() {
-        UserProfile user = new UserProfile();
+        User user = new User();
 
         user.setFirstName("first");
         user.setLastName("last");
@@ -56,7 +56,7 @@ class CategoryRepositoryTest {
         Budget budget1 = new Budget();
 
         budget1.setName("new budget");
-        budget1.setUserProfile(user);
+        budget1.setUser(user);
         budgetRepository.saveAndFlush(budget1);
 
         Category category1 = new Category();
@@ -68,7 +68,7 @@ class CategoryRepositoryTest {
         int j = 0;
         for (Category category : Arrays.asList(category1, category2, category3, category4, category5)) {
             category.setName("Category " + j);
-            category.setUserProfile(user);
+            category.setUser(user);
             j++;
             categoryRepository.saveAndFlush(category);
         }
@@ -78,9 +78,9 @@ class CategoryRepositoryTest {
 
     @AfterEach
     public void tearDown() {
-        List<UserProfile> userList = userRepository.findAll();
+        List<User> userList = userRepository.findAll();
 
-        for (UserProfile user : userList) {
+        for (User user : userList) {
             user.setBudgetList(null);
             userRepository.saveAndFlush(user);
         }
@@ -88,13 +88,13 @@ class CategoryRepositoryTest {
         List<Budget> budgetList = budgetRepository.findAll();
 
         for (Budget budget : budgetList) {
-            budget.setUserProfile(null);
+            budget.setUser(null);
             budgetRepository.saveAndFlush(budget);
         }
 
         List<Category> categoryList = categoryRepository.findAll();
         for (Category category : categoryList) {
-            category.setUserProfile(null);
+            category.setUser(null);
             categoryRepository.saveAndFlush(category);
         }
 

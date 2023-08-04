@@ -1,10 +1,9 @@
 package com.caliber.flatbudget.security;
 
-import com.caliber.flatbudget.security.jwt.AuthenticationEntryPointImpl;
+import com.caliber.flatbudget.security.jwt.AuthEntryPoint;
 import com.caliber.flatbudget.security.jwt.JwtAuthTokenFilter;
-import com.caliber.flatbudget.security.jwt.JwtUtils;
 import com.caliber.flatbudget.security.services.UserDetailsServiceImpl;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -25,25 +24,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
+@AllArgsConstructor
 public class WebSecurityConfig {
-
-    @Value("${spring.security.oauth2.client.registration.google.client-id}")
-    private String googleClientId;
-
-    @Value("${spring.security.oauth2.client.registration.google.client-secret}")
-    private String googleClientSecret;
-
-    private final AuthenticationEntryPointImpl unauthorizedHandler;
 
     private final UserDetailsServiceImpl userDetailsService;
 
-    private final JwtUtils jwtUtils;
-
-    public WebSecurityConfig(AuthenticationEntryPointImpl unauthorizedHandler, UserDetailsServiceImpl userDetailsService, JwtUtils jwtUtils) {
-        this.unauthorizedHandler = unauthorizedHandler;
-        this.userDetailsService = userDetailsService;
-        this.jwtUtils = jwtUtils;
-    }
+    private final AuthEntryPoint unauthorizedHandler;
 
     @Bean
     @Order(1)
@@ -94,7 +80,7 @@ public class WebSecurityConfig {
 
     @Bean
     public JwtAuthTokenFilter authenticationJwtTokenFilter() {
-        return new JwtAuthTokenFilter(jwtUtils, userDetailsService);
+        return new JwtAuthTokenFilter();
     }
 
     @Bean

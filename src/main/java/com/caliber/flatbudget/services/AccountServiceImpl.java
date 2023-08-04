@@ -6,6 +6,7 @@ import com.caliber.flatbudget.models.Transaction;
 import com.caliber.flatbudget.models.internal.Money;
 import com.caliber.flatbudget.repositories.AccountRepository;
 import com.caliber.flatbudget.repositories.TransactionRepository;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -14,16 +15,12 @@ import java.util.List;
 
 @Service
 @Slf4j
+@AllArgsConstructor
 public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository accountRepository;
 
     private final TransactionRepository transactionRepository;
-
-    public AccountServiceImpl(AccountRepository accountRepository, TransactionRepository transactionRepository) {
-        this.accountRepository = accountRepository;
-        this.transactionRepository = transactionRepository;
-    }
 
     @Override
     public Account findById(Long id) {
@@ -63,7 +60,7 @@ public class AccountServiceImpl implements AccountService {
         Transaction transaction = new Transaction();
         transaction.setAccount(account);
         transaction.setBudget(account.getBudget());
-        transaction.setUserProfile(account.getUserProfile());
+        transaction.setUser(account.getUser());
         transaction.setUpdatedDate(time);
         transaction.setCreatedDate(time);
         transaction.setTransactionDate(time.toLocalDate());
@@ -97,8 +94,6 @@ public class AccountServiceImpl implements AccountService {
 
         accountRepository.save(account);
     }
-
-
 
 
 }

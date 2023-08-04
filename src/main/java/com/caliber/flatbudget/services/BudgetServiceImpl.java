@@ -1,7 +1,7 @@
 package com.caliber.flatbudget.services;
 
 import com.caliber.flatbudget.models.Budget;
-import com.caliber.flatbudget.models.user.UserProfile;
+import com.caliber.flatbudget.models.User;
 import com.caliber.flatbudget.repositories.BudgetRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -29,10 +29,10 @@ public class BudgetServiceImpl implements BudgetService {
     }
 
     @Override
-    public void createBudget(Budget budget, UserProfile userProfile) {
+    public void createBudget(Budget budget, User user) {
         budget.setCreatedDate(LocalDateTime.now());
         budget.setCreatedDate(LocalDateTime.now());
-        budget.setUserProfile(userProfile);
+        budget.setUser(user);
 
         try {
             budgetRepository.save(budget);
@@ -56,8 +56,8 @@ public class BudgetServiceImpl implements BudgetService {
     }
 
     @Override
-    public List<Budget> findAllByNameAndUserProfile(UserProfile userProfile, String name) {
-        List<Budget> budgetList = budgetRepository.findAllByNameAndUserProfile(name, userProfile);
+    public List<Budget> findAllByNameAndUser(User user, String name) {
+        List<Budget> budgetList = budgetRepository.findAllByNameAndUser(name, user);
         if (budgetList.isEmpty()) {
             return null;
         }

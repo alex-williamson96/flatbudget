@@ -1,7 +1,7 @@
 package com.caliber.flatbudget.services;
 
 import com.caliber.flatbudget.models.Payee;
-import com.caliber.flatbudget.models.user.UserProfile;
+import com.caliber.flatbudget.models.User;
 import com.caliber.flatbudget.repositories.PayeeRepository;
 import com.caliber.flatbudget.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -32,15 +32,15 @@ public class PayeeServiceImpl implements PayeeService {
     }
 
     @Override
-    public void createPayee(Payee payee, Long userProfileId) {
-        if (userRepository.findById(userProfileId).isEmpty()) {
-            log.error("Can't find entity UserProfile with id: " + userProfileId);
+    public void createPayee(Payee payee, Long userId) {
+        if (userRepository.findById(userId).isEmpty()) {
+            log.error("Can't find entity User with id: " + userId);
         }
 
-        UserProfile userProfile = userRepository.findById(userProfileId).get();
+        User user = userRepository.findById(userId).get();
         payee.setCreatedDate(LocalDateTime.now());
         payee.setCreatedDate(LocalDateTime.now());
-        payee.setUserProfile(userProfile);
+        payee.setUser(user);
         try {
             payeeRepository.save(payee);
         } catch (Exception e) {

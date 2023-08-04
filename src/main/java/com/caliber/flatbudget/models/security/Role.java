@@ -1,4 +1,4 @@
-package com.caliber.flatbudget.models.user;
+package com.caliber.flatbudget.models.security;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.Getter;
@@ -20,7 +20,8 @@ public class Role {
     private ERole name;
 
     @JsonCreator
-    public Role() {}
+    public Role() {
+    }
 
     @JsonCreator
     public Role(ERole name) {

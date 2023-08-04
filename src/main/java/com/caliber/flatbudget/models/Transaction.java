@@ -1,6 +1,5 @@
 package com.caliber.flatbudget.models;
 
-import com.caliber.flatbudget.models.user.UserProfile;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -56,7 +55,7 @@ public class Transaction {
     private Account account;
 
     @ManyToOne
-    private UserProfile userProfile;
+    private User user;
 
     @ManyToMany
     @ToString.Exclude

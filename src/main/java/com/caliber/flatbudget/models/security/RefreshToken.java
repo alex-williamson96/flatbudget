@@ -1,5 +1,6 @@
-package com.caliber.flatbudget.models.user;
+package com.caliber.flatbudget.models.security;
 
+import com.caliber.flatbudget.models.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,8 +17,8 @@ public class RefreshToken {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "userId")
-    private UserProfile user;
+    @JoinColumn(referencedColumnName = "userId")
+    private User user;
 
     @Column(nullable = false, unique = true)
     private String token;

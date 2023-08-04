@@ -1,7 +1,6 @@
 package com.caliber.flatbudget.models;
 
 
-import com.caliber.flatbudget.models.user.UserProfile;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -35,7 +34,7 @@ public class Payee {
     private LocalDateTime updatedDate;
 
     @ManyToOne
-    private UserProfile userProfile;
+    private User user;
 
     @OneToMany
     @ToString.Exclude

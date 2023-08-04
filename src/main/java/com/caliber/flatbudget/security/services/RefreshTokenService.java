@@ -1,9 +1,10 @@
 package com.caliber.flatbudget.security.services;
 
 import com.caliber.flatbudget.exceptions.TokenRefreshException;
-import com.caliber.flatbudget.models.user.RefreshToken;
-import com.caliber.flatbudget.repositories.RefreshTokenRepository;
+import com.caliber.flatbudget.models.security.RefreshToken;
 import com.caliber.flatbudget.repositories.UserRepository;
+import com.caliber.flatbudget.repositories.security.RefreshTokenRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,13 +19,13 @@ public class RefreshTokenService {
     @Value("${flatbudget.app.jwtRefreshExpirationMs}")
     private Long refreshTokenDurationMs;
 
-    private final RefreshTokenRepository refreshTokenRepository;
+    @Autowired
+    private RefreshTokenRepository refreshTokenRepository;
 
-    private final UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-    public RefreshTokenService(RefreshTokenRepository refreshTokenRepository, UserRepository userRepository) {
-        this.refreshTokenRepository = refreshTokenRepository;
-        this.userRepository = userRepository;
+    public RefreshTokenService() {
     }
 
     public Optional<RefreshToken> findByToken(String token) {

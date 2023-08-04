@@ -1,7 +1,7 @@
 package com.caliber.flatbudget.repositories;
 
 import com.caliber.flatbudget.models.Budget;
-import com.caliber.flatbudget.models.user.UserProfile;
+import com.caliber.flatbudget.models.User;
 import org.junit.jupiter.api.AfterEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -35,9 +35,9 @@ class UserRepositoryTest {
 
     @AfterEach
     public void tearDown() {
-        List<UserProfile> userList = userRepository.findAll();
+        List<User> userList = userRepository.findAll();
 
-        for (UserProfile user : userList) {
+        for (User user : userList) {
             user.setBudgetList(null);
             userRepository.saveAndFlush(user);
         }
@@ -45,7 +45,7 @@ class UserRepositoryTest {
         List<Budget> budgetList = budgetRepository.findAll();
 
         for (Budget budget : budgetList) {
-            budget.setUserProfile(null);
+            budget.setUser(null);
             budgetRepository.saveAndFlush(budget);
         }
 

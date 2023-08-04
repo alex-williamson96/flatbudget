@@ -1,9 +1,8 @@
-package com.caliber.flatbudget.models.user;
+package com.caliber.flatbudget.models;
 
-import com.caliber.flatbudget.models.Budget;
-import com.caliber.flatbudget.models.Payee;
-import com.caliber.flatbudget.models.Transaction;
+import com.caliber.flatbudget.models.security.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.hibernate.Hibernate;
 
@@ -12,19 +11,25 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 @Entity
-@Table
+@Table(name = "user_profile", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "username"),
+        @UniqueConstraint(columnNames = "email")
+})
 @Getter
 @Setter
 @ToString
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserProfile {
+public class User {
 
 
     @Id
     @GeneratedValue
     private Long userId;
+
+    @Column
+    private String username;
 
     @Column
     private String firstName;
@@ -36,6 +41,7 @@ public class UserProfile {
     private String email;
 
     @Column
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @Column
@@ -47,9 +53,10 @@ public class UserProfile {
     @Column
     private String currencyFormat = "before";
 
-    @Column String dateFormat = "MM.DD.YYYY";
+    @Column
+    String dateFormat = "MM.DD.YYYY";
 
-    @OneToMany(mappedBy = "userProfile")
+    @OneToMany(mappedBy = "user")
     @ToString.Exclude
     List<Budget> budgetList = new ArrayList<>();
 
@@ -59,7 +66,7 @@ public class UserProfile {
     List<Payee> payeeList;
 
     @JsonIgnore
-    @OneToMany
+    @OneToMany(orphanRemoval = true)
     @ToString.Exclude
     List<Transaction> transactionList;
 
@@ -72,8 +79,11 @@ public class UserProfile {
     @Column
     private Boolean enabled;
 
+    @Transient
+    private List<String> stringRoles;
+
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(  name = "user_roles",
+    @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
@@ -82,7 +92,7 @@ public class UserProfile {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        UserProfile userProfile = (UserProfile) o;
-        return userId != null && Objects.equals(userId, userProfile.userId);
+        User user = (User) o;
+        return userId != null && Objects.equals(userId, user.userId);
     }
 }

@@ -3,7 +3,7 @@ package com.caliber.flatbudget.repositories;
 import com.caliber.flatbudget.models.Account;
 import com.caliber.flatbudget.models.Budget;
 import com.caliber.flatbudget.models.Transaction;
-import com.caliber.flatbudget.models.user.UserProfile;
+import com.caliber.flatbudget.models.User;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -55,21 +55,21 @@ class AccountRepositoryTest {
         Budget budget = new Budget();
         budgetRepository.saveAndFlush(budget);
 
-        UserProfile userProfile = new UserProfile();
-        userProfile.setFirstName("test");
-        userProfile.setLastName("case");
-        userProfile.setEmail("test.case@gmail.com");
-        userRepository.saveAndFlush(userProfile);
+        User user = new User();
+        user.setFirstName("test");
+        user.setLastName("case");
+        user.setEmail("test.case@gmail.com");
+        userRepository.saveAndFlush(user);
 
         Budget newBudget = budgetRepository.findAll().get(0);
-        UserProfile newUserProfile = userRepository.findAll().get(0);
+        User newUser = userRepository.findAll().get(0);
 
         Account account1 = new Account();
         account1.setName("american express");
         account1.setDollar(0);
         account1.setCents(0);
         account1.setBudget(newBudget);
-        account1.setUserProfile(newUserProfile);
+        account1.setUser(newUser);
 
         accountRepository.saveAndFlush(account1);
 
@@ -79,7 +79,7 @@ class AccountRepositoryTest {
         account2.setDollar(0);
         account2.setCents(0);
         account2.setBudget(newBudget);
-        account2.setUserProfile(newUserProfile);
+        account2.setUser(newUser);
 
         accountRepository.saveAndFlush(account2);
 
@@ -94,9 +94,9 @@ class AccountRepositoryTest {
 
     @AfterEach
     public void tearDown() {
-        List<UserProfile> userList = userRepository.findAll();
+        List<User> userList = userRepository.findAll();
 
-        for (UserProfile user : userList) {
+        for (User user : userList) {
             user.setBudgetList(null);
             userRepository.saveAndFlush(user);
         }
@@ -104,7 +104,7 @@ class AccountRepositoryTest {
         List<Budget> budgetList = budgetRepository.findAll();
 
         for (Budget budget : budgetList) {
-            budget.setUserProfile(null);
+            budget.setUser(null);
             budgetRepository.saveAndFlush(budget);
         }
 
@@ -112,7 +112,7 @@ class AccountRepositoryTest {
 
         for (Account account : accountList) {
             account.setBudget(null);
-            account.setUserProfile(null);
+            account.setUser(null);
             accountRepository.saveAndFlush(account);
         }
 

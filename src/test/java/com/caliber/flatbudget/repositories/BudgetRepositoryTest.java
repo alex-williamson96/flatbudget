@@ -4,7 +4,7 @@ import com.caliber.flatbudget.AbstractIntegration;
 import com.caliber.flatbudget.models.Account;
 import com.caliber.flatbudget.models.Budget;
 import com.caliber.flatbudget.models.Category;
-import com.caliber.flatbudget.models.user.UserProfile;
+import com.caliber.flatbudget.models.User;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -50,13 +50,13 @@ class BudgetRepositoryTest extends AbstractIntegration {
 
     @BeforeEach
     public void setup() {
-        UserProfile user1 = new UserProfile();
-        UserProfile user2 = new UserProfile();
-        UserProfile user3 = new UserProfile();
+        User user1 = new User();
+        User user2 = new User();
+        User user3 = new User();
 
-        List<UserProfile> userList = Arrays.asList(user1, user2, user3);
+        List<User> userList = Arrays.asList(user1, user2, user3);
         int i = 1;
-        for (UserProfile user : userList) {
+        for (User user : userList) {
             user.setFirstName("first" + i);
             user.setLastName("last" + i);
             user.setEmail("first.last." + i + "@test.com");
@@ -75,9 +75,9 @@ class BudgetRepositoryTest extends AbstractIntegration {
         budget2.setName("budget after house");
         budget3.setName("budget from 2/5/2021");
 
-        budget1.setUserProfile(user1);
-        budget2.setUserProfile(user1);
-        budget3.setUserProfile(user1);
+        budget1.setUser(user1);
+        budget2.setUser(user1);
+        budget3.setUser(user1);
         budgetRepository.saveAllAndFlush(Arrays.asList(budget1, budget2, budget3));
 
         user1.setBudgetList(budgetRepository.findAll());
@@ -87,9 +87,9 @@ class BudgetRepositoryTest extends AbstractIntegration {
 
     @AfterEach
     public void tearDown() {
-        List<UserProfile> userList = userRepository.findAll();
+        List<User> userList = userRepository.findAll();
 
-        for (UserProfile user : userList) {
+        for (User user : userList) {
             user.setBudgetList(null);
             userRepository.saveAndFlush(user);
         }
@@ -97,14 +97,14 @@ class BudgetRepositoryTest extends AbstractIntegration {
         List<Budget> budgetList = budgetRepository.findAll();
 
         for (Budget budget : budgetList) {
-            budget.setUserProfile(null);
+            budget.setUser(null);
             budgetRepository.saveAndFlush(budget);
         }
 
         List<Category> categoryList = categoryRepository.findAll();
 
         for (Category category : categoryList) {
-            category.setUserProfile(null);
+            category.setUser(null);
             category.setTransactionList(null);
             categoryRepository.saveAndFlush(category);
         }
@@ -112,7 +112,7 @@ class BudgetRepositoryTest extends AbstractIntegration {
         List<Account> accountList = accountRepository.findAll();
         for (Account account : accountList) {
             account.setBudget(null);
-            account.setUserProfile(null);
+            account.setUser(null);
             account.setTransactionList(null);
             accountRepository.saveAndFlush(account);
         }

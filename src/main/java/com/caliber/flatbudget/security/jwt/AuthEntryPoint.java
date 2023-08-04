@@ -16,8 +16,7 @@ import java.util.Map;
 
 @Component
 @Slf4j
-public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
-
+public class AuthEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         log.error("Unauthorized error: {}", authException.getMessage());

@@ -3,7 +3,7 @@ package com.caliber.flatbudget.repositories;
 import com.caliber.flatbudget.models.Budget;
 import com.caliber.flatbudget.models.Payee;
 import com.caliber.flatbudget.models.Transaction;
-import com.caliber.flatbudget.models.user.UserProfile;
+import com.caliber.flatbudget.models.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +44,7 @@ class TransactionRepositoryTest {
 
     @BeforeEach
     public void setup() {
-        UserProfile user = new UserProfile();
+        User user = new User();
 
         user.setFirstName("first");
         user.setLastName("last");
@@ -59,7 +59,7 @@ class TransactionRepositoryTest {
 
         budget.setName("new budget");
 
-        budget.setUserProfile(user);
+        budget.setUser(user);
 
         budgetRepository.saveAndFlush(budget);
         userRepository.saveAndFlush(user);
@@ -70,7 +70,7 @@ class TransactionRepositoryTest {
 
         for (int i = 0; i < 50; i++) {
             Transaction transaction = new Transaction();
-            transaction.setUserProfile(user);
+            transaction.setUser(user);
             transaction.setBudget(budget);
             transaction.setName("transaction " + i);
             transactionRepository.saveAndFlush(transaction);
@@ -83,9 +83,9 @@ class TransactionRepositoryTest {
 
     @AfterEach
     public void tearDown() {
-        List<UserProfile> userList = userRepository.findAll();
+        List<User> userList = userRepository.findAll();
 
-        for (UserProfile user : userList) {
+        for (User user : userList) {
             user.setBudgetList(null);
             userRepository.saveAndFlush(user);
         }
@@ -93,7 +93,7 @@ class TransactionRepositoryTest {
         List<Budget> budgetList = budgetRepository.findAll();
 
         for (Budget budget : budgetList) {
-            budget.setUserProfile(null);
+            budget.setUser(null);
             budgetRepository.saveAndFlush(budget);
         }
 
@@ -101,7 +101,7 @@ class TransactionRepositoryTest {
 
         for (Transaction transaction : transactionList) {
             transaction.setBudget(null);
-            transaction.setUserProfile(null);
+            transaction.setUser(null);
             transaction.setPayee(null);
             transactionRepository.saveAndFlush(transaction);
         }
@@ -110,7 +110,7 @@ class TransactionRepositoryTest {
 
         for (Payee payee : payeeList) {
             payee.setTransactionList(null);
-            payee.setUserProfile(null);
+            payee.setUser(null);
             payeeRepository.saveAndFlush(payee);
         }
 

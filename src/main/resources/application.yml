@@ -7,7 +7,7 @@ spring:
     driverClassName: org.postgresql.Driver
   profiles:
     active: dev
-# Hibernate properties
+  # Hibernate properties
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQL94Dialect
     show-sql: false
@@ -17,22 +17,9 @@ spring:
     properties.hibernate:
       format_sql: true
       id.new_generator_mappings: true
-# Security
-  security:
-    oauth2:
-      client:
-        registration:
-          google:
-            client-id: ${GOOGLE_CLIENT_ID}
-            client-secret: ${GOOGLE_CLIENT_SECRET}
-            redirect-uri: http://localhost:8080/oauth2/callback/${registrationId}
-            scope:
-              - email
-              - profile
 flatbudget.app:
   jwtSecret: HRlELXqpSBfe3GdeGegRE
   jwtExpirationMs: 86400000
   jwtRefreshExpirationMs: 86400000
   jwtCookieName: flatbudget-jwt
   jwtRefreshCookieName: flatbudget-jwt-refresh
-

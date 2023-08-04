@@ -6,5 +6,5 @@ public interface PayeeService {
 
     Payee findById(Long id);
 
-    void createPayee(Payee payee, Long userProfileId);
+    void createPayee(Payee payee, Long userId);
 }

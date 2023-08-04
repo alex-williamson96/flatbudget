@@ -1,6 +1,5 @@
 package com.caliber.flatbudget.models;
 
-import com.caliber.flatbudget.models.user.UserProfile;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -47,7 +46,7 @@ public class Account {
     private LocalDateTime updatedDate;
 
     @ManyToOne
-    UserProfile userProfile;
+    User user;
 
     @OneToMany
     @JsonIgnore

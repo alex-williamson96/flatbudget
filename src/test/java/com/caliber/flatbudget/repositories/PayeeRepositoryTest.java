@@ -3,7 +3,7 @@ package com.caliber.flatbudget.repositories;
 import com.caliber.flatbudget.models.Category;
 import com.caliber.flatbudget.models.Payee;
 import com.caliber.flatbudget.models.Transaction;
-import com.caliber.flatbudget.models.user.UserProfile;
+import com.caliber.flatbudget.models.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +43,7 @@ class PayeeRepositoryTest {
 
     @BeforeEach
     public void setUp() {
-        UserProfile user = new UserProfile();
+        User user = new User();
 
         user.setFirstName("Test");
         user.setLastName("McMan");
@@ -51,12 +51,12 @@ class PayeeRepositoryTest {
 
         userRepository.saveAndFlush(user);
 
-        UserProfile user1 = userRepository.findAll().get(0);
+        User user1 = userRepository.findAll().get(0);
 
         for (int i = 0; i < 100; i++) {
             Payee payee = new Payee();
             payee.setName("place " + i);
-            payee.setUserProfile(user1);
+            payee.setUser(user1);
             payeeRepository.save(payee);
         }
 
@@ -64,9 +64,9 @@ class PayeeRepositoryTest {
 
     @AfterEach
     public void tearDown() {
-        List<UserProfile> userList = userRepository.findAll();
+        List<User> userList = userRepository.findAll();
 
-        for (UserProfile user : userList) {
+        for (User user : userList) {
             user.setBudgetList(null);
             user.setPayeeList(null);
             user.setTransactionList(null);
@@ -76,7 +76,7 @@ class PayeeRepositoryTest {
         List<Payee> payeeList = payeeRepository.findAll();
 
         for (Payee payee : payeeList) {
-            payee.setUserProfile(null);
+            payee.setUser(null);
             payee.setTransactionList(null);
             payeeRepository.saveAndFlush(payee);
         }
@@ -85,14 +85,14 @@ class PayeeRepositoryTest {
 
         for (Transaction transaction : transactionList) {
             transaction.setPayee(null);
-            transaction.setUserProfile(null);
+            transaction.setUser(null);
             transactionRepository.saveAndFlush(transaction);
         }
 
         List<Category> categoryList = categoryRepository.findAll();
 
         for (Category category : categoryList) {
-            category.setUserProfile(null);
+            category.setUser(null);
             category.setTransactionList(null);
             categoryRepository.saveAndFlush(category);
         }

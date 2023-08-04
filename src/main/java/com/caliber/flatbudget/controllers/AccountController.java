@@ -1,13 +1,15 @@
 package com.caliber.flatbudget.controllers;
 
 import com.caliber.flatbudget.models.Account;
-import com.caliber.flatbudget.models.user.UserProfile;
+import com.caliber.flatbudget.models.User;
 import com.caliber.flatbudget.services.AccountServiceImpl;
-import com.caliber.flatbudget.services.AuthServiceImpl;
 import com.caliber.flatbudget.services.BudgetServiceImpl;
+import com.caliber.flatbudget.services.security.AuthServiceImpl;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -16,25 +18,23 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/account")
 @Slf4j
+@AllArgsConstructor
 public class AccountController {
 
     private final AccountServiceImpl accountService;
-
-    private final AuthServiceImpl authService;
-
     private final BudgetServiceImpl budgetService;
 
-
-    public AccountController(AccountServiceImpl accountServiceImpl, AuthServiceImpl authServiceImpl, BudgetServiceImpl budgetServiceImpl) {
-        this.accountService = accountServiceImpl;
-        this.authService = authServiceImpl;
-        this.budgetService = budgetServiceImpl;
+    @GetMapping("/any")
+    public String any() {
+        return "everyone can access this";
     }
 
 
+
     @GetMapping("all")
+    @PreAuthorize("hasRole('ADMIN')")
     public List<Account> getAllAccounts() {
-        UserProfile user = authService.getCurrentUserProfile();
+        User user = new User();
 
         if (user == null) {
             return new ArrayList<>();
@@ -53,7 +53,7 @@ public class AccountController {
     @PostMapping("create")
     public ResponseEntity<?> createAccount(@RequestBody Account account) {
         System.out.println("hello createAccount");
-        UserProfile user = authService.getCurrentUserProfile();
+        User user = new User();
 
         System.out.println(account);
         System.out.println(user);
