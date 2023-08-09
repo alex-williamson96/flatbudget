@@ -10,13 +10,16 @@ spring:
   # Hibernate properties
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQL94Dialect
-    show-sql: false
+    show-sql: true
     hibernate:
       naming.implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
       ddl-auto: update
     properties.hibernate:
       format_sql: true
       id.new_generator_mappings: true
+  sql:
+    init:
+      mode: always
 flatbudget.app:
   jwtSecret: HRlELXqpSBfe3GdeGegRE
   jwtExpirationMs: 86400000

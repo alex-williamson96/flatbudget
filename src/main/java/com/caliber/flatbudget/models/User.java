@@ -1,5 +1,6 @@
 package com.caliber.flatbudget.models;
 
+import com.caliber.flatbudget.models.security.ERole;
 import com.caliber.flatbudget.models.security.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -81,6 +82,12 @@ public class User {
 
     @Transient
     private List<String> stringRoles;
+
+//    @Enumerated(EnumType.STRING)
+//    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
+//    @Column(name = "role")
+//    @ElementCollection(targetClass = ERole.class)
+//    private Set<ERole> roles = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",

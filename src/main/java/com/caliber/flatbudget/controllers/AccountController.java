@@ -24,6 +24,7 @@ public class AccountController {
     private final AccountServiceImpl accountService;
     private final BudgetServiceImpl budgetService;
 
+    @PreAuthorize("hasAnyRole('USER','SUPER_USER','ADMIN')")
     @GetMapping("/any")
     public String any() {
         return "everyone can access this";

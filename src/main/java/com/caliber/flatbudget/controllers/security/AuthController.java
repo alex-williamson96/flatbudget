@@ -11,7 +11,6 @@ import com.caliber.flatbudget.security.services.RefreshTokenService;
 import com.caliber.flatbudget.security.services.UserDetailsImpl;
 import com.caliber.flatbudget.services.UserServiceImpl;
 import com.caliber.flatbudget.services.security.AuthServiceImpl;
-import com.caliber.flatbudget.services.security.RoleServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
@@ -24,7 +23,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("api/v1/security/auth")
 @AllArgsConstructor
@@ -35,8 +33,10 @@ public class AuthController {
     private final AuthServiceImpl authService;
     private final UserServiceImpl userService;
 
-    @PostMapping("signin")
+    @PostMapping("signIn")
+    @CrossOrigin(origins = "*")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
+        System.out.println("hello");
         Authentication authentication = authService.getAuthentication(loginRequest);
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -75,7 +75,7 @@ public class AuthController {
 
     }
 
-    @PostMapping("/refreshToken")
+    @PostMapping("refreshToken")
     public ResponseEntity<?> refreshToken(HttpServletRequest request) {
         String refreshToken = jwtUtils.getJwtRefreshFromCookies(request);
 

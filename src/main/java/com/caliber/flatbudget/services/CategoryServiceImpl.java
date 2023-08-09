@@ -5,6 +5,7 @@ import com.caliber.flatbudget.models.Transaction;
 import com.caliber.flatbudget.repositories.BudgetRepository;
 import com.caliber.flatbudget.repositories.CategoryRepository;
 import com.caliber.flatbudget.repositories.TransactionRepository;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -13,19 +14,11 @@ import java.util.List;
 
 @Service
 @Slf4j
+@AllArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
-
-    private final BudgetRepository budgetRepository;
-
     private final TransactionRepository transactionRepository;
-
-    public CategoryServiceImpl(CategoryRepository categoryRepository, BudgetRepository budgetRepository, TransactionRepository transactionRepository) {
-        this.categoryRepository = categoryRepository;
-        this.budgetRepository = budgetRepository;
-        this.transactionRepository = transactionRepository;
-    }
 
     @Override
     public Category findById(Long id) {
