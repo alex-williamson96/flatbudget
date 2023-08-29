@@ -5,9 +5,11 @@ import com.caliber.flatbudget.models.internal.request.SignupRequest;
 import com.caliber.flatbudget.models.security.ERole;
 import com.caliber.flatbudget.models.security.Role;
 import com.caliber.flatbudget.repositories.UserRepository;
+import com.caliber.flatbudget.security.services.UserDetailsImpl;
 import com.caliber.flatbudget.services.security.RoleServiceImpl;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +34,11 @@ public class UserServiceImpl implements UserService {
 
     public User findByEmail(String email) {
         return this.userRepository.findByEmail(email);
+    }
+
+    public User getUser() {
+        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return findByEmail(userDetails.getEmail());
     }
 
     @Override
@@ -87,5 +94,7 @@ public class UserServiceImpl implements UserService {
     public Boolean checkEmailAvailability(String email) {
         return userRepository.existsByUsername(email);
     }
+
+
 
 }

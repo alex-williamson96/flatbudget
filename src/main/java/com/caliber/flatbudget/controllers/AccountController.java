@@ -1,9 +1,11 @@
 package com.caliber.flatbudget.controllers;
 
 import com.caliber.flatbudget.models.Account;
+import com.caliber.flatbudget.models.Budget;
 import com.caliber.flatbudget.models.User;
 import com.caliber.flatbudget.services.AccountServiceImpl;
 import com.caliber.flatbudget.services.BudgetServiceImpl;
+import com.caliber.flatbudget.services.UserServiceImpl;
 import com.caliber.flatbudget.services.security.AuthServiceImpl;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,19 +25,11 @@ public class AccountController {
 
     private final AccountServiceImpl accountService;
     private final BudgetServiceImpl budgetService;
-
-    @PreAuthorize("hasAnyRole('USER','SUPER_USER','ADMIN')")
-    @GetMapping("/any")
-    public String any() {
-        return "everyone can access this";
-    }
-
-
-
+    private final UserServiceImpl userService;
     @GetMapping("all")
-    @PreAuthorize("hasRole('ADMIN')")
     public List<Account> getAllAccounts() {
-        User user = new User();
+        System.out.println("in getAll");
+        User user = userService.getUser();
 
         if (user == null) {
             return new ArrayList<>();
@@ -54,14 +48,20 @@ public class AccountController {
     @PostMapping("create")
     public ResponseEntity<?> createAccount(@RequestBody Account account) {
         System.out.println("hello createAccount");
-        User user = new User();
-
-        System.out.println(account);
-        System.out.println(user);
+        User user = userService.getUser();
 
         if (user == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
         }
+
+        System.out.println(account);
+        System.out.println(user);
+        if (user.getActiveBudget() == null) {
+            Budget newBudget = budgetService.createBudget(new Budget(), user);
+
+        }
+        Budget budget = budgetService.findById(user.getActiveBudget());
+
 
         return new ResponseEntity<>(account, HttpStatus.CREATED);
 

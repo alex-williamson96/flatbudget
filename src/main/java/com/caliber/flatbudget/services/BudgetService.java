@@ -10,7 +10,7 @@ public interface BudgetService {
     Budget findById(Long id);
 
 
-    void createBudget(Budget budget, User user);
+    Budget createBudget(Budget budget, User user);
 
     void updateBudgetName(Budget budget);
 

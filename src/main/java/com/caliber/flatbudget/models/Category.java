@@ -1,9 +1,6 @@
 package com.caliber.flatbudget.models;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
@@ -17,6 +14,7 @@ import java.util.Objects;
 @Setter
 @ToString
 @RequiredArgsConstructor
+@Builder
 public class Category {
 
     @Id
@@ -27,22 +25,22 @@ public class Category {
     private String name;
 
     @Column
-    private Integer dollarAssigned;
+    private Integer dollarAssigned = 0;
 
     @Column
-    private Integer centsAssigned;
+    private Integer centsAssigned = 0;
 
     @Column
-    private Integer dollarActivity;
+    private Integer dollarActivity = 0;
 
     @Column
-    private Integer centsActivity;
+    private Integer centsActivity = 0;
 
     @Column
-    private Integer dollarAvailable;
+    private Integer dollarAvailable = 0;
 
     @Column
-    private Integer centsAvailable;
+    private Integer centsAvailable = 0;
 
     @Column
     private Integer mainOrder;

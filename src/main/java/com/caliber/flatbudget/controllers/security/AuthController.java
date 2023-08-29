@@ -26,6 +26,7 @@ import java.util.List;
 @RestController
 @RequestMapping("api/v1/security/auth")
 @AllArgsConstructor
+@CrossOrigin(origins = "http://localhost:5173")
 public class AuthController {
 
     private final JwtUtils jwtUtils;
@@ -34,7 +35,6 @@ public class AuthController {
     private final UserServiceImpl userService;
 
     @PostMapping("signIn")
-    @CrossOrigin(origins = "*")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
         System.out.println("hello");
         Authentication authentication = authService.getAuthentication(loginRequest);

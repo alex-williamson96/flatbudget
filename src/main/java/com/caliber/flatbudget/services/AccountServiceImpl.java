@@ -19,7 +19,7 @@ import java.util.List;
 public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository accountRepository;
-
+    private final UserServiceImpl userService;
     private final TransactionRepository transactionRepository;
 
     @Override
@@ -32,6 +32,9 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void createAccount(Account account) {
+        account.setCreatedDate(LocalDateTime.now());
+        account.setUpdatedDate(LocalDateTime.now());
+        account.setUser(userService.getUser());
         try {
             accountRepository.save(account);
         } catch (Exception e) {
