@@ -59,11 +59,11 @@ class CategoryRepositoryTest {
         budget1.setUser(user);
         budgetRepository.saveAndFlush(budget1);
 
-        Category category1 = new Category();
-        Category category2 = new Category();
-        Category category3 = new Category();
-        Category category4 = new Category();
-        Category category5 = new Category();
+        Category category1 = Category.builder().build();
+        Category category2 = Category.builder().build();
+        Category category3 = Category.builder().build();
+        Category category4 = Category.builder().build();
+        Category category5 = Category.builder().build();
 
         int j = 0;
         for (Category category : Arrays.asList(category1, category2, category3, category4, category5)) {

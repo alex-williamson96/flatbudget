@@ -3,6 +3,7 @@ package com.caliber.flatbudget.services;
 import com.caliber.flatbudget.models.Account;
 import com.caliber.flatbudget.models.Budget;
 import com.caliber.flatbudget.models.Transaction;
+import com.caliber.flatbudget.models.User;
 import com.caliber.flatbudget.models.internal.Money;
 import com.caliber.flatbudget.repositories.AccountRepository;
 import com.caliber.flatbudget.repositories.TransactionRepository;
@@ -21,6 +22,7 @@ public class AccountServiceImpl implements AccountService {
     private final AccountRepository accountRepository;
     private final UserServiceImpl userService;
     private final TransactionRepository transactionRepository;
+    private final BudgetServiceImpl budgetService;
 
     @Override
     public Account findById(Long id) {
@@ -31,15 +33,22 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void createAccount(Account account) {
+    public Account createAccount(Account account) {
+        User user = userService.getUser();
         account.setCreatedDate(LocalDateTime.now());
         account.setUpdatedDate(LocalDateTime.now());
-        account.setUser(userService.getUser());
-        try {
-            accountRepository.save(account);
-        } catch (Exception e) {
-            log.error(e.getMessage());
+        Budget budget;
+
+        if (user.getActiveBudget() == null) {
+            budget = budgetService.createDefaultBudget(user);
+
+        } else {
+            budget = budgetService.findById(user.getActiveBudget());
         }
+
+        account.setUser(user);
+        account.setBudget(budget);
+        return accountRepository.save(account);
     }
 
     @Override

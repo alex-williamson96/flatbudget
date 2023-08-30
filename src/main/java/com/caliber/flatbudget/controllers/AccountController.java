@@ -1,17 +1,14 @@
 package com.caliber.flatbudget.controllers;
 
 import com.caliber.flatbudget.models.Account;
-import com.caliber.flatbudget.models.Budget;
 import com.caliber.flatbudget.models.User;
 import com.caliber.flatbudget.services.AccountServiceImpl;
 import com.caliber.flatbudget.services.BudgetServiceImpl;
 import com.caliber.flatbudget.services.UserServiceImpl;
-import com.caliber.flatbudget.services.security.AuthServiceImpl;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -26,6 +23,7 @@ public class AccountController {
     private final AccountServiceImpl accountService;
     private final BudgetServiceImpl budgetService;
     private final UserServiceImpl userService;
+
     @GetMapping("all")
     public List<Account> getAllAccounts() {
         System.out.println("in getAll");
@@ -56,15 +54,9 @@ public class AccountController {
 
         System.out.println(account);
         System.out.println(user);
-        if (user.getActiveBudget() == null) {
-            Budget newBudget = budgetService.createBudget(new Budget(), user);
-
-        }
-        Budget budget = budgetService.findById(user.getActiveBudget());
 
 
-        return new ResponseEntity<>(account, HttpStatus.CREATED);
-
+        return new ResponseEntity<>(accountService.createAccount(account), HttpStatus.CREATED);
 
 
     }

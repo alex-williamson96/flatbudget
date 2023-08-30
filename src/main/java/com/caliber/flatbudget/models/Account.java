@@ -46,14 +46,14 @@ public class Account {
     private LocalDateTime updatedDate;
 
     @ManyToOne
+    @JsonIgnore
     User user;
 
     @OneToMany
-    @JsonIgnore
     @ToString.Exclude
     private List<Transaction> transactionList;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Budget budget;
 
     @Override

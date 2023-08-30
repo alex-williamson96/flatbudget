@@ -33,7 +33,10 @@ public class BudgetTable {
     private Budget budget;
 
     @Column
-    private LocalDateTime month;
+    private String month;
+
+    @Column
+    private String year;
 
     @Column
     private LocalDateTime createdDate;

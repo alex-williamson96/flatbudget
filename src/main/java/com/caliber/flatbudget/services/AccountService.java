@@ -10,7 +10,7 @@ public interface AccountService {
 
     Account findById(Long id);
 
-    void createAccount(Account account);
+    Account createAccount(Account account);
 
     List<Account> findAccountsByBudget(Budget budget);
 

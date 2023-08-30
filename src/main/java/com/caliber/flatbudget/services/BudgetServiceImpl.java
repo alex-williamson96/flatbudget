@@ -1,14 +1,18 @@
 package com.caliber.flatbudget.services;
 
 import com.caliber.flatbudget.models.Budget;
+import com.caliber.flatbudget.models.BudgetTable;
 import com.caliber.flatbudget.models.Category;
 import com.caliber.flatbudget.models.User;
 import com.caliber.flatbudget.repositories.BudgetRepository;
+import com.caliber.flatbudget.repositories.BudgetTableRepository;
+import com.caliber.flatbudget.repositories.CategoryRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,6 +22,8 @@ public class BudgetServiceImpl implements BudgetService {
 
     private final BudgetRepository budgetRepository;
     private final UserServiceImpl userService;
+    private final BudgetTableRepository tableRepository;
+    private final CategoryRepository categoryRepository;
 
     @Override
     public Budget findById(Long id) {
@@ -79,6 +85,7 @@ public class BudgetServiceImpl implements BudgetService {
     }
 
     public Budget createDefaultBudget(User user) {
+        System.out.println("in here");
         LocalDateTime now = LocalDateTime.now();
         Budget budget = Budget.builder()
                 .name("Budget Name")
@@ -87,9 +94,101 @@ public class BudgetServiceImpl implements BudgetService {
                 .createdDate(now)
                 .build();
 
-        budget = budgetRepository.save()
-        Category category1 = Category.builder()
-                .budgetTable()
+        budget = budgetRepository.save(budget);
+
+        user.setActiveBudget(budget.getBudgetId());
+        userService.saveUser(user);
+
+        BudgetTable budgetTable = BudgetTable.builder()
+                .budget(budget)
+                .month(LocalDateTime.now().getMonth().toString())
+                .year(String.valueOf(LocalDateTime.now().getYear()))
+                .updatedDate(now)
+                .createdDate(now)
+                .user(user)
+                .build();
+
+        tableRepository.save(budgetTable);
+
+        List<Category> categoryList = new ArrayList<>();
+
+        Category home = createBlankCategory("Home", now, budgetTable, user);
+        categoryList.add(home);
+        Category rent = createBlankCategory("Rent", now, budgetTable, user);
+        Category utilities = createBlankCategory("Utilities", now, budgetTable, user);
+        Category homeInsurance = createBlankCategory("Insurance", now, budgetTable, user);
+        rent.setSubOrder(1);
+        categoryList.add(rent);
+        utilities.setSubOrder(2);
+        categoryList.add(utilities);
+        homeInsurance.setSubOrder(3);
+        categoryList.add(homeInsurance);
+
+        Category car = createBlankCategory("Car", now, budgetTable, user);
+        Category gas = createBlankCategory("Gas", now, budgetTable, user);
+        Category carInsurance = createBlankCategory("Insurance", now, budgetTable, user);
+        car.setMainOrder(2);
+        categoryList.add(car);
+        gas.setMainOrder(2);
+        gas.setSubOrder(1);
+        categoryList.add(gas);
+        carInsurance.setMainOrder(2);
+        carInsurance.setSubOrder(2);
+        categoryList.add(carInsurance);
+
+        Category food = createBlankCategory("Food", now, budgetTable, user);
+        Category groceries = createBlankCategory("groceries", now, budgetTable, user);
+        Category eatingOut = createBlankCategory("eatingOut", now, budgetTable, user);
+        food.setMainOrder(3);
+        categoryList.add(food);
+        groceries.setMainOrder(3);
+        groceries.setSubOrder(1);
+        categoryList.add(groceries);
+        eatingOut.setMainOrder(3);
+        eatingOut.setSubOrder(2);
+        categoryList.add(eatingOut);
+
+        Category personal = createBlankCategory("Personal", now, budgetTable, user);
+        Category fun = createBlankCategory("Fun Money", now, budgetTable, user);
+        Category clothes = createBlankCategory("Clothes", now, budgetTable, user);
+        Category hobbies = createBlankCategory("Hobbies", now, budgetTable, user);
+        personal.setMainOrder(4);
+        categoryList.add(personal);
+        fun.setMainOrder(4);
+        fun.setSubOrder(1);
+        categoryList.add(fun);
+        clothes.setMainOrder(4);
+        clothes.setSubOrder(2);
+        categoryList.add(clothes);
+        hobbies.setMainOrder(4);
+        hobbies.setSubOrder(3);
+        categoryList.add(hobbies);
+
+        categoryRepository.saveAll(categoryList);
+
+        System.out.println(budget);
+
+        return budget;
+
+    }
+
+    public Category createBlankCategory(String name, LocalDateTime time, BudgetTable budgetTable, User user) {
+        return Category.builder()
+                .budgetTable(budgetTable)
+                .centsActivity(0)
+                .centsAssigned(0)
+                .centsAvailable(0)
+                .dollarAssigned(0)
+                .dollarAvailable(0)
+                .dollarActivity(0)
+                .isCreditCard(false)
+                .mainOrder(1)
+                .subOrder(0)
+                .createdDate(time)
+                .updatedDate(time)
+                .name(name)
+                .user(user)
+                .notes("")
                 .build();
     }
 }

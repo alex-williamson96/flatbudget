@@ -13,7 +13,8 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class Category {
 
@@ -56,6 +57,9 @@ public class Category {
 
     @Column
     private LocalDateTime updatedDate;
+
+    @Column
+    private String notes = "";
 
     @ManyToOne
     private User user;
