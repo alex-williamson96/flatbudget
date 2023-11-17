@@ -1,4 +1,4 @@
-package com.caliber.flatbudget.services;
+package com.caliber.flatbudget.services.impls;
 
 import com.caliber.flatbudget.models.User;
 import com.caliber.flatbudget.models.internal.request.SignupRequest;
@@ -6,6 +6,7 @@ import com.caliber.flatbudget.models.security.ERole;
 import com.caliber.flatbudget.models.security.Role;
 import com.caliber.flatbudget.repositories.UserRepository;
 import com.caliber.flatbudget.security.services.UserDetailsImpl;
+import com.caliber.flatbudget.services.UserService;
 import com.caliber.flatbudget.services.security.RoleServiceImpl;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

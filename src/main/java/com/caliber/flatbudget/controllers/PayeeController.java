@@ -1,6 +1,6 @@
 package com.caliber.flatbudget.controllers;
 
-import com.caliber.flatbudget.services.PayeeServiceImpl;
+import com.caliber.flatbudget.services.impls.PayeeServiceImpl;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;

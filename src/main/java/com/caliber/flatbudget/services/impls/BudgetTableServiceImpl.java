@@ -1,4 +1,4 @@
-package com.caliber.flatbudget.services;
+package com.caliber.flatbudget.services.impls;
 
 import com.caliber.flatbudget.models.BudgetTable;
 import com.caliber.flatbudget.repositories.BudgetRepository;

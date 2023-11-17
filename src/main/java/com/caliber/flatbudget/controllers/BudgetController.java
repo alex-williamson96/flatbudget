@@ -1,7 +1,7 @@
 package com.caliber.flatbudget.controllers;
 
 import com.caliber.flatbudget.models.User;
-import com.caliber.flatbudget.services.BudgetServiceImpl;
+import com.caliber.flatbudget.services.impls.BudgetServiceImpl;
 import com.caliber.flatbudget.services.security.AuthServiceImpl;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,9 +1,7 @@
 package com.caliber.flatbudget.models;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
@@ -16,8 +14,9 @@ import java.util.Objects;
 @Table
 @Getter
 @Setter
-@ToString
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Transaction {
 
     @Id
@@ -52,9 +51,13 @@ public class Transaction {
     private LocalDateTime updatedDate;
 
     @ManyToOne
+    @JsonIgnore
+    @ToString.Exclude
     private Account account;
 
     @ManyToOne
+    @JsonIgnore
+    @ToString.Exclude
     private User user;
 
     @ManyToMany
@@ -62,9 +65,11 @@ public class Transaction {
     private List<Category> categoryList;
 
     @ManyToOne
+    @ToString.Exclude
     private Payee payee;
 
     @ManyToOne
+    @ToString.Exclude
     private Budget budget;
 
     @Override

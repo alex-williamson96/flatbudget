@@ -14,12 +14,14 @@ spring:
     hibernate:
       naming.implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
       ddl-auto: update
-    properties.hibernate:
-      format_sql: true
-      id.new_generator_mappings: true
+    properties:
+      hibernate:
+        format_sql: true
+        id.new_generator_mappings: true
   sql:
     init:
       mode: always
+
 flatbudget.app:
   jwtSecret: HRlELXqpSBfe3GdeGegRR
   jwtExpirationMs: 86400000

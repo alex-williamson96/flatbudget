@@ -16,7 +16,6 @@ import java.util.Objects;
 @Table
 @Getter
 @Setter
-@ToString
 @RequiredArgsConstructor
 public class Account {
 
@@ -49,11 +48,11 @@ public class Account {
     @JsonIgnore
     User user;
 
-    @OneToMany
-    @ToString.Exclude
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "account")
     private List<Transaction> transactionList;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
+    @JsonIgnore
     private Budget budget;
 
     @Override

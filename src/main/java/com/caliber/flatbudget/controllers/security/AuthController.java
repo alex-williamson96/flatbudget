@@ -9,7 +9,7 @@ import com.caliber.flatbudget.models.security.RefreshToken;
 import com.caliber.flatbudget.security.jwt.JwtUtils;
 import com.caliber.flatbudget.security.services.RefreshTokenService;
 import com.caliber.flatbudget.security.services.UserDetailsImpl;
-import com.caliber.flatbudget.services.UserServiceImpl;
+import com.caliber.flatbudget.services.impls.UserServiceImpl;
 import com.caliber.flatbudget.services.security.AuthServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -36,7 +36,6 @@ public class AuthController {
 
     @PostMapping("signIn")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
-        System.out.println("hello");
         Authentication authentication = authService.getAuthentication(loginRequest);
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -78,6 +77,8 @@ public class AuthController {
     @PostMapping("refreshToken")
     public ResponseEntity<?> refreshToken(HttpServletRequest request) {
         String refreshToken = jwtUtils.getJwtRefreshFromCookies(request);
+
+        System.out.println(refreshToken);
 
         if ((refreshToken != null) && (!refreshToken.isEmpty())) {
             return refreshTokenService.findByToken(refreshToken)

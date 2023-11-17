@@ -27,3 +27,9 @@ run.</p>
 
 <p>Run: <code>sudo systemctl start docker</code> and <code>sudo systemctl start postgresql</code> to start correctly 
 (or whatever code starts the local version of Docker and PostgreSQL</p>
+
+<p>To get the SQL database running correctly within the container and to get the
+Spring Boot application to run itself. The schema has to be set up manually. This can be done by setting the SQL init in the
+application properties to never, and the ddl options to create. That will initialize the database,
+you can then set those properties back, so that the roles get properly filled into database. Otherwise
+permissions errors will pop up whenever you try pinging the backend.</p>

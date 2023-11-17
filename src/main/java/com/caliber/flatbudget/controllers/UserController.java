@@ -1,15 +1,11 @@
 package com.caliber.flatbudget.controllers;
 
 import com.caliber.flatbudget.models.User;
-import com.caliber.flatbudget.security.services.UserDetailsImpl;
-import com.caliber.flatbudget.services.BudgetServiceImpl;
-import com.caliber.flatbudget.services.BudgetTableServiceImpl;
-import com.caliber.flatbudget.services.UserServiceImpl;
-import com.sun.security.auth.UserPrincipal;
+import com.caliber.flatbudget.services.impls.BudgetServiceImpl;
+import com.caliber.flatbudget.services.impls.BudgetTableServiceImpl;
+import com.caliber.flatbudget.services.impls.UserServiceImpl;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

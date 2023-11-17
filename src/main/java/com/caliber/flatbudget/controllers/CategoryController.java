@@ -1,6 +1,6 @@
 package com.caliber.flatbudget.controllers;
 
-import com.caliber.flatbudget.services.CategoryServiceImpl;
+import com.caliber.flatbudget.services.impls.CategoryServiceImpl;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;

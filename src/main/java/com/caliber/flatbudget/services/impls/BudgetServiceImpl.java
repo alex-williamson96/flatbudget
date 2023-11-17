@@ -1,4 +1,4 @@
-package com.caliber.flatbudget.services;
+package com.caliber.flatbudget.services.impls;
 
 import com.caliber.flatbudget.models.Budget;
 import com.caliber.flatbudget.models.BudgetTable;
@@ -7,6 +7,7 @@ import com.caliber.flatbudget.models.User;
 import com.caliber.flatbudget.repositories.BudgetRepository;
 import com.caliber.flatbudget.repositories.BudgetTableRepository;
 import com.caliber.flatbudget.repositories.CategoryRepository;
+import com.caliber.flatbudget.services.BudgetService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

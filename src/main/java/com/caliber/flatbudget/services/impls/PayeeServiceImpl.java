@@ -1,9 +1,10 @@
-package com.caliber.flatbudget.services;
+package com.caliber.flatbudget.services.impls;
 
 import com.caliber.flatbudget.models.Payee;
 import com.caliber.flatbudget.models.User;
 import com.caliber.flatbudget.repositories.PayeeRepository;
 import com.caliber.flatbudget.repositories.UserRepository;
+import com.caliber.flatbudget.services.PayeeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

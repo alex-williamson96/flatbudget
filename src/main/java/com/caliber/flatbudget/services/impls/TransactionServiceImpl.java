@@ -1,9 +1,10 @@
-package com.caliber.flatbudget.services;
+package com.caliber.flatbudget.services.impls;
 
 import com.caliber.flatbudget.models.Budget;
 import com.caliber.flatbudget.models.Transaction;
 import com.caliber.flatbudget.models.User;
 import com.caliber.flatbudget.repositories.TransactionRepository;
+import com.caliber.flatbudget.services.TransactionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

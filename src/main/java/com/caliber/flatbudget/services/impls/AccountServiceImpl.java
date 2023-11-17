@@ -1,18 +1,21 @@
-package com.caliber.flatbudget.services;
+package com.caliber.flatbudget.services.impls;
 
-import com.caliber.flatbudget.models.Account;
-import com.caliber.flatbudget.models.Budget;
-import com.caliber.flatbudget.models.Transaction;
-import com.caliber.flatbudget.models.User;
+import com.caliber.flatbudget.dtos.Account.AccountDto;
+import com.caliber.flatbudget.dtos.Account.AccountMapper;
+import com.caliber.flatbudget.dtos.Account.AccountOverviewDto;
+import com.caliber.flatbudget.models.*;
 import com.caliber.flatbudget.models.internal.Money;
 import com.caliber.flatbudget.repositories.AccountRepository;
 import com.caliber.flatbudget.repositories.TransactionRepository;
+import com.caliber.flatbudget.services.AccountService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -23,13 +26,16 @@ public class AccountServiceImpl implements AccountService {
     private final UserServiceImpl userService;
     private final TransactionRepository transactionRepository;
     private final BudgetServiceImpl budgetService;
+    private final AccountMapper accountMapper;
 
     @Override
-    public Account findById(Long id) {
+    public AccountDto findById(Long id) {
         if (accountRepository.findById(id).isEmpty()) {
             log.error("Could not find entity " + id + " in accountRepository");
         }
-        return accountRepository.findById(id).get();
+
+        Account account = accountRepository.findById(id).get();
+        return accountMapper.accountToDto(account);
     }
 
     @Override
@@ -48,12 +54,43 @@ public class AccountServiceImpl implements AccountService {
 
         account.setUser(user);
         account.setBudget(budget);
-        return accountRepository.save(account);
+        Account savedAccount = accountRepository.save(account);
+
+        Transaction startingBalance = Transaction.builder()
+                .account(savedAccount)
+                .createdDate(LocalDateTime.now())
+                .updatedDate(LocalDateTime.now())
+                .budget(budget)
+                .user(user)
+                .dollar(account.getDollar())
+                .cents(account.getCents())
+                .isOutflow(account.getDollar() < 0)
+                .isPending(false)
+                .name("Initial balance")
+                .payee(null)
+                .transactionDate(LocalDate.now())
+                .categoryList(null)
+                .build();
+
+        transactionRepository.saveAndFlush(startingBalance);
+
+        return savedAccount;
     }
 
     @Override
-    public List<Account> findAccountsByBudget(Budget budget) {
-        return accountRepository.findAccountsByBudget(budget);
+    public List<AccountDto> findAccountsByBudget(Budget budget) {
+        return accountRepository.findAccountsByBudget(budget)
+                .stream()
+                .map((accountMapper::accountToDto))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<AccountOverviewDto> findAccountOverviewsByBudget(Budget budget) {
+        return accountRepository.findAccountsByBudget(budget)
+                .stream()
+                .map((accountMapper::accountToOverviewDto))
+                .collect(Collectors.toList());
     }
 
     @Override
