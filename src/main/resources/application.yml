@@ -21,6 +21,24 @@ spring:
   sql:
     init:
       mode: always
+  security:
+    oauth2:
+      authorizationserver:
+        client:
+          public-client:
+            registration:
+              client-id: "public-client"
+              client-authentication-methods:
+                - "none"
+              authorization-grant-types:
+                - "authorization_code"
+              redirect-uris:
+                - "http://127.0.0.1:4200"
+              scopes:
+                - "openid"
+                - "profile"
+            require-authorization-consent: true
+            require-proof-key: true
 
 flatbudget.app:
   jwtSecret: HRlELXqpSBfe3GdeGegRR
@@ -28,3 +46,4 @@ flatbudget.app:
   jwtRefreshExpirationMs: 86400000
   jwtCookieName: flatbudget-jwt
   jwtRefreshCookieName: flatbudget-jwt-refresh
+

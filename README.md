@@ -35,3 +35,5 @@ you can then set those properties back, so that the roles get properly filled in
 permissions errors will pop up whenever you try pinging the backend.</p>
 
 TODO: spring auth and resource servers
+
+https://docs.spring.io/spring-authorization-server/docs/current/reference/html/guides/how-to-pkce.html
