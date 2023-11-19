@@ -33,3 +33,5 @@ Spring Boot application to run itself. The schema has to be set up manually. Thi
 application properties to never, and the ddl options to create. That will initialize the database,
 you can then set those properties back, so that the roles get properly filled into database. Otherwise
 permissions errors will pop up whenever you try pinging the backend.</p>
+
+TODO: spring auth and resource servers

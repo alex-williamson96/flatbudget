@@ -2,7 +2,7 @@ package com.caliber.flatbudget.dtos.User;
 
 import lombok.*;
 
-import javax.persistence.Column;
+import jakarta.persistence.Column;
 
 @Getter
 @Setter

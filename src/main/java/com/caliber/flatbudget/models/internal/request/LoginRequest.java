@@ -3,7 +3,7 @@ package com.caliber.flatbudget.models.internal.request;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 @Getter
 @Setter

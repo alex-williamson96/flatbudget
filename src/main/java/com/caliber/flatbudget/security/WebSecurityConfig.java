@@ -34,16 +34,16 @@ public class WebSecurityConfig {
     @Bean
     @Order(1)
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .cors()
-                .and()
-                .csrf(CsrfConfigurer::disable)
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeHttpRequests(req -> req
-                        .antMatchers("api/v1/auth/**", "api/v1/auth/register", "api/v1/auth/signIn").permitAll()
-                        .anyRequest().permitAll())
-                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler);
+//        http
+//                .cors()
+//                .and()
+//                .csrf(CsrfConfigurer::disable)
+//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//                .and()
+//                .authorizeHttpRequests(req -> req
+//                        .requestMatchers("api/v1/auth/**", "api/v1/auth/register", "api/v1/auth/signIn").permitAll()
+//                        .anyRequest().permitAll())
+//                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler);
 //                .oauth2Login(
 //                        oauth2 -> oauth2
 //                        .authorizationEndpoint(authorization -> authorization
@@ -60,7 +60,7 @@ public class WebSecurityConfig {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web -> web.ignoring().antMatchers("/js/**", "/images/**"));
+        return (web -> web.ignoring().requestMatchers("/js/**", "/images/**"));
     }
 
     @Bean
