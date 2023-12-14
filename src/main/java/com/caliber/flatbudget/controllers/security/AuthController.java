@@ -6,9 +6,7 @@ import com.caliber.flatbudget.models.internal.request.SignupRequest;
 import com.caliber.flatbudget.models.internal.response.JwtResponse;
 import com.caliber.flatbudget.models.internal.response.MessageResponse;
 import com.caliber.flatbudget.models.security.RefreshToken;
-import com.caliber.flatbudget.security.jwt.JwtUtils;
-import com.caliber.flatbudget.security.services.RefreshTokenService;
-import com.caliber.flatbudget.security.services.UserDetailsImpl;
+
 import com.caliber.flatbudget.services.impls.UserServiceImpl;
 import com.caliber.flatbudget.services.security.AuthServiceImpl;
 import lombok.AllArgsConstructor;
@@ -24,76 +22,28 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/security/auth")
+@RequestMapping
 @AllArgsConstructor
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "*")
 public class AuthController {
 
-    private final JwtUtils jwtUtils;
-    private final RefreshTokenService refreshTokenService;
     private final AuthServiceImpl authService;
     private final UserServiceImpl userService;
 
-    @PostMapping("signIn")
-    public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
-        Authentication authentication = authService.getAuthentication(loginRequest);
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtUtils.generateJwtToken(authentication);
-
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-
-        List<String> roles = userDetails.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority).toList();
-
-        return ResponseEntity.ok(JwtResponse.builder()
-                .token(jwt)
-                .id(userDetails.getId())
-                .username(userDetails.getUsername())
-                .email(userDetails.getEmail())
-                .roles(roles)
-                .build());
+    @GetMapping(value = "/public")
+    public String publicEndpoint() {
+        return "All good. You DO NOT need to be authenticated to call /api/public.";
     }
 
-    @PostMapping("register")
-    public ResponseEntity<?> registerUser(@RequestBody SignupRequest signupRequest) {
-        if (userService.checkUsernameAvailability(signupRequest.getUsername())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Username is already taken!"));
-        }
-
-        if (userService.checkEmailAvailability(signupRequest.getEmail())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Email is already taken!"));
-        }
-
-
-        return ResponseEntity.ok(userService.createUserFromSignUp(signupRequest));
-
+    @GetMapping(value = "/private")
+    public String privateEndpoint() {
+        return "All good. You can see this because you are Authenticated.";
     }
 
-    @PostMapping("refreshToken")
-    public ResponseEntity<?> refreshToken(HttpServletRequest request) {
-        String refreshToken = jwtUtils.getJwtRefreshFromCookies(request);
-
-        System.out.println(refreshToken);
-
-        if ((refreshToken != null) && (!refreshToken.isEmpty())) {
-            return refreshTokenService.findByToken(refreshToken)
-                    .map(refreshTokenService::verifyExpiration)
-                    .map(RefreshToken::getUser)
-                    .map(user -> {
-                        ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(UserDetailsImpl.build(user));
-
-                        return ResponseEntity.ok()
-                                .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
-                                .body(new MessageResponse("Token is refreshed successfully!"));
-                    })
-                    .orElseThrow(() -> new TokenRefreshException(refreshToken,
-                            "Refresh token is not in database!"));
-        }
-        return ResponseEntity.badRequest().body(new MessageResponse("Refresh Token is empty!"));
+    @GetMapping(value = "/private-scoped")
+    public String privateScopedEndpoint() {
+        return "All good. You can see this because you are Authenticated with a Token granted the 'read:messages' scope";
     }
+
+
 }

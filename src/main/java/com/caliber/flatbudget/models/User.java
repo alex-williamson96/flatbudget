@@ -29,7 +29,7 @@ public class User {
     @GeneratedValue
     private Long userId;
 
-    @Column
+    @Column(unique = true)
     private String username;
 
     @Column
@@ -38,12 +38,8 @@ public class User {
     @Column
     private String lastName;
 
-    @Column
+    @Column(unique = true)
     private String email;
-
-    @Column
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private String password;
 
     @Column
     private Long activeBudget;
@@ -87,7 +83,7 @@ public class User {
 //    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
 //    @Column(name = "role")
 //    @ElementCollection(targetClass = ERole.class)
-//    private Set<ERole> roles = new HashSet<>();
+//    private <ERole> roles = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",

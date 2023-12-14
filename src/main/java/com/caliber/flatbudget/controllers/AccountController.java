@@ -21,6 +21,7 @@ import java.util.List;
 @RequestMapping("/api/v1/account")
 @Slf4j
 @AllArgsConstructor
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class AccountController {
 
     private final AccountServiceImpl accountService;
@@ -30,6 +31,7 @@ public class AccountController {
 
     @GetMapping("all")
     public List<AccountDto> getAllAccounts() {
+        System.out.println("Hello");
         User user = userService.getUser();
 
         if (user == null) {
@@ -70,7 +72,7 @@ public class AccountController {
         return accountService.findById(accountId);
     }
 
-    @PostMapping("create")
+    @PostMapping
     public ResponseEntity<?> createAccount(@RequestBody Account account) {
         User user = userService.getUser();
 

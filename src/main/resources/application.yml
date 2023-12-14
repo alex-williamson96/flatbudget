@@ -1,3 +1,17 @@
+okta:
+  oauth2:
+    issuer: ${issuer}
+    audience: ${audience}
+  auth0:
+    mgmt:
+      access:
+        token: ${mgmtToken}
+logging:
+  level:
+    org:
+      springframework:
+        web: error
+
 # Database Connection
 spring:
   datasource:
@@ -23,27 +37,6 @@ spring:
       mode: always
   security:
     oauth2:
-      authorizationserver:
-        client:
-          public-client:
-            registration:
-              client-id: "public-client"
-              client-authentication-methods:
-                - "none"
-              authorization-grant-types:
-                - "authorization_code"
-              redirect-uris:
-                - "http://127.0.0.1:4200"
-              scopes:
-                - "openid"
-                - "profile"
-            require-authorization-consent: true
-            require-proof-key: true
-
-flatbudget.app:
-  jwtSecret: HRlELXqpSBfe3GdeGegRR
-  jwtExpirationMs: 86400000
-  jwtRefreshExpirationMs: 86400000
-  jwtCookieName: flatbudget-jwt
-  jwtRefreshCookieName: flatbudget-jwt-refresh
-
+      resourceserver:
+        jwt:
+          issuer-uri: ${issuer}

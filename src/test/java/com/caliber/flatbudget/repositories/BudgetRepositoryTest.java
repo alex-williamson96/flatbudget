@@ -60,7 +60,6 @@ class BudgetRepositoryTest extends AbstractIntegration {
             user.setFirstName("first" + i);
             user.setLastName("last" + i);
             user.setEmail("first.last." + i + "@test.com");
-            user.setPassword("12345test" + i);
             user.setCreatedDate(LocalDateTime.now());
             user.setUpdatedDate(LocalDateTime.now());
             i++;

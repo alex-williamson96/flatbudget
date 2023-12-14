@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class AuthServiceImpl implements AuthService {
 
-    private final AuthenticationManager authenticationManager;
+    static AuthenticationManager authenticationManager;
 
     @Override
     public Authentication getAuthentication(LoginRequest loginRequest) {

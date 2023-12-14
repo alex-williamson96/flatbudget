@@ -14,6 +14,9 @@ services:
       - POSTGRES_USER=flatbudget
       - POSTGRES_DB=flatbudget
       - POSTGRES_URL=jdbc:postgresql://postgres_server/flatbudget
+      - mgmtToken=${mgmtToken}
+      - issuer=${issuer}
+      - audience=${audience}
     depends_on:
       - postgres_server
   postgres_server:

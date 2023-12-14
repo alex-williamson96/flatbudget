@@ -46,7 +46,6 @@ class CategoryRepositoryTest {
         user.setFirstName("first");
         user.setLastName("last");
         user.setEmail("first.last@test.com");
-        user.setPassword("12345test");
         user.setCreatedDate(LocalDateTime.now());
         user.setUpdatedDate(LocalDateTime.now());
 
