@@ -21,7 +21,7 @@ import java.util.Objects;
 public class Payee {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
 
     @Column

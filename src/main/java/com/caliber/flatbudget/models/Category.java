@@ -19,7 +19,7 @@ import java.util.Objects;
 public class Category {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
 
     @Column

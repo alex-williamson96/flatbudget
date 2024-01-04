@@ -39,8 +39,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Account createAccount(Account account) {
-        User user = userService.getUser();
+    public Account createAccount(Account account, User user) {
         account.setCreatedDate(LocalDateTime.now());
         account.setUpdatedDate(LocalDateTime.now());
         Budget budget;

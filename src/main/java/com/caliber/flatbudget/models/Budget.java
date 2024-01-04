@@ -22,7 +22,7 @@ import java.util.Objects;
 public class Budget {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private Long budgetId;
 
     @Column

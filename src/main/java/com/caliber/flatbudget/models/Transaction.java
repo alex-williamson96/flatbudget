@@ -20,7 +20,7 @@ import java.util.Objects;
 public class Transaction {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
 
     @Column

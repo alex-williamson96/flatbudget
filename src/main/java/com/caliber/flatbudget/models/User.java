@@ -8,6 +8,9 @@ import lombok.*;
 import org.hibernate.Hibernate;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -26,7 +29,7 @@ public class User {
 
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private Long userId;
 
     @Column(unique = true)
@@ -75,6 +78,12 @@ public class User {
 
     @Column
     private Boolean enabled;
+
+    @Column
+    private Boolean isExpired;
+
+    @Column
+    private Boolean isLocked;
 
     @Transient
     private List<String> stringRoles;

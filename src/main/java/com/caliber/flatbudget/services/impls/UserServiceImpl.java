@@ -6,13 +6,14 @@ import com.caliber.flatbudget.models.internal.request.SignupRequest;
 import com.caliber.flatbudget.models.internal.response.Auth0UserResponse;
 import com.caliber.flatbudget.models.security.ERole;
 import com.caliber.flatbudget.models.security.Role;
+import com.caliber.flatbudget.repositories.BudgetRepository;
+import com.caliber.flatbudget.repositories.BudgetTableRepository;
 import com.caliber.flatbudget.repositories.UserRepository;
 import com.caliber.flatbudget.services.UserService;
 import com.caliber.flatbudget.services.security.RoleServiceImpl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -29,14 +30,16 @@ public class UserServiceImpl implements UserService {
     private final UserMapperImpl userMapper;
     private final UserRepository userRepository;
     private final RoleServiceImpl roleService;
+    private final NewUserServiceImpl newUserService;
     private final WebClient auth0Client;
 
     public UserServiceImpl(UserRepository userRepository, RoleServiceImpl roleService, WebClient auth0Client,
-                           UserMapperImpl userMapper) {
+                           UserMapperImpl userMapper, BudgetRepository budgetRepository, BudgetTableRepository budgetTableRepository, NewUserServiceImpl userService) {
         this.userRepository = userRepository;
         this.roleService = roleService;
         this.auth0Client = auth0Client;
         this.userMapper = userMapper;
+        this.newUserService = userService;
     }
 
     @Value("${okta.auth0.mgmt.access.token}")
@@ -50,8 +53,15 @@ public class UserServiceImpl implements UserService {
         return this.userRepository.findByEmail(email);
     }
 
-    public User getUser() {
-        return getUserInfoById(SecurityContextHolder.getContext().getAuthentication().getName());
+    public User getUser(String userName) {
+        User user = getUserInfoById(userName);
+
+        if (!userRepository.existsByEmail(user.getEmail())) {
+            return newUserService.createNewOAuthUser(user);
+        }
+
+
+        return userRepository.findByEmail(user.getEmail());
     }
 
     public User getUserInfoById(String userId) {
@@ -61,7 +71,7 @@ public class UserServiceImpl implements UserService {
                 .header("authorization", "Bearer " + accessToken)
                 .retrieve()
                 .bodyToMono(Auth0UserResponse.class)
-                .block(Duration.ofSeconds(3)));
+                .block(Duration.ofSeconds(2)));
     }
 
     @Override

@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,9 +31,8 @@ public class AccountController {
     private final AccountMapper accountMapper;
 
     @GetMapping("all")
-    public List<AccountDto> getAllAccounts() {
-        System.out.println("Hello");
-        User user = userService.getUser();
+    public List<AccountDto> getAllAccounts(Principal principal) {
+        User user = getUser(principal.getName());
 
         if (user == null) {
             return new ArrayList<>();
@@ -49,8 +49,8 @@ public class AccountController {
     }
 
     @GetMapping("all/balances")
-    public List<AccountOverviewDto> getAllAccountBalances() {
-        User user = userService.getUser();
+    public List<AccountOverviewDto> getAllAccountBalances(Principal principal) {
+        User user = getUser(principal.getName());
 
         if (user == null) {
             return new ArrayList<>();
@@ -67,22 +67,27 @@ public class AccountController {
     }
 
     @GetMapping("{accountId}")
-    public AccountDto getAccountById(@PathVariable("accountId") Long accountId) {
+    public AccountDto getAccountById(@PathVariable("accountId") Long accountId, Principal principal) {
         System.out.println(accountId);
         return accountService.findById(accountId);
     }
 
     @PostMapping
-    public ResponseEntity<?> createAccount(@RequestBody Account account) {
-        User user = userService.getUser();
+    public ResponseEntity<?> createAccount(@RequestBody Account account, Principal principal) {
+        User user = userService.getUser(principal.getName());
 
         if (user == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
         }
 
+        System.out.println(principal.getName());
+        System.out.println(account);
 
-        return new ResponseEntity<>(accountService.createAccount(account), HttpStatus.CREATED);
+        return new ResponseEntity<>(accountService.createAccount(account, user), HttpStatus.CREATED);
     }
 
+    public User getUser(String userName) {
+        return userService.getUser(userName);
+    }
 
 }
