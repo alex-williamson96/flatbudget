@@ -3,6 +3,7 @@ package com.caliber.flatbudget.services.impls;
 import com.caliber.flatbudget.dtos.User.UserMapperImpl;
 import com.caliber.flatbudget.models.User;
 import com.caliber.flatbudget.models.internal.request.SignupRequest;
+import com.caliber.flatbudget.models.internal.response.AccessTokenRefreshResponse;
 import com.caliber.flatbudget.models.internal.response.Auth0UserResponse;
 import com.caliber.flatbudget.models.security.ERole;
 import com.caliber.flatbudget.models.security.Role;
@@ -15,14 +16,15 @@ import com.caliber.flatbudget.services.security.RoleServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -42,8 +44,19 @@ public class UserServiceImpl implements UserService {
         this.newUserService = userService;
     }
 
-    @Value("${okta.auth0.mgmt.access.token}")
-    private String accessToken;
+    @Value("${okta.oauth2.audience}")
+    private String audience;
+
+    @Value("${okta.oauth2.client-id}")
+    private String clientId;
+
+    @Value("${okta.oauth2.client-secret}")
+    private String clientSecret;
+
+    @Value("${okta.auth0.mgmt.access.audience}")
+    private String mgmtAudience;
+
+
 
     public List<User> findAll() {
         return userRepository.findAll();
@@ -68,10 +81,27 @@ public class UserServiceImpl implements UserService {
         return userMapper.auth0UserToUser(auth0Client
                 .get()
                 .uri("/api/v2/users/" + userId)
-                .header("authorization", "Bearer " + accessToken)
+                .header("authorization", "Bearer " + Objects.requireNonNull(getAccessToken().single().block()).getAccess_token())
                 .retrieve()
                 .bodyToMono(Auth0UserResponse.class)
                 .block(Duration.ofSeconds(2)));
+    }
+
+    public Mono<AccessTokenRefreshResponse> getAccessToken() {
+        MultiValueMap<String, String> tokenData = new LinkedMultiValueMap<>();
+
+        tokenData.add("client_id", clientId);
+        tokenData.add("client_secret", clientSecret);
+        tokenData.add("audience", mgmtAudience);
+        tokenData.add("grant_type", "client_credentials");
+
+        return auth0Client
+                .post()
+                .uri("/oauth/token")
+                .header("content-type", "application/json")
+                .body(BodyInserters.fromFormData(tokenData))
+                .retrieve()
+                .bodyToMono(AccessTokenRefreshResponse.class);
     }
 
     @Override
@@ -102,6 +132,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> findById(Long id) {
         return userRepository.findById(id);
+    }
+
+    public Long setActiveBudget(User user) {
+        user.setActiveBudget(user.getBudgetList().get(0).getBudgetId());
+        userRepository.save(user);
+
+        return user.getActiveBudget();
     }
 
     public User createUser(User newUser) {

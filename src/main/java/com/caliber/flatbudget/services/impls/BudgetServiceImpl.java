@@ -32,7 +32,11 @@ public class BudgetServiceImpl implements BudgetService {
             log.error("Could not find entity " + id + " in budgetRepository");
         }
 
-        return budgetRepository.findById(id).get();
+        Budget budget = budgetRepository.findById(id).get();
+
+        budget.setBudgetTableList(tableRepository.findBudgetTablesByBudget(budget));
+
+        return budget;
     }
 
     @Override

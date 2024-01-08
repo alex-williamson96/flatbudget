@@ -2,10 +2,13 @@ okta:
   oauth2:
     issuer: ${issuer}
     audience: ${audience}
+    client-secret: ${client_secret}
+    client-id: ${client_id}
   auth0:
     mgmt:
       access:
-        token: ${mgmtToken}
+        token: ${mgmt_token}
+        audience: ${mgmt_audience}
 logging:
   level:
     org:

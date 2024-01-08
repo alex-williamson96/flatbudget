@@ -77,11 +77,9 @@ public class NewUserServiceImpl {
         List<String> leisureCategories = Arrays.asList("Leisure","Fun Money", "Hobbies");
         buildCategories(leisureCategories, savedUser, savedBudgetTable, now, i);
 
+        user.setActiveBudget(savedBudget.getBudgetId());
 
-
-
-
-        return savedUser;
+        return userRepository.save(user);
     }
 
     public void buildCategories(List<String> categories, User user, BudgetTable budgetTable, LocalDateTime now, int mainOrder) {

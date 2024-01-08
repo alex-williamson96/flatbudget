@@ -1,5 +1,6 @@
 package com.caliber.flatbudget.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import jakarta.persistence.*;
@@ -21,15 +22,19 @@ public class BudgetTable {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
 
+    // TODO: add mappings to get entire budget object
+
     @OneToMany
     @ToString.Exclude
     private List<Category> categoryList = new ArrayList<>();
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "userId")
     private User user;
 
     @ManyToOne
+    @JsonIgnore
     private Budget budget;
 
     @Column
