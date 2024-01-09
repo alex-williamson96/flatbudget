@@ -48,7 +48,7 @@ public class Account {
     @JsonIgnore
     User user;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "account")
+    @OneToMany(mappedBy = "account")
     private List<Transaction> transactionList;
 
     @ManyToOne

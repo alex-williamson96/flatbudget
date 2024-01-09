@@ -68,7 +68,6 @@ public class AccountController {
 
     @GetMapping("{accountId}")
     public AccountDto getAccountById(@PathVariable("accountId") Long accountId, Principal principal) {
-        System.out.println(accountId);
         return accountService.findById(accountId);
     }
 
@@ -79,9 +78,6 @@ public class AccountController {
         if (user == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
         }
-
-        System.out.println(principal.getName());
-        System.out.println(account);
 
         return new ResponseEntity<>(accountService.createAccount(account, user), HttpStatus.CREATED);
     }

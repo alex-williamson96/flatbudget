@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -28,13 +29,20 @@ public class BudgetServiceImpl implements BudgetService {
 
     @Override
     public Budget findById(Long id) {
-        if (budgetRepository.findById(id).isEmpty()) {
+        Optional<Budget> optionalBudget = budgetRepository.findBudgetByBudgetId(id);
+
+        if (optionalBudget.isEmpty()) {
             log.error("Could not find entity " + id + " in budgetRepository");
         }
 
-        Budget budget = budgetRepository.findById(id).get();
+        Budget budget = optionalBudget.get();
+
 
         budget.setBudgetTableList(tableRepository.findBudgetTablesByBudget(budget));
+
+        for (BudgetTable budgetTable : budget.getBudgetTableList()) {
+            budgetTable.setCategoryList(categoryRepository.getCategoriesByBudgetTable(budgetTable).orElse(null));
+        }
 
         return budget;
     }
@@ -90,7 +98,6 @@ public class BudgetServiceImpl implements BudgetService {
     }
 
     public Budget createDefaultBudget(User user) {
-        System.out.println("in here");
         LocalDateTime now = LocalDateTime.now();
         Budget budget = Budget.builder()
                 .name("Budget Name")
@@ -142,8 +149,8 @@ public class BudgetServiceImpl implements BudgetService {
         categoryList.add(carInsurance);
 
         Category food = createBlankCategory("Food", now, budgetTable, user);
-        Category groceries = createBlankCategory("groceries", now, budgetTable, user);
-        Category eatingOut = createBlankCategory("eatingOut", now, budgetTable, user);
+        Category groceries = createBlankCategory("Groceries", now, budgetTable, user);
+        Category eatingOut = createBlankCategory("Eating out", now, budgetTable, user);
         food.setMainOrder(3);
         categoryList.add(food);
         groceries.setMainOrder(3);
@@ -170,8 +177,6 @@ public class BudgetServiceImpl implements BudgetService {
         categoryList.add(hobbies);
 
         categoryRepository.saveAll(categoryList);
-
-        System.out.println(budget);
 
         return budget;
 

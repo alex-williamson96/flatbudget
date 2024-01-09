@@ -32,7 +32,7 @@ public class Budget {
     @JsonIgnore
     private User user;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
     @ToString.Exclude
     private List<BudgetTable> budgetTableList = new ArrayList<>();
 

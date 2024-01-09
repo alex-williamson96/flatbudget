@@ -24,8 +24,7 @@ public class BudgetTable {
 
     // TODO: add mappings to get entire budget object
 
-    @OneToMany
-    @ToString.Exclude
+    @OneToMany(fetch = FetchType.LAZY)
     private List<Category> categoryList = new ArrayList<>();
 
     @ManyToOne

@@ -1,5 +1,6 @@
 package com.caliber.flatbudget.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.Hibernate;
 
@@ -62,6 +63,7 @@ public class Category {
     private String notes = "";
 
     @ManyToOne
+    @JsonIgnore
     private User user;
 
     @ManyToMany
@@ -69,6 +71,7 @@ public class Category {
     private List<Transaction> transactionList;
 
     @ManyToOne
+    @JsonIgnore
     private BudgetTable budgetTable;
 
     @Override
