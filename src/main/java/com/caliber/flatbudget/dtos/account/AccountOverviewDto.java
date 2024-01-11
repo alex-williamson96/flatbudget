@@ -1,4 +1,4 @@
-package com.caliber.flatbudget.dtos.Account;
+package com.caliber.flatbudget.dtos.account;
 
 import lombok.*;
 

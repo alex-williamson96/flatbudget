@@ -1,7 +1,7 @@
 package com.caliber.flatbudget.services;
 
-import com.caliber.flatbudget.dtos.Account.AccountDto;
-import com.caliber.flatbudget.dtos.Account.AccountOverviewDto;
+import com.caliber.flatbudget.dtos.account.AccountDto;
+import com.caliber.flatbudget.dtos.account.AccountOverviewDto;
 import com.caliber.flatbudget.models.Account;
 import com.caliber.flatbudget.models.Budget;
 import com.caliber.flatbudget.models.User;

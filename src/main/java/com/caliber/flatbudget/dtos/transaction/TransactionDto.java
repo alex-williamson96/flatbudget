@@ -1,16 +1,16 @@
-package com.caliber.flatbudget.dtos.Transaction;
+package com.caliber.flatbudget.dtos.transaction;
 
+import com.caliber.flatbudget.dtos.category.CategoryDto;
+import com.caliber.flatbudget.dtos.payee.PayeeDto;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class TransactionDto {
-
     private Long id;
     private String name;
     private LocalDate transactionDate;
@@ -19,9 +19,7 @@ public class TransactionDto {
     private Integer cents;
     private Boolean isOutflow;
     private Boolean isPending;
-//    private AccountDto account;
-//    private UserDto user;
-//    private List<CategoryDto> categoryList;
-//    private PayeeDto payee;
+    private List<CategoryDto> categoryList;
+    private PayeeDto payee;
 
 }

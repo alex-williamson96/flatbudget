@@ -1,8 +1,8 @@
 package com.caliber.flatbudget.controllers;
 
-import com.caliber.flatbudget.dtos.Account.AccountDto;
-import com.caliber.flatbudget.dtos.Account.AccountMapper;
-import com.caliber.flatbudget.dtos.Account.AccountOverviewDto;
+import com.caliber.flatbudget.dtos.account.AccountDto;
+import com.caliber.flatbudget.dtos.account.AccountMapper;
+import com.caliber.flatbudget.dtos.account.AccountOverviewDto;
 import com.caliber.flatbudget.models.Account;
 import com.caliber.flatbudget.models.User;
 import com.caliber.flatbudget.services.impls.AccountServiceImpl;
@@ -28,7 +28,6 @@ public class AccountController {
     private final AccountServiceImpl accountService;
     private final BudgetServiceImpl budgetService;
     private final UserServiceImpl userService;
-    private final AccountMapper accountMapper;
 
     @GetMapping("all")
     public List<AccountDto> getAllAccounts(Principal principal) {

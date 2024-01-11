@@ -8,15 +8,10 @@ import jakarta.persistence.Column;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class UserDto {
     private Long userId;
-
     private String username;
-
     private String firstName;
-
     private String lastName;
-
     private String email;
 }

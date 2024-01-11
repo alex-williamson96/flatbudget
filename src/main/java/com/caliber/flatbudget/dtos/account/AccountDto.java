@@ -1,6 +1,6 @@
-package com.caliber.flatbudget.dtos.Account;
+package com.caliber.flatbudget.dtos.account;
 
-import com.caliber.flatbudget.dtos.Transaction.TransactionDto;
+import com.caliber.flatbudget.dtos.transaction.TransactionDto;
 import lombok.*;
 
 import java.util.List;

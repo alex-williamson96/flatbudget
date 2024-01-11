@@ -1,5 +1,7 @@
 package com.caliber.flatbudget.services.impls;
 
+import com.caliber.flatbudget.dtos.budget.BudgetDto;
+import com.caliber.flatbudget.dtos.budget.BudgetMapper;
 import com.caliber.flatbudget.models.Budget;
 import com.caliber.flatbudget.models.BudgetTable;
 import com.caliber.flatbudget.models.Category;
@@ -14,8 +16,10 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -26,6 +30,7 @@ public class BudgetServiceImpl implements BudgetService {
     private final UserServiceImpl userService;
     private final BudgetTableRepository tableRepository;
     private final CategoryRepository categoryRepository;
+    private final BudgetMapper budgetMapper;
 
     @Override
     public Budget findById(Long id) {
@@ -33,6 +38,7 @@ public class BudgetServiceImpl implements BudgetService {
 
         if (optionalBudget.isEmpty()) {
             log.error("Could not find entity " + id + " in budgetRepository");
+            return null;
         }
 
         Budget budget = optionalBudget.get();
@@ -48,7 +54,7 @@ public class BudgetServiceImpl implements BudgetService {
     }
 
     @Override
-    public Budget createBudget(Budget budget, User user) {
+    public BudgetDto createBudget(Budget budget, User user) {
         budget.setCreatedDate(LocalDateTime.now());
         budget.setCreatedDate(LocalDateTime.now());
         budget.setUser(user);
@@ -66,13 +72,14 @@ public class BudgetServiceImpl implements BudgetService {
         }
 
 
-        return savedBudget;
+        return budgetMapper.budgetToBudgetDto(savedBudget);
     }
 
     @Override
     public void updateBudgetName(Budget budget) {
         if (budgetRepository.findById(budget.getBudgetId()).isEmpty()) {
             log.error("Could not find entity " + budget.getBudgetId() + " in budgetRepository");
+            return;
         }
 
         Budget _budget = budgetRepository.findById(budget.getBudgetId()).get();
@@ -84,13 +91,15 @@ public class BudgetServiceImpl implements BudgetService {
     }
 
     @Override
-    public List<Budget> findAllByNameAndUser(User user, String name) {
+    public List<BudgetDto> findAllByNameAndUser(User user, String name) {
         List<Budget> budgetList = budgetRepository.findAllByNameAndUser(name, user);
         if (budgetList.isEmpty()) {
             return null;
         }
 
-        return budgetList;
+        return budgetList.stream()
+                .map(budgetMapper::budgetToBudgetDto)
+                .collect(Collectors.toList());
     }
 
     public Budget save(Budget budget) {

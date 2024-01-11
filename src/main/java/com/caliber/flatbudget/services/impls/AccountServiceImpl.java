@@ -1,8 +1,8 @@
 package com.caliber.flatbudget.services.impls;
 
-import com.caliber.flatbudget.dtos.Account.AccountDto;
-import com.caliber.flatbudget.dtos.Account.AccountMapper;
-import com.caliber.flatbudget.dtos.Account.AccountOverviewDto;
+import com.caliber.flatbudget.dtos.account.AccountDto;
+import com.caliber.flatbudget.dtos.account.AccountMapper;
+import com.caliber.flatbudget.dtos.account.AccountOverviewDto;
 import com.caliber.flatbudget.models.*;
 import com.caliber.flatbudget.models.internal.Money;
 import com.caliber.flatbudget.repositories.AccountRepository;
@@ -23,7 +23,6 @@ import java.util.stream.Collectors;
 public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository accountRepository;
-    private final UserServiceImpl userService;
     private final TransactionRepository transactionRepository;
     private final BudgetServiceImpl budgetService;
     private final AccountMapper accountMapper;
@@ -32,10 +31,11 @@ public class AccountServiceImpl implements AccountService {
     public AccountDto findById(Long id) {
         if (accountRepository.findById(id).isEmpty()) {
             log.error("Could not find entity " + id + " in accountRepository");
+            return null;
         }
 
         Account account = accountRepository.findById(id).get();
-        return accountMapper.accountToDto(account);
+        return accountMapper.accountToAccountDto(account);
     }
 
     @Override
@@ -80,7 +80,7 @@ public class AccountServiceImpl implements AccountService {
     public List<AccountDto> findAccountsByBudget(Budget budget) {
         return accountRepository.findAccountsByBudget(budget)
                 .stream()
-                .map((accountMapper::accountToDto))
+                .map((accountMapper::accountToAccountDto))
                 .collect(Collectors.toList());
     }
 
@@ -88,7 +88,7 @@ public class AccountServiceImpl implements AccountService {
     public List<AccountOverviewDto> findAccountOverviewsByBudget(Budget budget) {
         return accountRepository.findAccountsByBudget(budget)
                 .stream()
-                .map((accountMapper::accountToOverviewDto))
+                .map((accountMapper::accountToAccountOverviewDto))
                 .collect(Collectors.toList());
     }
 

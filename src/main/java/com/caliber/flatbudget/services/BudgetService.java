@@ -1,5 +1,6 @@
 package com.caliber.flatbudget.services;
 
+import com.caliber.flatbudget.dtos.budget.BudgetDto;
 import com.caliber.flatbudget.models.Budget;
 import com.caliber.flatbudget.models.User;
 
@@ -9,10 +10,9 @@ public interface BudgetService {
 
     Budget findById(Long id);
 
-
-    Budget createBudget(Budget budget, User user);
+    BudgetDto createBudget(Budget budget, User user);
 
     void updateBudgetName(Budget budget);
 
-    List<Budget> findAllByNameAndUser(User user, String name);
+    List<BudgetDto> findAllByNameAndUser(User user, String name);
 }
