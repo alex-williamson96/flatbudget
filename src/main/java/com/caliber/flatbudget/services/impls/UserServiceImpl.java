@@ -15,9 +15,12 @@ import com.caliber.flatbudget.services.security.RoleServiceImpl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestClient;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -26,6 +29,8 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
 
+import static io.netty.handler.codec.http.HttpHeaders.Values.APPLICATION_JSON;
+
 @Service
 @Slf4j
 public class UserServiceImpl implements UserService {
@@ -33,13 +38,11 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleServiceImpl roleService;
     private final NewUserServiceImpl newUserService;
-    private final WebClient auth0Client;
 
-    public UserServiceImpl(UserRepository userRepository, RoleServiceImpl roleService, WebClient auth0Client,
-                           UserMapperImpl userMapper, BudgetRepository budgetRepository, BudgetTableRepository budgetTableRepository, NewUserServiceImpl userService) {
+    public UserServiceImpl(UserRepository userRepository, RoleServiceImpl roleService, UserMapperImpl userMapper,
+                           BudgetRepository budgetRepository, BudgetTableRepository budgetTableRepository, NewUserServiceImpl userService) {
         this.userRepository = userRepository;
         this.roleService = roleService;
-        this.auth0Client = auth0Client;
         this.userMapper = userMapper;
         this.newUserService = userService;
     }
@@ -56,6 +59,8 @@ public class UserServiceImpl implements UserService {
     @Value("${okta.auth0.mgmt.access.audience}")
     private String mgmtAudience;
 
+    @Value("${okta.oauth2.issuer}")
+    private String issuer;
 
 
     public List<User> findAll() {
@@ -78,16 +83,18 @@ public class UserServiceImpl implements UserService {
     }
 
     public User getUserInfoById(String userId) {
-        return userMapper.auth0UserToUser(auth0Client
-                .get()
-                .uri("/api/v2/users/" + userId)
-                .header("authorization", "Bearer " + Objects.requireNonNull(getAccessToken().single().block()).getAccess_token())
+        RestClient authClient = RestClient.create();
+
+        return userMapper.auth0UserToUser(authClient.get()
+                .uri(issuer + "/api/v2/users/" + userId)
+                .header("authorization", "Bearer " + Objects.requireNonNull(getAccessToken().getAccess_token()))
                 .retrieve()
-                .bodyToMono(Auth0UserResponse.class)
-                .block(Duration.ofSeconds(2)));
+                .body(Auth0UserResponse.class));
     }
 
-    public Mono<AccessTokenRefreshResponse> getAccessToken() {
+    public AccessTokenRefreshResponse getAccessToken() {
+        RestClient authClient = RestClient.create();
+
         MultiValueMap<String, String> tokenData = new LinkedMultiValueMap<>();
 
         tokenData.add("client_id", clientId);
@@ -95,13 +102,13 @@ public class UserServiceImpl implements UserService {
         tokenData.add("audience", mgmtAudience);
         tokenData.add("grant_type", "client_credentials");
 
-        return auth0Client
-                .post()
-                .uri("/oauth/token")
-                .header("content-type", "application/json")
-                .body(BodyInserters.fromFormData(tokenData))
+
+        return authClient.post()
+                .uri(issuer + "oauth/token")
+                .header(APPLICATION_JSON)
+                .body(tokenData)
                 .retrieve()
-                .bodyToMono(AccessTokenRefreshResponse.class);
+                .body(AccessTokenRefreshResponse.class);
     }
 
     @Override

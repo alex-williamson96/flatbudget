@@ -21,11 +21,6 @@ public class FlatbudgetApplication {
 	}
 
 	@Bean
-	public WebClient auth0Client() {
-		return WebClient.create(issuer);
-	}
-
-	@Bean
 	public WebMvcConfigurer corsConfigurer() {
 		return new WebMvcConfigurer() {
 			@Override
