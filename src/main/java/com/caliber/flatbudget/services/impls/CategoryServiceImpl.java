@@ -45,6 +45,9 @@ public class CategoryServiceImpl implements CategoryService {
             throw new EntityNotFoundException("Could not find budget table with: " + year + month + user.getUsername());
         }
 
+        Integer maxSubOrder = categoryRepository.findMaxSubOrderForMainOrderAndBudgetTable(mainOrder, table);
+
+        Integer subOrder = maxSubOrder != null ? maxSubOrder + 1 : 0;
 
         Category category = Category.builder()
                 .budgetTable(table)
@@ -59,7 +62,7 @@ public class CategoryServiceImpl implements CategoryService {
                 .centsAvailable(0)
                 .name(name)
                 .mainOrder(mainOrder)
-                .subOrder(categoryRepository.findMaxSubOrderForMainOrderAndBudgetTable(mainOrder, table) + 1)
+                .subOrder(subOrder)
                 .notes("")
                 .isCreditCard(false)
                 .build();
