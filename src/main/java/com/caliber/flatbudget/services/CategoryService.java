@@ -1,6 +1,7 @@
 package com.caliber.flatbudget.services;
 
 import com.caliber.flatbudget.models.Category;
+import com.caliber.flatbudget.models.User;
 
 public interface CategoryService {
 
@@ -29,4 +30,6 @@ public interface CategoryService {
     void updateCategoryCentsAvailable(Category category);
 
     void updateCategoryIsCreditCard(Category category);
+
+    Category getCategoryByIdAndUser(Long id, User user);
 }

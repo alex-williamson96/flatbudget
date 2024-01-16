@@ -15,10 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,15 +31,12 @@ public class BudgetServiceImpl implements BudgetService {
 
     @Override
     public Budget findById(Long id) {
-        Optional<Budget> optionalBudget = budgetRepository.findBudgetByBudgetId(id);
+        Budget budget = budgetRepository.findBudgetByBudgetId(id).orElse(null);
 
-        if (optionalBudget.isEmpty()) {
+        if (budget == null) {
             log.error("Could not find entity " + id + " in budgetRepository");
             return null;
         }
-
-        Budget budget = optionalBudget.get();
-
 
         budget.setBudgetTableList(tableRepository.findBudgetTablesByBudget(budget));
 
@@ -210,4 +204,5 @@ public class BudgetServiceImpl implements BudgetService {
                 .notes("")
                 .build();
     }
+
 }

@@ -1,17 +1,22 @@
 package com.caliber.flatbudget.services.impls;
 
+import com.caliber.flatbudget.models.BudgetTable;
 import com.caliber.flatbudget.models.Category;
 import com.caliber.flatbudget.models.Transaction;
+import com.caliber.flatbudget.models.User;
 import com.caliber.flatbudget.repositories.BudgetRepository;
 import com.caliber.flatbudget.repositories.CategoryRepository;
 import com.caliber.flatbudget.repositories.TransactionRepository;
 import com.caliber.flatbudget.services.CategoryService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -170,11 +175,14 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void updateCategoryCentsAssigned(Category category) {
-        if (categoryRepository.findById(category.getId()).isEmpty()) {
+        Optional<Category> optionalCategory = categoryRepository.findById(category.getId());
+        if (optionalCategory.isEmpty()) {
             log.error("Could not find entity " + category.getId() + " in categoryRepository");
+            throw new EntityNotFoundException();
         }
 
         Category _category = categoryRepository.findById(category.getId()).get();
+
 
         _category.setUpdatedDate(LocalDateTime.now());
         _category.setCentsAssigned(category.getCentsAssigned());
@@ -238,6 +246,15 @@ public class CategoryServiceImpl implements CategoryService {
         } catch (Exception e) {
             log.error(e.getMessage());
         }
+    }
+
+    @Override
+    public Category getCategoryByIdAndUser(Long id, User user) {
+        return categoryRepository.getCategoryByIdIsAndUser(id, user).orElse(null);
+    }
+
+    public List<Category> getCategoriesByBudgetTable(BudgetTable budgetTable) {
+        return categoryRepository.getCategoriesByBudgetTable(budgetTable).orElse(null);
     }
 
 }

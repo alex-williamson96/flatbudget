@@ -72,14 +72,13 @@ public class UserServiceImpl implements UserService {
     }
 
     public User getUser(String userName) {
-        User user = getUserInfoById(userName);
+        User user = userRepository.findByUsername(userName).orElse(null);
 
-        if (!userRepository.existsByEmail(user.getEmail())) {
-            return newUserService.createNewOAuthUser(user);
+        if (user == null) {
+            return newUserService.createNewOAuthUser(getUserInfoById(userName));
         }
 
-
-        return userRepository.findByEmail(user.getEmail());
+        return user;
     }
 
     public User getUserInfoById(String userId) {

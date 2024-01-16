@@ -1,12 +1,10 @@
-package com.caliber.flatbudget.controllers;
+package com.caliber.flatbudget.controllers.budget;
 
-import com.caliber.flatbudget.models.Budget;
+import com.caliber.flatbudget.dtos.budget.BudgetMapper;
 import com.caliber.flatbudget.models.User;
+import com.caliber.flatbudget.models.internal.Money;
 import com.caliber.flatbudget.services.impls.BudgetServiceImpl;
-import com.caliber.flatbudget.services.impls.BudgetTableServiceImpl;
 import com.caliber.flatbudget.services.impls.UserServiceImpl;
-import com.caliber.flatbudget.services.security.AuthServiceImpl;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,13 +17,19 @@ import java.security.Principal;
 @RestController
 @RequestMapping("/api/v1/budget")
 @Slf4j
-@AllArgsConstructor
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin("*")
 public class BudgetController {
+    private final BudgetMapper budgetMapper;
 
     private final BudgetServiceImpl budgetService;
     private final UserServiceImpl userService;
 
+    public BudgetController(BudgetServiceImpl budgetService, UserServiceImpl userService,
+                            BudgetMapper budgetMapper) {
+        this.budgetService = budgetService;
+        this.userService = userService;
+        this.budgetMapper = budgetMapper;
+    }
 
 
     @GetMapping("active")
@@ -36,6 +40,6 @@ public class BudgetController {
             user.setActiveBudget(userService.setActiveBudget(user));
         }
 
-        return ResponseEntity.ok(budgetService.findById(user.getActiveBudget()));
+        return ResponseEntity.ok(budgetMapper.budgetToBudgetDto(budgetService.findById(user.getActiveBudget())));
     }
 }

@@ -22,9 +22,8 @@ public class BudgetTable {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
 
-    // TODO: add mappings to get entire budget object
-
     @OneToMany(fetch = FetchType.LAZY)
+    @ToString.Exclude
     private List<Category> categoryList = new ArrayList<>();
 
     @ManyToOne

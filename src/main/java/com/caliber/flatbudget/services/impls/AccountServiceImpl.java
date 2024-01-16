@@ -26,6 +26,7 @@ public class AccountServiceImpl implements AccountService {
     private final TransactionRepository transactionRepository;
     private final BudgetServiceImpl budgetService;
     private final AccountMapper accountMapper;
+    private final UserServiceImpl userService;
 
     @Override
     public AccountDto findById(Long id) {
@@ -141,6 +142,38 @@ public class AccountServiceImpl implements AccountService {
         account.setUpdatedDate(LocalDateTime.now());
 
         accountRepository.save(account);
+    }
+
+    public Money getBudgetAccountsTotal(String username) {
+        User user = userService.getUser(username);
+
+        if (user.getActiveBudget() == null) {
+            return null;
+        }
+
+        Budget budget = budgetService.findById(user.getActiveBudget());
+
+        if (budget == null) {
+            return null;
+        }
+
+        List<Account> accounts = accountRepository.findAccountsByBudget(budget);
+
+        return new Money(
+                accounts.stream()
+                        .filter(Account::getOnBudget)
+                        .toList()
+                        .stream()
+                        .mapToInt(Account::getDollar)
+                        .sum(),
+                accounts.stream()
+                        .filter(Account::getOnBudget)
+                        .toList()
+                        .stream()
+                        .mapToInt(Account::getCents)
+                        .sum()
+        );
+
     }
 
 

@@ -1,14 +1,12 @@
 package com.caliber.flatbudget.controllers;
 
 import com.caliber.flatbudget.dtos.account.AccountDto;
-import com.caliber.flatbudget.dtos.account.AccountMapper;
 import com.caliber.flatbudget.dtos.account.AccountOverviewDto;
 import com.caliber.flatbudget.models.Account;
 import com.caliber.flatbudget.models.User;
 import com.caliber.flatbudget.services.impls.AccountServiceImpl;
 import com.caliber.flatbudget.services.impls.BudgetServiceImpl;
 import com.caliber.flatbudget.services.impls.UserServiceImpl;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,13 +19,18 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/account")
 @Slf4j
-@AllArgsConstructor
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin("*")
 public class AccountController {
 
     private final AccountServiceImpl accountService;
     private final BudgetServiceImpl budgetService;
     private final UserServiceImpl userService;
+
+    public AccountController(AccountServiceImpl accountService, BudgetServiceImpl budgetService, UserServiceImpl userService) {
+        this.accountService = accountService;
+        this.budgetService = budgetService;
+        this.userService = userService;
+    }
 
     @GetMapping("all")
     public List<AccountDto> getAllAccounts(Principal principal) {
@@ -41,9 +44,7 @@ public class AccountController {
             return new ArrayList<>();
         }
 
-        Long activeBudget = user.getActiveBudget();
-
-        return accountService.findAccountsByBudget(budgetService.findById(activeBudget));
+        return accountService.findAccountsByBudget(budgetService.findById(user.getActiveBudget()));
 
     }
 
