@@ -66,21 +66,23 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void updateCategoryName(Category category) {
-        if (categoryRepository.findById(category.getId()).isEmpty()) {
-            log.error("Could not find entity " + category.getId() + " in categoryRepository");
+    public Category updateCategoryName(Long id, String name, User user) {
+        Category category = categoryRepository.findCategoryByUserIsAndIdIs(user, id).orElse(null);
+        if (category == null) {
+            log.error("Could not find entity " + id + " in categoryRepository");
+            throw new EntityNotFoundException("Could not find category: " + id);
         }
 
-        Category _category = categoryRepository.findById(category.getId()).get();
-
-        _category.setUpdatedDate(LocalDateTime.now());
-        _category.setName(category.getName());
+        category.setUpdatedDate(LocalDateTime.now());
+        category.setName(name);
 
         try {
-            categoryRepository.save(_category);
+            return categoryRepository.save(category);
         } catch (Exception e) {
             log.error(e.getMessage());
+            return null;
         }
+
     }
 
     @Override

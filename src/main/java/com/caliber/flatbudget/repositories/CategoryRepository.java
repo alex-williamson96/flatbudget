@@ -19,4 +19,6 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
 
     Optional<ArrayList<Category>> findCategoriesByBudgetTableIs(BudgetTable budgetTable);
 
+    Optional<Category> findCategoryByUserIsAndIdIs(User user, Long id);
+
 }

@@ -11,7 +11,7 @@ public interface CategoryService {
 
     void deleteCategory(Category oldCategory, Category newCategory);
 
-    void updateCategoryName(Category category);
+    Category updateCategoryName(Long id, String name, User user);
 
     void updateCategorySubOrder(Category category);
 

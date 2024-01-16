@@ -43,4 +43,14 @@ public class CategoryController {
         return ResponseEntity.ok().build();
     }
 
+    @PutMapping("{id}/name")
+    public ResponseEntity<?> updateCategoryName(@RequestBody Category category, Principal principal, @PathVariable("id") Long id) {
+        User user = userService.getUser(principal.getName());
+
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found!");
+        }
+
+        return ResponseEntity.ok(categoryService.updateCategoryName(id, category.getName(), user));
+    }
 }
