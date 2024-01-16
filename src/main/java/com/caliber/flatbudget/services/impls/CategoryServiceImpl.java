@@ -5,6 +5,7 @@ import com.caliber.flatbudget.models.Category;
 import com.caliber.flatbudget.models.Transaction;
 import com.caliber.flatbudget.models.User;
 import com.caliber.flatbudget.repositories.BudgetRepository;
+import com.caliber.flatbudget.repositories.BudgetTableRepository;
 import com.caliber.flatbudget.repositories.CategoryRepository;
 import com.caliber.flatbudget.repositories.TransactionRepository;
 import com.caliber.flatbudget.services.CategoryService;
@@ -25,6 +26,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
     private final TransactionRepository transactionRepository;
+    private final BudgetTableRepository budgetTableRepository;
 
     @Override
     public Category findById(Long id) {
@@ -35,13 +37,38 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void createCategory(Category category) {
-        category.setUpdatedDate(LocalDateTime.now());
-        category.setCreatedDate(LocalDateTime.now());
+    public Category createCategory(String name, Integer mainOrder, String year, String month, User user) {
+        System.out.println("here");
+        BudgetTable table = budgetTableRepository.findBudgetTableByYearIsAndMonthIsAndUserIs(year, month, user).orElse(null);
+
+        if (table == null) {
+            throw new EntityNotFoundException("Could not find budget table with: " + year + month + user.getUsername());
+        }
+
+
+        Category category = Category.builder()
+                .budgetTable(table)
+                .user(user)
+                .createdDate(LocalDateTime.now())
+                .updatedDate(LocalDateTime.now())
+                .dollarActivity(0)
+                .centsActivity(0)
+                .dollarAssigned(0)
+                .centsAssigned(0)
+                .dollarAvailable(0)
+                .centsAvailable(0)
+                .name(name)
+                .mainOrder(mainOrder)
+                .subOrder(categoryRepository.findMaxSubOrderForMainOrderAndBudgetTable(mainOrder, table) + 1)
+                .notes("")
+                .isCreditCard(false)
+                .build();
+
         try {
-            categoryRepository.save(category);
+            return categoryRepository.save(category);
         } catch (Exception e) {
             log.error(e.getMessage());
+            throw new RuntimeException("Error saving entity");
         }
     }
 

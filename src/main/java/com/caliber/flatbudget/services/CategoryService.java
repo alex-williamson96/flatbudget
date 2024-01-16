@@ -7,7 +7,7 @@ public interface CategoryService {
 
     Category findById(Long id);
 
-    void createCategory(Category category);
+    Category createCategory(String name, Integer mainOrder, String year, String month, User user);
 
     void deleteCategory(Category oldCategory, Category newCategory);
 

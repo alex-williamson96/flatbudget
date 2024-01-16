@@ -4,6 +4,8 @@ import com.caliber.flatbudget.models.BudgetTable;
 import com.caliber.flatbudget.models.Category;
 import com.caliber.flatbudget.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -20,5 +22,12 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
     Optional<ArrayList<Category>> findCategoriesByBudgetTableIs(BudgetTable budgetTable);
 
     Optional<Category> findCategoryByUserIsAndIdIs(User user, Long id);
+
+    @Query("SELECT MAX(c.subOrder) FROM Category c " +
+            "WHERE c.mainOrder = :mainOrder AND c.budgetTable = :budgetTable")
+    Integer findMaxSubOrderForMainOrderAndBudgetTable(
+            @Param("mainOrder") Integer mainOrder,
+            @Param("budgetTable") BudgetTable budgetTable
+    );
 
 }
